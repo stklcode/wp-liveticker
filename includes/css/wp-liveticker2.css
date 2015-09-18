@@ -1,0 +1,12 @@
+ul.wplt_ticker{list-style-type:none;}
+li.wplt_tick{background-color:#F5F5F5;margin:0.1em;padding:0.1em 0.3em;}
+li.wplt_tick p{margin:0.3em;}
+span.wplt_tick_time{color:#002C58;font-size:0.7em;font-style:italic;}
+span.wplt_tick_title{color:#002C58;font-weight:bold;margin-left:0.5em;}
+p.wplt_tick_content{margin-top:-0.7em;text-indent:0.5em;}
+ul.wplt_widget{list-style-type:none;margin-top:-0.5em;}
+ul.wplt_widget li{text-align:left;}
+span.wplt_widget_time{font-size:0.7em;font-style:italic;}
+span.wplt_widget_content{color:#002C58;text-indent:0.2em;}
+span.wplt_widget_content_new{color:#800000;text-indent:0.2em;}
+p.wplt_widget_link{text-align:right;}
