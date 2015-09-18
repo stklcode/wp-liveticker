@@ -44,5 +44,8 @@ Use the shortcode [liveticker2 id="slug"].
 
 == Changelog ==
 
-= 1.0 =
-+ Initial stable plugin release.
+= 0.4 =
++ CSS only loaded when shortcode is called
+
+= 0.3 =
++ Initial plugin release.

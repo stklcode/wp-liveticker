@@ -8,23 +8,26 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Register scripts and styles
- *
- * @param string $page current page
- *
  * @return bool
  */
-function wplt_enqueue_scripts( $page ) {
+function wplt_register_scripts() {
+	// Register frontend CSS
+	wp_register_style( 'wplt-css', WPLT_PLUGIN_URL . 'includes/css/wp-liveticker2.css', '', WPLT_VERSION, 'all' );
+}
+add_action( 'init', 'wplt_register_scripts' );
+
+/**
+ * Print scripts and styles if shortcode is present.
+ * @return bool
+ */
+function wplt_print_scripts() {
 	global $wplt_options;
 
-	// Register frontend CSS
-	wp_register_style( 'wplt-css', WPLT_PLUGIN_URL . 'includes/css/wp-liveticker2.css', '', '1.0', 'all' );
-
-	// Enqueue frontend CSS if option is enabled
-	if( $wplt_options['enable_css'] ) {
-		wp_enqueue_style( 'wplt-css' );
+	if( $wplt_options['enable_css'] && $wplt_options['shortcode_present'] ) {
+	  wp_print_styles( 'wplt-css' );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'wplt_enqueue_scripts' );
+add_action( 'wp_footer', 'wplt_print_scripts' );
 
 /**
  * Register admin scripts and style

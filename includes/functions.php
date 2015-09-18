@@ -14,6 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function wplt_get_default_options() {
 	return array(
 		'enable_css'		=> 1,
-		'reset_settings'	=> 0 z
+		'reset_settings'	=> 0,
+		'shortcode_present' => false
 	);
 }

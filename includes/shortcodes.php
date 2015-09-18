@@ -23,6 +23,8 @@ add_filter( 'wp_ajax_get_new_ticks', array( $this, 'wplt_ajax_get_new_ticks' ) )
 function wplt_shortcode_ticker_show( $atts ) {
 	global $wplt_options;
 
+	$wplt_options['shortcode_present'] = true;
+
 	/*$wplt_ticker_options = array();
 
 	extract(
@@ -37,7 +39,7 @@ function wplt_shortcode_ticker_show( $atts ) {
 	{
 		if(!$atts[1]) $atts[1] = -1;
 	
-		$output .= '<ul class="wplt_ticker">';
+		$output = '<ul class="wplt_ticker">';
 	
 		$args = array(	'post_type' => 'wplt_tick',
 				'posts_per_page' => $atts[1],

@@ -2,7 +2,7 @@
 /**
   * Plugin Name: WP Liveticker 2
   * Description: A simple Liveticker for Wordpress.
-  * Version: 0.3 beta
+  * Version: 0.4 beta
   * Author: Stefan Kalscheuer
   * Author URI:	http://www.stklblog.de
   * Text Domain:	wplt2
@@ -34,7 +34,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Constants
  */
 if( !defined( 'WPLT_VERSION' ) )
-	define( 'WPLT_VERSION', '0.1' );
+	define( 'WPLT_VERSION', '0.4' );
 
 if( !defined( 'WPLT_PLUGIN_URL' ) )
 	define( 'WPLT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -55,14 +55,14 @@ add_action( 'plugins_loaded', 'WPLT_localization' );
  */
 global $wplt_options;
 $wplt_options = get_option( 'wplt2' );
- 
+
 /**
  * Include required plugin files
  */
 include_once( WPLT_PLUGIN_DIR . 'includes/functions.php' );
 include_once( WPLT_PLUGIN_DIR . 'includes/post-types.php' );
 include_once( WPLT_PLUGIN_DIR . 'includes/scripts.php' );
-include_once( WPLT_PLUGIN_DIR . 'includes/rss.php' ); 
+include_once( WPLT_PLUGIN_DIR . 'includes/rss.php' );
 include_once( WPLT_PLUGIN_DIR . 'includes/shortcodes.php' );
 include_once( WPLT_PLUGIN_DIR . 'includes/widget.php' );
 if( is_admin() ) {
