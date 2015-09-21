@@ -31,6 +31,7 @@ function wplt_ajax_get_new_ticks() {
     );
     
     $wp_query = new WP_Query($args);
+    $output = '';
     
     while ($wp_query->have_posts()) : $wp_query->the_post();
     $output .= '<li class="wplt_tick">
