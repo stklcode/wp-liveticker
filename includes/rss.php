@@ -52,10 +52,10 @@ function wplt_print_feed( $arguments ) {
 	// build entries
 	foreach ( $entries as $entry ) {
 		//print_r($entry);
-		$rss .= '<item><title>'.mb_convert_encoding($entry->post_title, "ISO-8859-1", "UTF-8") .'</title>';
+		$rss .= '<item><title>'.$entry->post_title.'</title>';
 		$rss .= '<link>http://www.dpsg-hardenberg.org/lagerticker</link>';
 		$rss .= '<pubDate>'.$entry->post_date_rfc.' '.date('O').'</pubDate>';
-		$rss .= '<description><![CDATA['.utf8_encode(mb_convert_encoding($entry->post_content, "ISO-8859-1", "UTF-8")).']]></description></item>';
+		$rss .= '<description><![CDATA['.$entry->post_content.']]></description></item>';
 	}
 		
 	// generate document foot

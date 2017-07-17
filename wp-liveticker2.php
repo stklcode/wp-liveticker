@@ -2,7 +2,7 @@
 /**
   * Plugin Name: WP Liveticker 2
   * Description: A simple Liveticker for Wordpress.
-  * Version: 0.4 beta
+  * Version: 0.4.1 beta
   * Author: Stefan Kalscheuer
   * Author URI:	http://www.stklblog.de
   * Text Domain:	wplt2
