@@ -34,56 +34,45 @@
 defined( 'ABSPATH' ) || exit;
 
 // Constants.
-define( 'WPLT_VERSION', '0.4' );
-define( 'WPLT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'WPLT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'WPLT_TEXTDOM', 'wplt2' );
-define( 'WPLT_OPTIONS', 'wplt2' );
+define( 'WPLT2_FILE', __FILE__ );
+define( 'WPLT2_DIR', plugin_dir_path( __FILE__ ) );
+define( 'WPLT2_BASE', plugin_basename( __FILE__ ) );
+
+// System Hooks.
+add_action( 'init', array( 'WPLiveticker2', 'register_types' ) );
+add_action( 'plugins_loaded', array( 'WPLiveticker2', 'init' ) );
+register_activation_hook( WPLT2_FILE, array( 'WPLiveticker2_System', 'activate' ) );
+
+// Allow shortcodes in widgets.
+add_filter( 'widget_text', 'do_shortcode' );
+
+// Add shortcode.
+add_shortcode( 'liveticker', array( 'WPLiveticker2', 'shortcode_ticker_show' ) );
+
+
+// Autoload.
+spl_autoload_register( 'wplt2_autoload' );
 
 /**
- * Localization.
+ * Autoloader for StatifyBlacklist classes.
+ *
+ * @param string $class  Name of the class to load.
+ *
+ * @since 1.0.0
  */
-function wplt2_localization() {
-	load_plugin_textdomain( WPLT_TEXTDOM, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
-}
-
-add_action( 'plugins_loaded', 'wplt2_localization' );
-
-/**
- * Options.
- */
-global $wplt_options;
-$wplt_options = get_option( WPLT_OPTIONS );
-
-/**
- * Include required plugin files.
- */
-include_once( WPLT_PLUGIN_DIR . 'includes/functions.php' );
-include_once( WPLT_PLUGIN_DIR . 'includes/post-types.php' );
-include_once( WPLT_PLUGIN_DIR . 'includes/scripts.php' );
-include_once( WPLT_PLUGIN_DIR . 'includes/rss.php' );
-include_once( WPLT_PLUGIN_DIR . 'includes/shortcodes.php' );
-include_once( WPLT_PLUGIN_DIR . 'includes/widget.php' );
-if ( is_admin() ) {
-	include_once( WPLT_PLUGIN_DIR . 'includes/admin/page-settings.php' );
-	include_once( WPLT_PLUGIN_DIR . 'includes/admin/post-types-columns.php' );
-}
-
-/**
- * On activation.
- */
-function wplt2_activation() {
-	global $wplt_options;
-
-	// Add default settings to database.
-	$defaults = WPLT_get_default_options();
-
-	if ( $wplt_options['reset_settings'] ) {
-		update_option( WPLT_OPTIONS, $defaults );
-	} else {
-		add_option( WPLT_OPTIONS, $defaults );
+function wplt2_autoload( $class ) {
+	$plugin_classes = array(
+		'WPLiveticker2',
+		'WPLiveticker2_Admin',
+		'WPLiveticker2_System',
+	);
+	if ( in_array( $class, $plugin_classes, true ) ) {
+		require_once(
+		sprintf(
+			'%s/includes/class-%s.php',
+			WPLT2_DIR,
+			strtolower( str_replace( '_', '-', $class ) )
+		)
+		);
 	}
-
 }
-
-register_activation_hook( __FILE__, 'wplt2_activation' );
