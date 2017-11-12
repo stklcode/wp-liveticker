@@ -49,6 +49,8 @@ add_filter( 'widget_text', 'do_shortcode' );
 // Add shortcode.
 add_shortcode( 'liveticker', array( 'WPLiveticker2', 'shortcode_ticker_show' ) );
 
+// Add Widget.
+add_action( 'widgets_init', array( 'WPLiveticker2_Widget', 'register' ) );
 
 // Autoload.
 spl_autoload_register( 'wplt2_autoload' );
@@ -65,14 +67,15 @@ function wplt2_autoload( $class ) {
 		'WPLiveticker2',
 		'WPLiveticker2_Admin',
 		'WPLiveticker2_System',
+		'WPLiveticker2_Widget',
 	);
 	if ( in_array( $class, $plugin_classes, true ) ) {
 		require_once(
-		sprintf(
-			'%s/includes/class-%s.php',
-			WPLT2_DIR,
-			strtolower( str_replace( '_', '-', $class ) )
-		)
+			sprintf(
+				'%s/includes/class-%s.php',
+				WPLT2_DIR,
+				strtolower( str_replace( '_', '-', $class ) )
+			)
 		);
 	}
 }

@@ -158,8 +158,8 @@ class WPLiveticker2 {
 						'taxonomy' => 'wplt2_ticker',
 						'field'    => 'slug',
 						'terms'    => $atts['ticker'],
-					)
-				)
+					),
+				),
 			);
 
 			$wp_query = new WP_Query( $args );
@@ -175,10 +175,10 @@ class WPLiveticker2 {
 			$output .= '</ul>';
 
 			// Show RSS feed link, if configured.
-			if (1 === self::$_options['show_feed']) {
+			if ( 1 === self::$_options['show_feed'] ) {
 				$output .= '<a href="/feed/liveticker/' . esc_html( $atts['ticker'] ) . '"><img class="wplt2_rss" src="/wp-content/plugins/wp-liveticker2/images/rss.jpg" alt="RSS" /></a>';
 			}
-		}
+		}// End if().
 
 		return $output;
 	}

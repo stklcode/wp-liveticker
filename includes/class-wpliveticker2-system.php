@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * WP Liveticker 2 system configuration.
- *
  */
 class WPLiveticker2_System extends WPLiveticker2 {
 

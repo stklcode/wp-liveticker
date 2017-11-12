@@ -25,8 +25,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 		$total_files = wp_count_posts( 'wplt2_tick' );
 
 		echo '<tr>';
-		echo '<td class="first b b-tags"><a href="edit.php?post_type=wplt_tick">' . $total_files->publish . '</a></td>';
-		echo '<td class="t tags"><a href="edit.php?post_type=wplt_tick">' . __( 'Ticks', 'wplt2' ) . '</a></td>';
+		echo '<td class="first b b-tags"><a href="edit.php?post_type=wplt_tick">' . esc_html( $total_files->publish ) . '</a></td>';
+		echo '<td class="t tags"><a href="edit.php?post_type=wplt_tick">' . esc_html__( 'Ticks', 'wplt2' ) . '</a></td>';
 		echo '</tr>';
 	}
 }
