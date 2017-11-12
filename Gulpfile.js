@@ -46,7 +46,7 @@ gulp.task('test-cs', function (cb) {
 // Bundle files as required for plugin distribution..
 gulp.task('bundle', ['clean'], function () {
 	console.log('Collecting files for package dist/' + config.name + config.version + ' ...');
-	return gulp.src(['**/*.php', '!test/**', '!vendor/**', 'README.md', 'LICENSE.md'], {base: './'})
+	return gulp.src(['**/*.php', 'styles/*.css', '!test/**', '!vendor/**', 'README.md', 'LICENSE.md'], {base: './'})
 		.pipe(copy('./dist/' + config.name + '.' + config.version + '/' + config.name));
 });
 

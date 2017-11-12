@@ -19,6 +19,13 @@ class WPLiveticker2 {
 	 *
 	 * @var string OPTIONS
 	 */
+	const VERSION = '1.0.0';
+
+	/**
+	 * Options tag.
+	 *
+	 * @var string OPTIONS
+	 */
 	const OPTION = 'wplt2';
 
 	/**
@@ -57,6 +64,9 @@ class WPLiveticker2 {
 
 		// Add shortcode.
 		add_shortcode( 'liveticker', array( 'WPLiveticker2', 'shortcode_ticker_show' ) );
+
+		// Enqueue styles.
+		add_action( 'wp_footer', array( 'WPLiveticker2', 'enqueue_styles' ) );
 
 		// Admin only actions.
 		if ( is_admin() ) {
@@ -185,6 +195,16 @@ class WPLiveticker2 {
 		}// End if().
 
 		return $output;
+	}
+
+	/**
+	 * Register frontend CSS.
+	 */
+	public static function enqueue_styles() {
+		// Only add if shortcode is present.
+		if ( self::$shortcode_present ) {
+			wp_enqueue_style( 'wplt-css', WPLT2_BASE . 'styles/wp-liveticker2.min.css', '', self::VERSION, 'all' );
+		}
 	}
 
 	/**
