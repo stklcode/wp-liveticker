@@ -3,16 +3,16 @@
   "version": "1.0.0-alpha",
   "description": "A simple Liveticker for Wordpress.",
   "author": "Stefan Kalscheuer",
-  "license": "GPLv2 or later",
+  "license": "GPL-2.0+",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
-    "gulp-copy": "^1.0.0",
+    "gulp-copy": "^1.0.1",
     "gulp-zip": "^4.0.0",
-    "gulp-composer": "^0.4.0",
-    "gulp-phpunit": "^0.23.0",
-    "gulp-phpcs": "^2.0.0",
-    "gulp-clean-css": "^3.7.0",
+    "gulp-composer": "^0.4.4",
+    "gulp-phpunit": "^0.24.1",
+    "gulp-phpcs": "^2.1.0",
+    "gulp-clean-css": "^3.9.0",
     "child_process": "^1.0.2"
   }
 }
