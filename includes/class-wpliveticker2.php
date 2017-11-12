@@ -62,6 +62,10 @@ class WPLiveticker2 {
 		if ( is_admin() ) {
 			// Add dashboard "right now" functionality.
 			add_action( 'right_now_content_table_end', array( 'WPLiveticker2_Admin', 'dashboard_right_now' ) );
+
+			// Settings.
+			add_action( 'admin_init', array( 'WPLiveticker2_Admin', 'register_settings' ) );
+			add_action( 'admin_menu', array( 'WPLiveticker2_Admin', 'register_settings_page' ) );
 		}
 	}
 
