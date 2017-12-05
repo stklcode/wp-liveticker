@@ -21,7 +21,7 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 *
 	 * @return void
 	 */
-	function dashboard_right_now() {
+	public static function dashboard_right_now() {
 		$total_files = wp_count_posts( 'wplt2_tick' );
 
 		echo '<tr>';
@@ -136,24 +136,7 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 * @return void
 	 */
 	public static function settings_page() {
-		?>
-		<div class="wrap">
-			<div id="icon-options-general" class="icon32"><br></div>
-			<h2>Liveticker <?php esc_html_e( 'Settings', 'wplt2' ); ?></h2>
-			<?php if ( isset( $_GET['settings-updated'] ) ) {
-				echo '<div class="updated"><p>' . esc_html__( 'Settings updated successfully.', 'wplt2' ) . '</p></div>';
-} ?>
-			<form action="options.php" method="post">
-				<?php
-				settings_fields( 'wplt2_settings' );
-				do_settings_sections( __FILE__ );
-				?>
-				<p class="submit">
-					<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
-				</p>
-			</form>
-		</div>
-		<?php
+		include '../views/settings-page.php';
 	}
 
 	/**
