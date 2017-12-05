@@ -203,7 +203,7 @@ class WPLiveticker2 {
 	public static function enqueue_styles() {
 		// Only add if shortcode is present.
 		if ( self::$shortcode_present ) {
-			wp_enqueue_style( 'wplt-css', WPLT2_BASE . 'styles/wp-liveticker2.min.css', '', self::VERSION, 'all' );
+			wp_enqueue_style( 'wplt-css', WPLT2_BASE . 'styles/wp-liveticker2.css', '', self::VERSION, 'all' );
 		}
 	}
 
