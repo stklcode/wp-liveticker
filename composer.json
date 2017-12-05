@@ -23,6 +23,25 @@
   "require-dev": {
     "php": ">=5.3",
     "phpunit/phpunit": "*",
-    "wp-coding-standards/wpcs": "~0.14.0"
+    "phpunit/php-code-coverage": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4","slowprog/composer-copy-file": "~0.2",
+    "squizlabs/php_codesniffer": "^3.1",
+    "wimg/php-compatibility": "^8.0",
+    "wp-coding-standards/wpcs": "~0.14"
+  },
+  "scripts": {
+    "test-all": [
+      "@test",
+      "@test-cs"
+    ],
+    "test": [
+      "phpunit"
+    ],
+    "test-cs": [
+      "phpcs --standard=phpcs.xml -s"
+    ],
+    "fix-cs": [
+      "phpcbf --standard=phpcs.xml"
+    ]
   }
 }
