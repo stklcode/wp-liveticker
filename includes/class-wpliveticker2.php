@@ -48,13 +48,18 @@ class WPLiveticker2 {
 	 * @return void
 	 */
 	public static function init() {
-		// Skip on autosave or AJAX.
-		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+		// Skip on autosave.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
 
 		// Load plugin options.
 		self::update_options();
+
+		// Skip on AJAX if not enabled disabled.
+		if ( ( ! isset( self::$_options['enable_ajax'] ) || 1 !== self::$_options['enable_ajax'] ) && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			return;
+		}
 
 		// Load Textdomain.
 		load_plugin_textdomain( 'wplt2', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
@@ -68,9 +73,13 @@ class WPLiveticker2 {
 		// Enqueue styles.
 		add_action( 'wp_footer', array( 'WPLiveticker2', 'enqueue_styles' ) );
 
+		// Enqueue JavaScript.
+		add_action( 'wp_footer', array( 'WPLiveticker2', 'enqueue_scripts' ) );
+
 		// Add AJAX hook if configured.
 		if ( 1 === self::$_options['enable_ajax'] ) {
 			add_action( 'wp_ajax_wplt2_update-ticks', array( 'WPLiveticker2', 'ajax_update' ) );
+			add_action( 'wp_ajax_nopriv_wplt2_update-ticks', array( 'WPLiveticker2', 'ajax_update' ) );
 		}
 
 		// Admin only actions.
@@ -167,7 +176,13 @@ class WPLiveticker2 {
 				$atts['limit'] = - 1;
 			}
 
-			$output = '<ul class="wplt2_ticker">';
+			$output = '<ul class="wplt2-ticker';
+			if ( 1 === self::$_options['enable_ajax'] ) {
+				$output .= ' wplt2-ticker-ajax" '
+				           . 'data-wplt2-ticker="' . $atts['ticker'] . '" '
+				           . 'data-wplt2-limit="' . $atts['limit'];
+			}
+			$output .= '">';
 
 			$args = array(
 				'post_type'      => 'wplt2_tick',
@@ -195,6 +210,7 @@ class WPLiveticker2 {
 
 			// Show RSS feed link, if configured.
 			if ( 1 === self::$_options['show_feed'] ) {
+				// TODO
 				$output .= '<a href="/feed/liveticker/' . esc_html( $atts['ticker'] ) . '"><img class="wplt2_rss" src="/wp-content/plugins/wp-liveticker2/images/rss.jpg" alt="RSS" /></a>';
 			}
 		}// End if().
@@ -208,8 +224,35 @@ class WPLiveticker2 {
 	public static function enqueue_styles() {
 		// Only add if shortcode is present.
 		if ( self::$shortcode_present ) {
-			wp_enqueue_style( 'wplt-css', WPLT2_BASE . 'styles/wp-liveticker2.css', '', self::VERSION, 'all' );
+			wp_enqueue_style(
+				'wplt-css',
+				WPLT2_BASE . 'styles/wp-liveticker2.css',
+				'',
+				self::VERSION, 'all'
+			);
 		}
+	}
+
+	/**
+	 * Register frontend JS.
+	 */
+	public static function enqueue_scripts() {
+		wp_enqueue_script(
+			'wplt2-js',
+			WPLT2_BASE . 'scripts/wp-liveticker2.js',
+			array( 'jquery' ),
+			self::VERSION
+		);
+
+		// Add endpoint to script.
+		wp_localize_script(
+			'wplt2-js',
+			'ajax_object',
+			array(
+				'ajax_url'      => admin_url( 'admin-ajax.php' ),
+				'poll_interval' => self::$_options['poll_interval'] * 1000,
+			)
+		);
 	}
 
 	/**
@@ -219,41 +262,52 @@ class WPLiveticker2 {
 	 */
 	public static function ajax_update() {
 		// TODO: re-enable security checks.
-//		check_ajax_referer( 'wplt_ajax_get_new_ticks' );
+		//		check_ajax_referer( 'wplt2_update-ticks' );
 
-		// Timestamp for request.
-		$slug = $_REQUEST['sl'];
-		$time = $_REQUEST['ts'];
+		// Extract update requests.
+		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {
+			foreach ( $_POST['update'] as $updateReq ) {
+				if ( isset ( $updateReq['s'] ) ) {
+					$slug     = $updateReq['s'];
+					$limit    = ( isset ( $updateReq['l'] ) ) ? intval( $updateReq['l'] ) : - 1;
+					$lastPoll = ( isset ( $updateReq['t'] ) ) ? intval( $updateReq['t'] ) : 0;
 
-		if ( $slug ) {
-			// get new ticks from database
-			$args = array(
-				'post_type'      => 'wplt_tick',
-				'posts_per_page' => '-1',
-				'tax_query'      => array(
-					array(
-						'taxonomy' => 'wplt_ticker',
-						'field'    => 'slug',
-						'terms'    => $slug
-					)
-				)
-			);
-
-			$wp_query = new WP_Query( $args );
-			$output   = '';
-
-			while ( $wp_query->have_posts() ) {
-				$wp_query->the_post();
-				$output .= '<li class="wplt_tick">'
-				           . '<p><span class="wplt_tick_time">' . get_the_time( 'd.m.Y H.i' ) . '</span>'
-				           . '<span class="wplt_tick_title">' . get_the_title() . '</span></p>'
-				           . '<p class="wplt_tick_content">' . get_the_content() . '</p></li>';
+					// TODO: fetch updates, render and add to result.
+				}
 			}
-
-			// Echo success response
-			echo $output;
 		}
-		die();
+
+		exit;
+
+		//		if ( $slug ) {
+		//			// get new ticks from database
+		//			$args = array(
+		//				'post_type'      => 'wplt_tick',
+		//				'posts_per_page' => '-1',
+		//				'tax_query'      => array(
+		//					array(
+		//						'taxonomy' => 'wplt_ticker',
+		//						'field'    => 'slug',
+		//						'terms'    => $slug
+		//					)
+		//				)
+		//			);
+		//
+		//			$wp_query = new WP_Query( $args );
+		//			$output   = '';
+		//
+		//			while ( $wp_query->have_posts() ) {
+		//				$wp_query->the_post();
+		//				$output .= '<li class="wplt2-tick">'
+		//				           . '<p><span class="wplt2-tick_time">' . get_the_time( 'd.m.Y H.i' ) . '</span>'
+		//				           . '<span class="wplt2-tick-title">' . get_the_title() . '</span></p>'
+		//				           . '<p class="wplt2-tick-content">' . get_the_content() . '</p></li>';
+		//			}
+		//
+		//			// Echo success response
+		//			echo $output;
+		//		}
+		//		die();
 	}
 
 	/**
@@ -276,6 +330,7 @@ class WPLiveticker2 {
 	protected static function default_options() {
 		return array(
 			'enable_ajax'    => 1,
+			'poll_interval'  => 60,
 			'enable_css'     => 1,
 			'show_feed'      => 0,
 			'reset_settings' => 0,

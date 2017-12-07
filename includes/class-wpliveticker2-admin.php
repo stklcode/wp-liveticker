@@ -78,6 +78,13 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 			'wplt2_settings_general' );
 
 		add_settings_field(
+			'poll_interval',
+			__( 'AJAX poll interval', 'wplt2' ),
+			array( 'WPLiveticker2_Admin', 'settings_poll_interval_field' ),
+			'wplt2-settings-page',
+			'wplt2_settings_general' );
+
+		add_settings_field(
 			'enable_css',
 			__( 'Default CSS Styles', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_enable_css_field' ),
@@ -132,6 +139,21 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	}
 
 	/**
+	 * Render AJAX poll interval field.
+	 *
+	 * @return void
+	 */
+	public static function settings_poll_interval_field() {
+		$pollInterval = self::$_options['poll_interval'];
+
+		echo '<label for="' . esc_attr( self::OPTION ) . '[poll_interval]">';
+		echo '<input type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $pollInterval ) . '"/> ';
+		esc_html_e( 'seconds', 'wplt2' );
+		echo '</label>';
+		echo '<p class="description">' . esc_html__( 'Interval (in seconds) to update ticker if AJAX is enabled.', 'wplt2' ) . '</p>';
+	}
+
+	/**
 	 * Render default style field.
 	 *
 	 * @return void
@@ -182,6 +204,13 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 */
 	public static function validate_settings( $input ) {
 		$defaults = self::default_options();
-		return wp_parse_args( $input, $defaults );
+		$result   = wp_parse_args( $input, $defaults );
+		foreach ( $defaults as $k => $v ) {
+			if ( is_int( $v ) ) {
+				$result[ $k ] = intval( $result[ $k ] );
+			}
+		}
+
+		return $result;
 	}
 }
