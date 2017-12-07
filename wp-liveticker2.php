@@ -37,6 +37,7 @@ defined( 'ABSPATH' ) || exit;
 define( 'WPLT2_FILE', __FILE__ );
 define( 'WPLT2_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPLT2_BASE', plugin_dir_url( __FILE__ ) );
+define( 'WPLT2_BASENAME', plugin_basename( __FILE__ ) );
 
 // System Hooks.
 add_action( 'init', array( 'WPLiveticker2', 'register_types' ) );

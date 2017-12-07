@@ -108,7 +108,7 @@ defined( 'ABSPATH' ) || exit;
 			<label for="<?php echo esc_attr( $this->get_field_id( 'highlight_time' ) ); ?>"><?php esc_html_e( 'Highlight time [s]:', 'wplt2' ); ?></label>
 		</td>
 		<td>
-			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'highlight_time' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'highlight_time' ) ); ?>" type="text" value="<?php echo esc_html( $highlight_time ); ?>" />
+			<input type="number" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'highlight_time' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'highlight_time' ) ); ?>" type="text" value="<?php echo esc_html( $highlight_time ); ?>" />
 		</td>
 	</tr>
 	<tr>

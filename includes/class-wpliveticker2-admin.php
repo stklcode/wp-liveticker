@@ -55,15 +55,34 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 * @return void
 	 */
 	public static function register_settings() {
-		register_setting( 'wplt2_settings', 'wplt2', array( 'WPLiveticker2_Admin', 'validate_settings' ) );
+		register_setting(
+			'wplt2_settings',
+			'wplt2',
+			array( 'WPLiveticker2_Admin', 'validate_settings' )
+		);
 
 		// Form sections.
-		add_settings_section( 'wplt2_settings_general', __( 'General', 'wplt2' ), array( 'WPLiveticker2_Admin', 'settings_general_section' ), __FILE__ );
-		add_settings_section( 'wplt2_settings_uninstall', __( 'Uninstall', 'wplt2' ), array( 'WPLiveticker2_Admin', 'settings_uninstall_section' ), __FILE__ );
+		add_settings_section(
+			'wplt2_settings_general',
+			__( 'General', 'wplt2' ),
+			array( 'WPLiveticker2_Admin', 'settings_general_section' ),
+			'wplt2-settings-page'
+		);
 
 		// Form fields.
-		add_settings_field( 'enable_css', __( 'Default CSS Styles', 'wplt2' ), array( 'WPLiveticker2_Admin', 'settings_enable_css_field' ), __FILE__, 'wplt2_settings_general' );
-		add_settings_field( 'reset_settings', __( 'Reset Settings', 'wplt2' ), array( 'WPLiveticker2_Admin', 'settings_reset_settings_field' ), __FILE__, 'wplt2_settings_uninstall' );
+		add_settings_field(
+			'enable_ajax',
+			__( 'Use AJAX', 'wplt2' ),
+			array( 'WPLiveticker2_Admin', 'settings_enable_ajax_field' ),
+			'wplt2-settings-page',
+			'wplt2_settings_general' );
+
+		add_settings_field(
+			'enable_css',
+			__( 'Default CSS Styles', 'wplt2' ),
+			array( 'WPLiveticker2_Admin', 'settings_enable_css_field' ),
+			'wplt2-settings-page',
+			'wplt2_settings_general' );
 	}
 
 	/**
@@ -90,11 +109,26 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	public static function settings_enable_css_field() {
 		$checked = self::$_options['enable_css'];
 
-		echo '<label for="wp-liveticker2[enable_css]">';
-		echo '<input type="checkbox" name="wp-liveticker2[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		echo '<label for="' . esc_attr( self::OPTION ) . '[enable_css]">';
+		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
 		esc_html_e( 'Enable', 'wplt2' );
 		echo '</label>';
-		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default button styling and the Delightful Downloads CSS file.', 'wplt2' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default styling CSS file.', 'wplt2' ) . '</p>';
+	}
+
+	/**
+	 * Render enable AJAX field.
+	 *
+	 * @return void
+	 */
+	public static function settings_enable_ajax_field() {
+		$checked = self::$_options['enable_ajax'];
+
+		echo '<label for="' . esc_attr( self::OPTION ) . '[enable_ajax]">';
+		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_ajax]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		esc_html_e( 'Enable', 'wplt2' );
+		echo '</label>';
+		echo '<p class="description">' . esc_html__( 'Disable this option to not use AJAX update. This means all liveticker widgets and shortcodes are only updated once on site load.', 'wplt2' ) . '</p>';
 	}
 
 	/**
@@ -136,7 +170,7 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 * @return void
 	 */
 	public static function settings_page() {
-		include '../views/settings-page.php';
+		include WPLT2_DIR . 'views/settings-page.php';
 	}
 
 	/**
@@ -148,7 +182,6 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 */
 	public static function validate_settings( $input ) {
 		$defaults = self::default_options();
-
 		return wp_parse_args( $input, $defaults );
 	}
 }

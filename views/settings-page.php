@@ -20,10 +20,8 @@ defined( 'ABSPATH' ) || exit;
 	<form action="options.php" method="post">
 		<?php
 		settings_fields( 'wplt2_settings' );
-		do_settings_sections( __FILE__ );
+		do_settings_sections( 'wplt2-settings-page' );
+		submit_button();
 		?>
-		<p class="submit">
-			<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
-		</p>
 	</form>
 </div>

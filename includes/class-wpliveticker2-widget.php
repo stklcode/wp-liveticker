@@ -129,7 +129,7 @@ class WPLiveticker2_Widget extends WP_Widget {
 		$ajax           = isset( $instance['ajax'] ) ? esc_attr( $instance['ajax'] ) : '0';
 		$categories     = get_terms( 'wplt2_ticker', 'orderby=name&order=ASC' );
 
-		include '../views/widget-form.php';
+		include WPLT2_DIR . 'views/widget-form.php';
 	}
 
 	/**
