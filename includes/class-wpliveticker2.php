@@ -179,8 +179,9 @@ class WPLiveticker2 {
 			$output = '<ul class="wplt2-ticker';
 			if ( 1 === self::$_options['enable_ajax'] ) {
 				$output .= ' wplt2-ticker-ajax" '
-						. 'data-wplt2-ticker="' . $atts['ticker'] . '" '
-						. 'data-wplt2-limit="' . $atts['limit'];
+							. 'data-wplt2-ticker="' . $atts['ticker'] . '" '
+							. 'data-wplt2-limit="' . $atts['limit'] . '" '
+							. 'data-wplt2-last="' . time();
 			}
 			$output .= '">';
 
@@ -266,8 +267,8 @@ class WPLiveticker2 {
 			$res = array();
 			foreach ( wp_unslash( $_POST['update'] ) as $update_req ) {
 				if ( isset( $update_req['s'] ) ) {
-					$slug     = $update_req['s'];
-					$limit    = ( isset( $update_req['l'] ) ) ? intval( $update_req['l'] ) : - 1;
+					$slug      = $update_req['s'];
+					$limit     = ( isset( $update_req['l'] ) ) ? intval( $update_req['l'] ) : - 1;
 					$last_poll = ( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0;
 
 					// Query new ticks from DB.
@@ -281,6 +282,9 @@ class WPLiveticker2 {
 								'terms'    => $slug,
 							),
 						),
+						'date_query'     => array(
+							'after' => date( 'c', $last_poll ),
+						)
 					);
 
 					$query = new WP_Query( $query_args );

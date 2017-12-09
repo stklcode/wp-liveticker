@@ -42,9 +42,14 @@ WPLT2.update = function () {
 					jQuery.each(update, function (i, u) {
 						jQuery.each(WPLT2.ticker, function (j, t) {
 							if (t.s === u.s) {
-								// Set HTML content.
-								jQuery(t.e).html(u.h);
-								// Set last poll timestamp.
+								// Prepend HTML of new ticks.
+								jQuery(t.e).prepend(u.h);
+								// Remove tail, if limit is set.
+								const l = jQuery(t.e).data('wplt2Limit');
+								if (l > 0) {
+									jQuery(t.e).find('li').slice(l).remove();
+								}
+								// Update last poll timestamp.
 								jQuery(t.e).data('wplt2Last', u.t);
 							}
 						});
