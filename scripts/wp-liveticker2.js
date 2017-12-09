@@ -12,6 +12,7 @@ WPLT2.init = function () {
 	});
 	// Extract AJAX settings.
 	WPLT2.ajaxURL = ajax_object.ajax_url;
+	WPLT2.nonce = ajax_object.nonce;
 	WPLT2.pollInterval = ajax_object.poll_interval;
 	// Trigger update, if necessary.
 	if (WPLT2.ticker.length > 0 && WPLT2.pollInterval > 0) {
@@ -32,8 +33,9 @@ WPLT2.update = function () {
 	jQuery.post(
 		WPLT2.ajaxURL,
 		{
-			'action': 'wplt2_update-ticks',
-			'update': updateReq
+			'action'  : 'wplt2_update-ticks',
+			'_ajax_nonce': WPLT2.nonce,
+			'update'     : updateReq
 		},
 		function (res) {
 			try {

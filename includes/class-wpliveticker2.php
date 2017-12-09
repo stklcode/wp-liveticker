@@ -248,6 +248,7 @@ class WPLiveticker2 {
 			'ajax_object',
 			array(
 				'ajax_url'      => admin_url( 'admin-ajax.php' ),
+				'nonce'         => wp_create_nonce( 'wplt2_update-ticks' ),
 				'poll_interval' => self::$_options['poll_interval'] * 1000,
 			)
 		);
@@ -259,8 +260,8 @@ class WPLiveticker2 {
 	 * @return void
 	 */
 	public static function ajax_update() {
-		// TODO: re-enable security checks.
-		// check_ajax_referer( 'wplt2_update-ticks' );
+		// Verify AJAX nonce.
+		check_ajax_referer( 'wplt2_update-ticks' );
 
 		// Extract update requests.
 		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {
@@ -284,7 +285,7 @@ class WPLiveticker2 {
 						),
 						'date_query'     => array(
 							'after' => date( 'c', $last_poll ),
-						)
+						),
 					);
 
 					$query = new WP_Query( $query_args );
