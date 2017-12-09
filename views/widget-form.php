@@ -24,13 +24,15 @@ defined( 'ABSPATH' ) || exit;
 		</td>
 		<td>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'category' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'category' ) ); ?>">
-				<?php foreach ( $categories as $cat ) {
+				<?php
+				foreach ( $categories as $cat ) {
 					echo '<option value="' . esc_attr( $cat->slug ) . '"';
 					if ( $category === $cat->slug ) {
 						echo ' selected="selected"';
 					}
 					echo '>' . esc_html( $cat->name ) . '</option>';
-				} ?>
+				}
+				?>
 			</select>
 		</td>
 	</tr>

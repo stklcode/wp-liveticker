@@ -179,8 +179,8 @@ class WPLiveticker2 {
 			$output = '<ul class="wplt2-ticker';
 			if ( 1 === self::$_options['enable_ajax'] ) {
 				$output .= ' wplt2-ticker-ajax" '
-				           . 'data-wplt2-ticker="' . $atts['ticker'] . '" '
-				           . 'data-wplt2-limit="' . $atts['limit'];
+						. 'data-wplt2-ticker="' . $atts['ticker'] . '" '
+						. 'data-wplt2-limit="' . $atts['limit'];
 			}
 			$output .= '">';
 
@@ -207,7 +207,7 @@ class WPLiveticker2 {
 
 			// Show RSS feed link, if configured.
 			if ( 1 === self::$_options['show_feed'] ) {
-				// TODO
+				// TODO.
 				$output .= '<a href="/feed/liveticker/' . esc_html( $atts['ticker'] ) . '"><img class="wplt2_rss" src="/wp-content/plugins/wp-liveticker2/images/rss.jpg" alt="RSS" /></a>';
 			}
 		}// End if().
@@ -259,19 +259,19 @@ class WPLiveticker2 {
 	 */
 	public static function ajax_update() {
 		// TODO: re-enable security checks.
-		//		check_ajax_referer( 'wplt2_update-ticks' );
+		// check_ajax_referer( 'wplt2_update-ticks' );
 
 		// Extract update requests.
 		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {
 			$res = array();
-			foreach ( $_POST['update'] as $updateReq ) {
-				if ( isset ( $updateReq['s'] ) ) {
-					$slug     = $updateReq['s'];
-					$limit    = ( isset ( $updateReq['l'] ) ) ? intval( $updateReq['l'] ) : - 1;
-					$lastPoll = ( isset ( $updateReq['t'] ) ) ? intval( $updateReq['t'] ) : 0;
+			foreach ( wp_unslash( $_POST['update'] ) as $update_req ) {
+				if ( isset( $update_req['s'] ) ) {
+					$slug     = $update_req['s'];
+					$limit    = ( isset( $update_req['l'] ) ) ? intval( $update_req['l'] ) : - 1;
+					$last_poll = ( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0;
 
 					// Query new ticks from DB.
-					$queryArgs = array(
+					$query_args = array(
 						'post_type'      => 'wplt2_tick',
 						'posts_per_page' => $limit,
 						'tax_query'      => array(
@@ -279,11 +279,11 @@ class WPLiveticker2 {
 								'taxonomy' => 'wplt2_ticker',
 								'field'    => 'slug',
 								'terms'    => $slug,
-							)
-						)
+							),
+						),
 					);
 
-					$query = new WP_Query( $queryArgs );
+					$query = new WP_Query( $query_args );
 
 					$out = '';
 					while ( $query->have_posts() ) {
@@ -338,10 +338,10 @@ class WPLiveticker2 {
 	 * @param string $title   Tick title.
 	 * @param string $content Tick content.
 	 */
-	private static function tick_html( $time, $title, $content ) {
+	public static function tick_html( $time, $title, $content = null ) {
 		return '<li class="wplt2-tick">'
-		       . '<p><span class="wplt2-tick_time">' . esc_html( $time ) . '</span>'
-		       . '<span class="wplt2-tick-title">' . esc_html( $title ) . '</span></p>'
-		       . '<p class="wplt2-tick-content">' . $content . '</p></li>';
+				. '<p><span class="wplt2-tick_time">' . esc_html( $time ) . '</span>'
+				. '<span class="wplt2-tick-title">' . esc_html( $title ) . '</span></p>'
+				. '<p class="wplt2-tick-content">' . $content . '</p></li>';
 	}
 }

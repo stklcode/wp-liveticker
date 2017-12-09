@@ -75,21 +75,24 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 			__( 'Use AJAX', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_enable_ajax_field' ),
 			'wplt2-settings-page',
-			'wplt2_settings_general' );
+			'wplt2_settings_general'
+		);
 
 		add_settings_field(
 			'poll_interval',
 			__( 'AJAX poll interval', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_poll_interval_field' ),
 			'wplt2-settings-page',
-			'wplt2_settings_general' );
+			'wplt2_settings_general'
+		);
 
 		add_settings_field(
 			'enable_css',
 			__( 'Default CSS Styles', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_enable_css_field' ),
 			'wplt2-settings-page',
-			'wplt2_settings_general' );
+			'wplt2_settings_general'
+		);
 	}
 
 	/**
@@ -144,10 +147,10 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 * @return void
 	 */
 	public static function settings_poll_interval_field() {
-		$pollInterval = self::$_options['poll_interval'];
+		$poll_interval = self::$_options['poll_interval'];
 
 		echo '<label for="' . esc_attr( self::OPTION ) . '[poll_interval]">';
-		echo '<input type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $pollInterval ) . '"/> ';
+		echo '<input type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $poll_interval ) . '"/> ';
 		esc_html_e( 'seconds', 'wplt2' );
 		echo '</label>';
 		echo '<p class="description">' . esc_html__( 'Interval (in seconds) to update ticker if AJAX is enabled.', 'wplt2' ) . '</p>';

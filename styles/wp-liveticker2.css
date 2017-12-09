@@ -2,8 +2,9 @@ ul.wplt2-ticker {
 	list-style-type: none;
 }
 
-li.wplt2-tick {
+ul.wplt2-ticker > li.wplt2-tick {
 	background-color: #F5F5F5;
+	list-style-type: none;
 	margin: 0.1em;
 	padding: 0.1em 0.3em;
 }
