@@ -60,7 +60,7 @@ class WPLiveticker2_Widget extends WP_Widget {
 		}
 
 		?>
-		<ul class="wplt_widget">
+		<ul class="wplt2-widget">
 			<?php
 			$args = array(
 				'post_type' => 'wplt2_tick',
@@ -79,7 +79,7 @@ class WPLiveticker2_Widget extends WP_Widget {
 				$wp_query->the_post();
 				?>
 				<li>
-					<span class="wplt_widget_time"><?php echo esc_html( get_the_time( 'd.m.Y - H.i' ) ); ?></span><span class="wplt_widget_content<?php if ( '1' === $highlight && get_the_time( 'U' ) > ( time() - $highlight_time ) ) {
+					<span class="wplt2-widget-time"><?php echo esc_html( get_the_time( 'd.m.Y - H.i' ) ); ?></span><span class="wplt-widget-content<?php if ( '1' === $highlight && get_the_time( 'U' ) > ( time() - $highlight_time ) ) {
 						echo '_new';
 } ?>"><br /><?php echo the_title(); ?></span></li>
 				<?php
@@ -92,7 +92,7 @@ class WPLiveticker2_Widget extends WP_Widget {
 
 		<?php
 		if ( $link ) {
-			print '<p class="wplt_widget_link"><a href="' . esc_attr( $link ) . '">' . esc_html__( 'show all', 'wplt2' ) . '...</a></p>';
+			print '<p class="wplt2-widget-link"><a href="' . esc_attr( $link ) . '">' . esc_html__( 'show all', 'wplt2' ) . '...</a></p>';
 		}
 		// @codingStandardsIgnoreLine
 		echo $after_widget;

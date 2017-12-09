@@ -1,58 +1,58 @@
-ul.wplt2_ticker {
+ul.wplt2-ticker {
 	list-style-type: none;
 }
 
-li.wplt2_tick {
+li.wplt2-tick {
 	background-color: #F5F5F5;
 	margin: 0.1em;
 	padding: 0.1em 0.3em;
 }
 
-li.wplt2_tick p {
+li.wplt2-tick p {
 	margin: 0.3em;
 }
 
-span.wplt2_tick_time {
+span.wplt2-tick-time {
 	color: #002C58;
 	font-size: 0.7em;
 	font-style: italic;
 }
 
-span.wplt2_tick_title {
+span.wplt2-tick-title {
 	color: #002C58;
 	font-weight: bold;
 	margin-left: 0.5em;
 }
 
-p.wplt2_tick_content {
+p.wplt2-tick-content {
 	margin-top: -0.7em;
 	text-indent: 0.5em;
 }
 
-ul.wplt_2widget {
+ul.wplt2-widget {
 	list-style-type: none;
 	margin-top: -0.5em;
 }
 
-ul.wplt2_widget li {
+ul.wplt2-widget li {
 	text-align: left;
 }
 
-span.wplt2_widget_time {
+span.wplt2-widget-time {
 	font-size: 0.7em;
 	font-style: italic;
 }
 
-span.wplt2_widget_content {
+span.wplt2-widget-content {
 	color: #002C58;
 	text-indent: 0.2em;
 }
 
-span.wplt2_widget_content_new {
+span.wplt2-widget-content-new {
 	color: #800000;
 	text-indent: 0.2em;
 }
 
-p.wplt2_widget_link {
+p.wplt2-widget-link {
 	text-align: right;
 }

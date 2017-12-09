@@ -200,10 +200,7 @@ class WPLiveticker2 {
 
 			while ( $wp_query->have_posts() ) {
 				$wp_query->the_post();
-				$output .= '<li class="wplt2_tick">
-						  <p><span class="wplt2_tick_time">' . get_the_time( 'd.m.Y H.i' ) . '</span>
-						  <span class="wplt2_tick_title">' . get_the_title() . '</span></p>
-						  <p class="wplt2_tick_content">' . get_the_content() . '</p></li>';
+				$output .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content() );
 			}
 
 			$output .= '</ul>';
@@ -266,48 +263,45 @@ class WPLiveticker2 {
 
 		// Extract update requests.
 		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {
+			$res = array();
 			foreach ( $_POST['update'] as $updateReq ) {
 				if ( isset ( $updateReq['s'] ) ) {
 					$slug     = $updateReq['s'];
 					$limit    = ( isset ( $updateReq['l'] ) ) ? intval( $updateReq['l'] ) : - 1;
 					$lastPoll = ( isset ( $updateReq['t'] ) ) ? intval( $updateReq['t'] ) : 0;
 
-					// TODO: fetch updates, render and add to result.
+					// Query new ticks from DB.
+					$queryArgs = array(
+						'post_type'      => 'wplt2_tick',
+						'posts_per_page' => $limit,
+						'tax_query'      => array(
+							array(
+								'taxonomy' => 'wplt2_ticker',
+								'field'    => 'slug',
+								'terms'    => $slug,
+							)
+						)
+					);
+
+					$query = new WP_Query( $queryArgs );
+
+					$out = '';
+					while ( $query->have_posts() ) {
+						$query->the_post();
+						$out .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content() );
+					}
+					$res[] = array(
+						's' => $slug,
+						'h' => $out,
+						't' => time(),
+					);
 				}
 			}
+			// Echo JSON encoded result set.
+			echo json_encode( $res );
 		}
 
 		exit;
-
-		//		if ( $slug ) {
-		//			// get new ticks from database
-		//			$args = array(
-		//				'post_type'      => 'wplt_tick',
-		//				'posts_per_page' => '-1',
-		//				'tax_query'      => array(
-		//					array(
-		//						'taxonomy' => 'wplt_ticker',
-		//						'field'    => 'slug',
-		//						'terms'    => $slug
-		//					)
-		//				)
-		//			);
-		//
-		//			$wp_query = new WP_Query( $args );
-		//			$output   = '';
-		//
-		//			while ( $wp_query->have_posts() ) {
-		//				$wp_query->the_post();
-		//				$output .= '<li class="wplt2-tick">'
-		//				           . '<p><span class="wplt2-tick_time">' . get_the_time( 'd.m.Y H.i' ) . '</span>'
-		//				           . '<span class="wplt2-tick-title">' . get_the_title() . '</span></p>'
-		//				           . '<p class="wplt2-tick-content">' . get_the_content() . '</p></li>';
-		//			}
-		//
-		//			// Echo success response
-		//			echo $output;
-		//		}
-		//		die();
 	}
 
 	/**
@@ -335,5 +329,19 @@ class WPLiveticker2 {
 			'show_feed'      => 0,
 			'reset_settings' => 0,
 		);
+	}
+
+	/**
+	 * Generate HTML code for a tick element.
+	 *
+	 * @param string $time    Tick time (readable).
+	 * @param string $title   Tick title.
+	 * @param string $content Tick content.
+	 */
+	private static function tick_html( $time, $title, $content ) {
+		return '<li class="wplt2-tick">'
+		       . '<p><span class="wplt2-tick_time">' . esc_html( $time ) . '</span>'
+		       . '<span class="wplt2-tick-title">' . esc_html( $title ) . '</span></p>'
+		       . '<p class="wplt2-tick-content">' . $content . '</p></li>';
 	}
 }
