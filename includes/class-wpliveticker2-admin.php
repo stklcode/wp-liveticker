@@ -93,6 +93,14 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 			'wplt2-settings-page',
 			'wplt2_settings_general'
 		);
+
+		add_settings_field(
+			'show_feed',
+			__( 'Show RSS feed', 'wplt2' ),
+			array( 'WPLiveticker2_Admin', 'settings_show_feed_field' ),
+			'wplt2-settings-page',
+			'wplt2_settings_general'
+		);
 	}
 
 	/**
@@ -109,21 +117,6 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 * @return void
 	 */
 	public static function settings_uninstall_section() {
-	}
-
-	/**
-	 * Render enable css field.
-	 *
-	 * @return void
-	 */
-	public static function settings_enable_css_field() {
-		$checked = self::$_options['enable_css'];
-
-		echo '<label for="' . esc_attr( self::OPTION ) . '[enable_css]">';
-		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'wplt2' );
-		echo '</label>';
-		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default styling CSS file.', 'wplt2' ) . '</p>';
 	}
 
 	/**
@@ -156,22 +149,35 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 		echo '<p class="description">' . esc_html__( 'Interval (in seconds) to update ticker if AJAX is enabled.', 'wplt2' ) . '</p>';
 	}
 
+
 	/**
-	 * Render default style field.
+	 * Render enable css field.
 	 *
 	 * @return void
 	 */
-	public static function settings_default_style_field() {
-		$styles        = wplt_get_shortcode_styles();
-		$default_style = self::$_options['default_style'];
+	public static function settings_enable_css_field() {
+		$checked = self::$_options['enable_css'];
 
-		echo '<select name="simple-downloads[default_style]">';
-		foreach ( $styles as $key => $value ) {
-			$selected = ( $default_style === $key ? ' selected="selected"' : '' );
-			echo '<option value="' . esc_attr( $key ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $value ) . '</option>';
-		}
-		echo '</select>';
-		echo '<p class="description">' . esc_html__( 'The default display style.', 'wplt2' ) . '</p>';
+		echo '<label for="' . esc_attr( self::OPTION ) . '[enable_css]">';
+		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		esc_html_e( 'Enable', 'wplt2' );
+		echo '</label>';
+		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default styling CSS file.', 'wplt2' ) . '</p>';
+	}
+
+	/**
+	 * Render enable css field.
+	 *
+	 * @return void
+	 */
+	public static function settings_show_feed_field() {
+		$checked = self::$_options['show_feed'];
+
+		echo '<label for="' . esc_attr( self::OPTION ) . '[show_feed]">';
+		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[show_feed]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		esc_html_e( 'Enable', 'wplt2' );
+		echo '</label>';
+		echo '<p class="description">' . esc_html__( 'Can be overwritten in shortcode.', 'wplt2' ) . '</p>';
 	}
 
 	/**

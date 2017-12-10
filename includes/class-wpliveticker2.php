@@ -128,7 +128,7 @@ class WPLiveticker2 {
 
 		// Post type arguments.
 		$args = array(
-			'labels'          => array(
+			'labels'             => array(
 				'name'               => __( 'Ticks', 'wplt2' ),
 				'singular_name'      => __( 'Tick', 'wplt2' ),
 				'add_new'            => __( 'Add New', 'wplt2' ),
@@ -143,13 +143,15 @@ class WPLiveticker2 {
 				'parent_item_colon'  => '',
 				'menu_name'          => __( 'Liveticker', 'wplt2' ),
 			),
-			'public'          => false,
-			'show_ui'         => true,
-			'show_in_menu'    => true,
-			'menu_icon'       => 'dashicons-rss',
-			'capability_type' => 'post',
-			'supports'        => array( 'title', 'editor', 'author' ),
-			'taxonomies'      => array( 'wplt2_ticker' ),
+			'public'             => false,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'menu_icon'          => 'dashicons-rss',
+			'capability_type'    => 'post',
+			'supports'           => array( 'title', 'editor', 'author' ),
+			'taxonomies'         => array( 'wplt2_ticker' ),
+			'has_archive'        => true,
 		);
 
 		register_post_type( 'wplt2_tick', $args );
@@ -170,29 +172,39 @@ class WPLiveticker2 {
 		$output = '';
 
 		// Check if first attribute is filled.
-		if ( $atts['ticker'] ) {
+		if ( ! empty( $atts['ticker'] ) ) {
+			$ticker = sanitize_text_field( $atts['ticker'] );
+
 			// Set limit to infinite, if not set explicitly.
 			if ( ! isset( $atts['limit'] ) ) {
 				$atts['limit'] = - 1;
+			}
+			$limit = intval( $atts['limit'] );
+
+			// Determine if feed link should be shown.
+			if ( isset( $atts['feed'] ) ) {
+				$show_feed = 'true' === strtolower( $atts['feed'] ) || '1' === $atts['feed'];
+			} else {
+				$show_feed = 1 === self::$_options['show_feed'];
 			}
 
 			$output = '<ul class="wplt2-ticker';
 			if ( 1 === self::$_options['enable_ajax'] ) {
 				$output .= ' wplt2-ticker-ajax" '
-							. 'data-wplt2-ticker="' . $atts['ticker'] . '" '
-							. 'data-wplt2-limit="' . $atts['limit'] . '" '
+							. 'data-wplt2-ticker="' . $ticker . '" '
+							. 'data-wplt2-limit="' . $limit . '" '
 							. 'data-wplt2-last="' . time();
 			}
 			$output .= '">';
 
 			$args = array(
 				'post_type'      => 'wplt2_tick',
-				'posts_per_page' => $atts['limit'],
+				'posts_per_page' => $limit,
 				'tax_query'      => array(
 					array(
 						'taxonomy' => 'wplt2_ticker',
 						'field'    => 'slug',
-						'terms'    => $atts['ticker'],
+						'terms'    => $ticker,
 					),
 				),
 			);
@@ -207,9 +219,15 @@ class WPLiveticker2 {
 			$output .= '</ul>';
 
 			// Show RSS feed link, if configured.
-			if ( 1 === self::$_options['show_feed'] ) {
-				// TODO.
-				$output .= '<a href="/feed/liveticker/' . esc_html( $atts['ticker'] ) . '"><img class="wplt2_rss" src="/wp-content/plugins/wp-liveticker2/images/rss.jpg" alt="RSS" /></a>';
+			if ( $show_feed ) {
+				// TODO: For some reason get_term_feed_link() does not give the desired result...
+				$feed_link = get_post_type_archive_feed_link( 'wplt2_tick' ) . '';
+				if ( false === strpos( $feed_link, '&' ) ) {
+					$feed_link .= '?wplt2_ticker=' . $ticker;
+				} else {
+					$feed_link .= '&wplt2_ticker=' . $ticker;
+				}
+				$output .= '<a href="' . esc_attr( $feed_link ) . '">Feed</a>';
 			}
 		}// End if().
 
@@ -239,7 +257,8 @@ class WPLiveticker2 {
 			'wplt2-js',
 			WPLT2_BASE . 'scripts/wp-liveticker2.js',
 			array( 'jquery' ),
-			self::VERSION
+			self::VERSION,
+			true
 		);
 
 		// Add endpoint to script.
@@ -266,9 +285,10 @@ class WPLiveticker2 {
 		// Extract update requests.
 		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {
 			$res = array();
+			// @codingStandardsIgnoreLine Sanitization of arrayhandled on field level.
 			foreach ( wp_unslash( $_POST['update'] ) as $update_req ) {
-				if ( isset( $update_req['s'] ) ) {
-					$slug      = $update_req['s'];
+				if ( is_array( $update_req ) && isset( $update_req['s'] ) ) {
+					$slug      = sanitize_text_field( $update_req['s'] );
 					$limit     = ( isset( $update_req['l'] ) ) ? intval( $update_req['l'] ) : - 1;
 					$last_poll = ( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0;
 
@@ -343,7 +363,7 @@ class WPLiveticker2 {
 	 * @param string $title   Tick title.
 	 * @param string $content Tick content.
 	 */
-	public static function tick_html( $time, $title, $content = null ) {
+	private static function tick_html( $time, $title, $content = null ) {
 		return '<li class="wplt2-tick">'
 				. '<p><span class="wplt2-tick_time">' . esc_html( $time ) . '</span>'
 				. '<span class="wplt2-tick-title">' . esc_html( $title ) . '</span></p>'
