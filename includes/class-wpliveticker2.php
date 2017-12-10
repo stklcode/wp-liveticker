@@ -36,11 +36,19 @@ class WPLiveticker2 {
 	protected static $_options;
 
 	/**
-	 * Plugin options.
+	 * Marker if shortcode is present.
 	 *
 	 * @var boolean $shortcode_present
 	 */
 	protected static $shortcode_present = false;
+
+
+	/**
+	 * Marker if widget is present.
+	 *
+	 * @var boolean $shortcode_present
+	 */
+	protected static $widget_present = false;
 
 	/**
 	 * Plugin initialization.
@@ -239,7 +247,7 @@ class WPLiveticker2 {
 	 */
 	public static function enqueue_styles() {
 		// Only add if shortcode is present.
-		if ( self::$shortcode_present ) {
+		if ( self::$shortcode_present || self::$widget_present ) {
 			wp_enqueue_style(
 				'wplt-css',
 				WPLT2_BASE . 'styles/wp-liveticker2.css',
@@ -253,24 +261,27 @@ class WPLiveticker2 {
 	 * Register frontend JS.
 	 */
 	public static function enqueue_scripts() {
-		wp_enqueue_script(
-			'wplt2-js',
-			WPLT2_BASE . 'scripts/wp-liveticker2.js',
-			array( 'jquery' ),
-			self::VERSION,
-			true
-		);
+		// Only add if shortcode is present.
+		if ( self::$shortcode_present || self::$widget_present ) {
+			wp_enqueue_script(
+				'wplt2-js',
+				WPLT2_BASE . 'scripts/wp-liveticker2.js',
+				array( 'jquery' ),
+				self::VERSION,
+				true
+			);
 
-		// Add endpoint to script.
-		wp_localize_script(
-			'wplt2-js',
-			'ajax_object',
-			array(
-				'ajax_url'      => admin_url( 'admin-ajax.php' ),
-				'nonce'         => wp_create_nonce( 'wplt2_update-ticks' ),
-				'poll_interval' => self::$_options['poll_interval'] * 1000,
-			)
-		);
+			// Add endpoint to script.
+			wp_localize_script(
+				'wplt2-js',
+				'ajax_object',
+				array(
+					'ajax_url'      => admin_url( 'admin-ajax.php' ),
+					'nonce'         => wp_create_nonce( 'wplt2_update-ticks' ),
+					'poll_interval' => self::$_options['poll_interval'] * 1000,
+				)
+			);
+		}
 	}
 
 	/**
@@ -287,8 +298,18 @@ class WPLiveticker2 {
 			$res = array();
 			// @codingStandardsIgnoreLine Sanitization of arrayhandled on field level.
 			foreach ( wp_unslash( $_POST['update'] ) as $update_req ) {
-				if ( is_array( $update_req ) && isset( $update_req['s'] ) ) {
-					$slug      = sanitize_text_field( $update_req['s'] );
+				if ( is_array( $update_req ) && ( isset( $update_req['s'] ) || isset( $update_req['w'] ) ) ) {
+					if ( isset( $update_req['s'] ) ) {
+						$is_widget = false;
+						$slug      = sanitize_text_field( $update_req['s'] );
+					} elseif ( isset( $update_req['w'] ) ) {
+						$is_widget = true;
+						$slug      = sanitize_text_field( $update_req['w'] );
+					} else {
+						// Should never occur, but for completenes' sake...
+						break;
+					}
+
 					$limit     = ( isset( $update_req['l'] ) ) ? intval( $update_req['l'] ) : - 1;
 					$last_poll = ( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0;
 
@@ -313,13 +334,26 @@ class WPLiveticker2 {
 					$out = '';
 					while ( $query->have_posts() ) {
 						$query->the_post();
-						$out .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content() );
+						if ( $is_widget ) {
+							$out .= self::tick_html_widget( get_the_time( 'd.m.Y H.i' ), get_the_title(), false );
+						} else {
+							$out .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content(), $is_widget );
+						}
 					}
-					$res[] = array(
-						's' => $slug,
-						'h' => $out,
-						't' => time(),
-					);
+
+					if ( $is_widget ) {
+						$res[] = array(
+							'w' => $slug,
+							'h' => $out,
+							't' => time(),
+						);
+					} else {
+						$res[] = array(
+							's' => $slug,
+							'h' => $out,
+							't' => time(),
+						);
+					}
 				}
 			}
 			// Echo JSON encoded result set.
@@ -327,6 +361,15 @@ class WPLiveticker2 {
 		}
 
 		exit;
+	}
+
+	/**
+	 * Mark that Widget is present.
+	 *
+	 * @return void
+	 */
+	public static function mark_widget_present() {
+		self::$widget_present = true;
 	}
 
 	/**
@@ -359,14 +402,37 @@ class WPLiveticker2 {
 	/**
 	 * Generate HTML code for a tick element.
 	 *
-	 * @param string $time    Tick time (readable).
-	 * @param string $title   Tick title.
-	 * @param string $content Tick content.
+	 * @param string  $time      Tick time (readable).
+	 * @param string  $title     Tick title.
+	 * @param string  $content   Tick content.
+	 * @param boolean $is_widget Is the code for Widget.
+	 *
+	 * @return string HTML code of tick.
 	 */
-	private static function tick_html( $time, $title, $content = null ) {
+	private static function tick_html( $time, $title, $content, $is_widget = false ) {
 		return '<li class="wplt2-tick">'
-				. '<p><span class="wplt2-tick_time">' . esc_html( $time ) . '</span>'
-				. '<span class="wplt2-tick-title">' . esc_html( $title ) . '</span></p>'
-				. '<p class="wplt2-tick-content">' . $content . '</p></li>';
+			. '<p><span class="wplt2-tick_time">' . esc_html( $time ) . '</span>'
+			. '<span class="wplt2-tick-title">' . esc_html( $title ) . '</span></p>'
+			. '<p class="wplt2-tick-content">' . $content . '</p></li>';
+	}
+
+	/**
+	 * Generate HTML code for a tick element in widget.
+	 *
+	 * @param string  $time      Tick time (readable).
+	 * @param string  $title     Tick title.
+	 * @param boolean $highlight Highlight element.
+	 *
+	 * @return string HTML code of widget tick.
+	 */
+	public static function tick_html_widget( $time, $title, $highlight ) {
+		$out = '<li';
+		if ( $highlight ) {
+			$out .= ' class="wplt2-widget-new"';
+		}
+		return $out . '>'
+			. '<span class="wplt2-widget-time">' . esc_html( $time ) . '</span>'
+			. '<span class="wplt2-widget-title">' . $title . '</span>'
+			. '</li>';
 	}
 }

@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) || exit;
 		</td>
 		<td>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'count' ) ); ?>">
-				<option value="0"<?php if ( '0' === $count ) {
+				<option value="-1"<?php if ( '-1' === $count ) {
 					echo ' selected="selected"';
 				} ?>><?php esc_html_e( 'all', 'wplt2' ); ?></option>
 				<option value="1"<?php if ( '1' === $count ) {
@@ -120,7 +120,7 @@ defined( 'ABSPATH' ) || exit;
 		<td>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'ajax' ) ); ?>" type="checkbox" value="1"<?php if ( '1' === $ajax ) {
 				echo ' checked="checked"';
-			} ?> disabled="disabled" />
+			} ?> />
 			<small><?php esc_html_e( '(enables ajax)', 'wplt2' ); ?></small>
 		</td>
 	</tr>

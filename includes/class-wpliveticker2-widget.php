@@ -34,6 +34,9 @@ class WPLiveticker2_Widget extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public function widget( $args, $instance ) {
+		// Notify WPLT2 class that widget is present.
+		WPLiveticker2::mark_widget_present();
+
 		$instance       = self::fill_options_with_defaults( $instance );
 		$before_widget  = isset( $args['before_widget'] ) ? $args['before_widget'] : '';
 		$after_widget   = isset( $args['after_widget'] ) ? $args['after_widget'] : '';
@@ -59,7 +62,14 @@ class WPLiveticker2_Widget extends WP_Widget {
 			echo $before_title . esc_html( $title ) . $after_title;
 		}
 
-		echo '<ul class="wplt2-widget">';
+		echo '<ul class="wplt2-widget';
+		if ( '1' === $ajax ) {
+			echo ' wplt2-widget-ajax" '
+				. 'data-wplt2-ticker="' . esc_attr( $category ) . '" '
+				. 'data-wplt2-limit="' . esc_attr( $count ) . '" '
+				. 'data-wplt2-last="' . esc_attr( time() );
+		}
+		echo '">';
 
 		$args = array(
 			'post_type' => 'wplt2_tick',
@@ -76,11 +86,12 @@ class WPLiveticker2_Widget extends WP_Widget {
 		$cnt      = 0;
 		while ( $wp_query->have_posts() && ( $count <= 0 || ++ $cnt < $count ) ) {
 			$wp_query->the_post();
-			echo '<li>'
-				. '<span class="wplt2-widget-time">' . esc_html( get_the_time( 'd.m.Y - H.i' ) ) . '</span>'
-				. '<span class="wplt-widget-content'
-				. ( ( '1' === $highlight && get_the_time( 'U' ) > ( time() - $highlight_time ) ) ? '_new' : '' )
-				. '"><br>' . the_title() . '</span></li>';
+			// @codingStandardsIgnoreLine
+			echo WPLiveticker2::tick_html_widget(
+				esc_html( get_the_time( 'd.m.Y - H.i' ) ),
+				get_the_title(),
+				( '1' === $highlight && get_the_time( 'U' ) > ( time() - $highlight_time ) )
+			);
 		}
 
 		echo '</ul>';
