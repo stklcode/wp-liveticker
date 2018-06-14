@@ -250,7 +250,7 @@ class WPLiveticker2 {
 		if ( self::$shortcode_present || self::$widget_present ) {
 			wp_enqueue_style(
 				'wplt-css',
-				WPLT2_BASE . 'styles/wp-liveticker2.css',
+				WPLT2_BASE . 'styles/wp-liveticker2.min.css',
 				'',
 				self::VERSION, 'all'
 			);
@@ -265,7 +265,7 @@ class WPLiveticker2 {
 		if ( self::$shortcode_present || self::$widget_present ) {
 			wp_enqueue_script(
 				'wplt2-js',
-				WPLT2_BASE . 'scripts/wp-liveticker2.js',
+				WPLT2_BASE . 'scripts/wp-liveticker2.min.js',
 				array( 'jquery' ),
 				self::VERSION,
 				true

@@ -11,7 +11,7 @@
  * Description: A simple Liveticker for Wordpress.
  * Version:     1.0.0 alpha
  * Author:      Stefan Kalscheuer
- * Author URI:  http://www.stklcode.de
+ * Author URI:  https://www.stklcode.de
  * Text Domain: wplt2
  * Domain Path: /lang
  * License:     GPLv2 or later

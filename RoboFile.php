@@ -128,7 +128,7 @@ class RoboFile extends Tasks {
 			$this->testCS();
 		}
 		$this->bundle();
-		$this->minify( $opts );
+//		$this->minify( $opts );
 	}
 
 	/**

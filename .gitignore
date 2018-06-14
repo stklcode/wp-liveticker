@@ -3,3 +3,5 @@ composer.lock
 /node_modules/
 /dist/
 .idea
+**/*.min.css
+**/*.min.js

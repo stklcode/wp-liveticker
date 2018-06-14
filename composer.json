@@ -31,16 +31,26 @@
     "wimg/php-compatibility": "^8.0",
     "wp-coding-standards/wpcs": "~0.14",
     "patchwork/jsqueeze": "^2.0.5",
-    "natxet/CssMin": "^3.0.5"
+    "natxet/CssMin": "^3.0.5",
+    "matthiasmullie/minify": "^1.3"
   },
   "scripts": {
+    "post-install-cmd": [
+      "@minify"
+    ],
+    "post-update-cmd": [
+      "@minify"
+    ],
     "build": [
+      "@minify",
       "robo build"
     ],
     "package": [
+      "@minify",
       "robo package"
     ],
     "deploy": [
+      "@minify",
       "robo deploy:all"
     ],
     "test-all": [
@@ -55,6 +65,10 @@
     ],
     "fix-cs": [
       "phpcbf --standard=phpcs.xml"
+    ],
+    "minify": [
+      "minifycss styles/wp-liveticker2.css > styles/wp-liveticker2.min.css",
+      "minifyjs scripts/wp-liveticker2.js > scripts/wp-liveticker2.min.js"
     ]
   }
 }
