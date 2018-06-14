@@ -1,0 +1,38 @@
+clone:
+  git:
+    image: plugins/git
+    depth: 1
+    skip_verify: true
+
+pipeline:
+  restore-cache:
+    image: drillster/drone-volume-cache
+    restore: true
+    mount:
+      - vendor
+    volumes:
+      - /var/lib/drone/cache:/cache
+    cache_key: [ DRONE_REPO_OWNER, DRONE_REPO_NAME, DRONE_BRANCH ]
+
+  pre-build:
+    image: composer
+    commands:
+      - composer install
+  test:
+    image: composer
+    commands:
+      - ./vendor/bin/robo test
+
+  test-style:
+    image: composer
+    commands:
+      - ./vendor/bin/robo test:cs
+
+  rebuild-cache:
+    image: drillster/drone-volume-cache
+    rebuild: true
+    mount:
+      - vendor
+    volumes:
+      - /var/lib/drone/cache:/cache
+    cache_key: [ DRONE_REPO_OWNER, DRONE_REPO_NAME, DRONE_BRANCH ]
