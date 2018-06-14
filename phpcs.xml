@@ -13,12 +13,7 @@
 
 	<!-- Compliance with WordPress Coding Standard -->
 	<config name="minimum_supported_wp_version" value="4.0"/>
-	<rule ref="WordPress">
-		<!-- Makes view HTML code messy -->
-		<exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd"/>
-		<exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeOpen"/>
-		<exclude name="Squiz.PHP.EmbeddedPhp.ContentAfterOpen"/>
-	</rule>
+	<rule ref="WordPress"/>
 
 	<!-- PHP compatibility level -->
 	<config name="testVersion" value="5.2-"/>

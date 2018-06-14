@@ -42,49 +42,25 @@ defined( 'ABSPATH' ) || exit;
 		</td>
 		<td>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'count' ) ); ?>">
-				<option value="-1"<?php if ( '-1' === $count ) {
-					echo ' selected="selected"';
-				} ?>><?php esc_html_e( 'all', 'wplt2' ); ?></option>
-				<option value="1"<?php if ( '1' === $count ) {
-					echo ' selected="selected"';
-				} ?>>1
+				<option value="-1"
+					<?php
+					if ( '-1' === $count ) {
+						echo ' selected="selected"';
+					}
+					?>
+				>
+					<?php esc_html_e( 'all', 'wplt2' ); ?>
 				</option>
-				<option value="2"<?php if ( '2' === $count ) {
-					echo ' selected="selected"';
-				} ?>>2
-				</option>
-				<option value="3"<?php if ( '3' === $count ) {
-					echo ' selected="selected"';
-				} ?>>3
-				</option>
-				<option value="4"<?php if ( '4' === $count ) {
-					echo ' selected="selected"';
-				} ?>>4
-				</option>
-				<option value="5"<?php if ( '5' === $count ) {
-					echo ' selected="selected"';
-				} ?>>5
-				</option>
-				<option value="6"<?php if ( '6' === $count ) {
-					echo ' selected="selected"';
-				} ?>>6
-				</option>
-				<option value="7"<?php if ( '7' === $count ) {
-					echo ' selected="selected"';
-				} ?>>7
-				</option>
-				<option value="8"<?php if ( '8' === $count ) {
-					echo ' selected="selected"';
-				} ?>>8
-				</option>
-				<option value="9"<?php if ( '9' === $count ) {
-					echo ' selected="selected"';
-				} ?>>9
-				</option>
-				<option value="10"<?php if ( '10' === $count ) {
-					echo ' selected="selected"';
-				} ?>>10
-				</option>
+				<?php
+				for ( $i = 1; $i <= 10; $i ++ ) {
+					printf(
+						'<option value="%d"%s>%d</option>',
+						$i,
+						( $i === $count ) ? ' selected' : '',
+						intval( $i )
+					);
+				}
+				?>
 			</select>
 		</td>
 	</tr>
@@ -101,9 +77,14 @@ defined( 'ABSPATH' ) || exit;
 			<label for="<?php echo esc_attr( $this->get_field_id( 'highlight' ) ); ?>"><?php esc_html_e( 'Highlight new:', 'wplt2' ); ?></label>
 		</td>
 		<td>
-			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'highlight' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'highlight' ) ); ?>" type="checkbox" value="1" <?php if ( '1' === $highlight ) {
-				echo ' checked="checked"';
-			} ?> /></td>
+			<?php
+			echo '<input class="widefat" id="' . esc_attr( $this->get_field_id( 'highlight' ) ) . '"
+							   name="' . esc_attr( $this->get_field_name( 'highlight' ) ) . '"
+							   type="checkbox" 
+							   value="1" 
+							   ' . ( ( '1' === $highlight ) ? ' checked' : '' ) . '/>';
+			?>
+		</td>
 	</tr>
 	<tr>
 		<td>
@@ -118,9 +99,15 @@ defined( 'ABSPATH' ) || exit;
 			<label for="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>"><?php esc_html_e( 'Auto refresh:', 'wplt2' ); ?></label>
 		</td>
 		<td>
-			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'ajax' ) ); ?>" type="checkbox" value="1"<?php if ( '1' === $ajax ) {
-				echo ' checked="checked"';
-			} ?> />
+			<?php
+			echo '<input class="widefat" 
+                         id="' . esc_attr( $this->get_field_id( 'ajax' ) ) . '" 
+                         name="' . esc_attr( $this->get_field_name( 'ajax' ) ) . '" 
+                         type="checkbox" 
+                         value="1"
+                         ' . ( ( '1' === $ajax ) ? ' checked' : '' ) . '/>';
+
+			?>
 			<small><?php esc_html_e( '(enables ajax)', 'wplt2' ); ?></small>
 		</td>
 	</tr>
