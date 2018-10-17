@@ -266,7 +266,7 @@ class WPLiveticker2 {
 			wp_enqueue_script(
 				'wplt2-js',
 				WPLT2_BASE . 'scripts/wp-liveticker2.min.js',
-				array( 'jquery' ),
+				array(),
 				self::VERSION,
 				true
 			);
