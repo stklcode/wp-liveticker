@@ -1,0 +1,3 @@
+{
+  "extends": "./vendor/npm-asset/eslint-config-wordpress/index.js"
+}

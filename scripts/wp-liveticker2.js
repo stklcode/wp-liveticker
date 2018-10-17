@@ -1,13 +1,28 @@
+/**
+ * Contructor of the WPLT object.
+ *
+ * @constructor
+ */
 function WPLT2() {
-
 }
 
 /**
  * Initialize WP-Liveticker 2 JS component.
  *
- * @return void
+ * @return {void}
  */
-WPLT2.init = function () {
+WPLT2.init = function() {
+
+	// Opt out if AJAX pobject not present.
+	if ( 'undefined' === typeof wplt2Ajax ) {
+		return;
+	}
+
+	// Extract AJAX settings.
+	WPLT2.ajaxURL = wplt2Ajax.ajax_url;
+	WPLT2.nonce = wplt2Ajax.nonce;
+	WPLT2.pollInterval = wplt2Ajax.poll_interval;
+
 	// Get ticker elements.
 	WPLT2.ticker = [].map.call(
 		document.querySelectorAll( 'ul.wplt2-ticker-ajax' ),
@@ -34,13 +49,8 @@ WPLT2.init = function () {
 		}
 	);
 
-	// Extract AJAX settings.
-	WPLT2.ajaxURL = ajax_object.ajax_url;
-	WPLT2.nonce = ajax_object.nonce;
-	WPLT2.pollInterval = ajax_object.poll_interval;
-
 	// Trigger update, if necessary.
-	if ( ( WPLT2.ticker.length > 0 || WPLT2.widgets.length ) && WPLT2.pollInterval > 0 ) {
+	if ( ( 0 < WPLT2.ticker.length || WPLT2.widgets.length ) && 0 < WPLT2.pollInterval ) {
 		setTimeout( WPLT2.update, WPLT2.pollInterval );
 	}
 };
@@ -48,13 +58,14 @@ WPLT2.init = function () {
 /**
  * Update liveticker on current page via AJAX call.
  *
- * @return void
+ * @return {void}
  */
-WPLT2.update = function () {
+WPLT2.update = function() {
+
 	// Extract ticker-slug, limit and timestamp of last poll.
 	var updateReq = 'action=wplt2_update-ticks&_ajax_nonce=' + WPLT2.nonce;
-	var i;
-	var j;
+	var i, j;
+	var xhr = new XMLHttpRequest();
 
 	for ( i = 0; i < WPLT2.ticker.length; i++ ) {
 		updateReq = updateReq +
@@ -70,39 +81,38 @@ WPLT2.update = function () {
 	}
 
 	// Issue AJAX request.
-	var xhr = new XMLHttpRequest();
 	xhr.open( 'POST', WPLT2.ajaxURL, true );
 	xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded;' );
 	xhr.onreadystatechange = function() {
-		if( XMLHttpRequest.DONE === this.readyState && 200 === this.status ) {
+		var update;
+		if ( XMLHttpRequest.DONE === this.readyState && 200 === this.status ) {
 			try {
-				var update = JSON.parse( this.responseText );
+				update = JSON.parse( this.responseText );
 				if ( update ) {
 					update.forEach(
 						function( u ) {
 							WPLT2.ticker.forEach(
 								function( t ) {
 									if ( t.s === u.s ) {
-										// Update last poll timestamp.
+										t.t = u.t;					// Update last poll timestamp.
+										WPLT2.updateHTML( t, u );	// Update HTML markup.
+									}
+								}
+							);
+							WPLT2.widgets.forEach(
+								function( t ) {
+									if ( t.w === u.w ) {
 										t.t = u.t;
-										// Update HTML markup.
 										WPLT2.updateHTML( t, u );
 									}
 								}
 							);
-							WPLT2.widgets.forEach( function ( t ) {
-								if ( t.w === u.w ) {
-									t.t = u.t;
-									WPLT2.updateHTML( t, u );
-								}
-							} );
 						}
 					);
 				}
-				// Re-trigger update.
-				setTimeout( WPLT2.update, WPLT2.pollInterval );
+				setTimeout( WPLT2.update, WPLT2.pollInterval );		// Re-trigger update.
 			} catch ( e ) {
-				console.warn( 'WP-Liveticker 2 AJAX update failed, stopping automatic updates.' )
+				console.warn( 'WP-Liveticker 2 AJAX update failed, stopping automatic updates.' );
 			}
 		}
 	};
@@ -112,16 +122,22 @@ WPLT2.update = function () {
 /**
  * Do actual update of HTML code.
  *
- * @param t Ticker or Widget reference.
- * @param u Update entity.
- * @return void
+ * @param {Object}      t   Ticker or Widget reference.
+ * @param {number}      t.l Limit of entries to display.
+ * @param {HTMLElement} t.e HTML element of the ticker/widget.
+ * @param {Object}      u   Update entity.
+ * @param {string}      u.h HTML code to append.
+ * @param {number}      u.t Timetsamp of last update.
+ * @return {void}
  */
 WPLT2.updateHTML = function( t, u ) {
+
 	// Prepend HTML of new ticks.
 	t.e.innerHTML = u.h + t.e.innerHTML;
 	t.e.setAttribute( 'data-wplt2-last', u.t );
+
 	// Remove tail, if limit is set.
-	if ( t.l > 0 ) {
+	if ( 0 < t.l ) {
 		[].slice.call( t.e.getElementsByTagName( 'li' ), t.l ).forEach(
 			function( li ) {
 				li.remove();
@@ -133,7 +149,6 @@ WPLT2.updateHTML = function( t, u ) {
 document.addEventListener(
 	'DOMContentLoaded',
 	function() {
-		// Trigger periodic update of livetickers.
-		WPLT2.init();
+		WPLT2.init();	// Trigger periodic update of livetickers.
 	}
 );

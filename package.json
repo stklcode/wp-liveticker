@@ -1,6 +1,6 @@
 {
   "name": "wp-liveticker2",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-beta",
   "description": "A simple Liveticker for Wordpress.",
   "author": "Stefan Kalscheuer",
   "license": "GPL-2.0+"

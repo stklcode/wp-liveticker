@@ -274,7 +274,7 @@ class WPLiveticker2 {
 			// Add endpoint to script.
 			wp_localize_script(
 				'wplt2-js',
-				'ajax_object',
+				'wplt2Ajax',
 				array(
 					'ajax_url'      => admin_url( 'admin-ajax.php' ),
 					'nonce'         => wp_create_nonce( 'wplt2_update-ticks' ),
