@@ -3,5 +3,8 @@
   "version": "1.0.0-beta",
   "description": "A simple Liveticker for Wordpress.",
   "author": "Stefan Kalscheuer",
-  "license": "GPL-2.0+"
+  "license": "GPL-2.0+",
+  "dependencies": {
+    "stylelint-config-wordpress": "^13.1.0"
+  }
 }

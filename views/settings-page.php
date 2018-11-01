@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 	<div id="icon-options-general" class="icon32"><br></div>
 	<h2>Liveticker <?php esc_html_e( 'Settings', 'wplt2' ); ?></h2>
 	<?php
-	if ( isset( $_GET['settings-updated'] ) ) {
+	if ( isset( $_GET['settings-updated'] ) ) {	// phpcs:ignore
 		echo '<div class="updated"><p>' . esc_html__( 'Settings updated successfully.', 'wplt2' ) . '</p></div>';
 	}
 	?>

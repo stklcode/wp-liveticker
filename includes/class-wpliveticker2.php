@@ -8,7 +8,9 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * WP Liveticker 2.
@@ -237,13 +239,15 @@ class WPLiveticker2 {
 				}
 				$output .= '<a href="' . esc_attr( $feed_link ) . '">Feed</a>';
 			}
-		}// End if().
+		}
 
 		return $output;
 	}
 
 	/**
 	 * Register frontend CSS.
+	 *
+	 * @return void
 	 */
 	public static function enqueue_styles() {
 		// Only add if shortcode is present.
@@ -259,6 +263,8 @@ class WPLiveticker2 {
 
 	/**
 	 * Register frontend JS.
+	 *
+	 * @return void
 	 */
 	public static function enqueue_scripts() {
 		// Only add if shortcode is present.
@@ -294,7 +300,7 @@ class WPLiveticker2 {
 		check_ajax_referer( 'wplt2_update-ticks' );
 
 		// Extract update requests.
-		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {
+		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {  // Input var okay.
 			$res = array();
 			// @codingStandardsIgnoreLine Sanitization of arrayhandled on field level.
 			foreach ( wp_unslash( $_POST['update'] ) as $update_req ) {
@@ -357,7 +363,7 @@ class WPLiveticker2 {
 				}
 			}
 			// Echo JSON encoded result set.
-			echo json_encode( $res );
+			echo wp_json_encode( $res );
 		}
 
 		exit;
@@ -376,6 +382,8 @@ class WPLiveticker2 {
 	 * Update options.
 	 *
 	 * @param array $options Optional. New options to save.
+	 *
+	 * @return void
 	 */
 	protected static function update_options( $options = null ) {
 		self::$_options = wp_parse_args(

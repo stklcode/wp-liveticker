@@ -8,8 +8,8 @@
  *
  * @wordpress-plugin
  * Plugin Name: WP Liveticker 2
- * Description: A simple Liveticker for Wordpress.
- * Version:     1.0.0 alpha
+ * Description: A simple Liveticker for WordPress.
+ * Version:     1.0.0-beta
  * Author:      Stefan Kalscheuer
  * Author URI:  https://www.stklcode.de
  * Text Domain: wplt2
@@ -31,7 +31,9 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // Constants.
 define( 'WPLT2_FILE', __FILE__ );
@@ -61,7 +63,7 @@ spl_autoload_register( 'wplt2_autoload' );
  *
  * @param string $class  Name of the class to load.
  *
- * @since 1.0.0
+ * @return void
  */
 function wplt2_autoload( $class ) {
 	$plugin_classes = array(
@@ -71,12 +73,10 @@ function wplt2_autoload( $class ) {
 		'WPLiveticker2_Widget',
 	);
 	if ( in_array( $class, $plugin_classes, true ) ) {
-		require_once(
-			sprintf(
-				'%s/includes/class-%s.php',
-				WPLT2_DIR,
-				strtolower( str_replace( '_', '-', $class ) )
-			)
+		require_once sprintf(
+			'%s/includes/class-%s.php',
+			WPLT2_DIR,
+			strtolower( str_replace( '_', '-', $class ) )
 		);
 	}
 }
