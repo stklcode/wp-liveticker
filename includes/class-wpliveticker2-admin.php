@@ -77,7 +77,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 			__( 'Use AJAX', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_enable_ajax_field' ),
 			'wplt2-settings-page',
-			'wplt2_settings_general'
+			'wplt2_settings_general',
+			array( 'label_for' => esc_attr( self::OPTION ) . '-enable-ajax' )
 		);
 
 		add_settings_field(
@@ -85,7 +86,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 			__( 'AJAX poll interval', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_poll_interval_field' ),
 			'wplt2-settings-page',
-			'wplt2_settings_general'
+			'wplt2_settings_general',
+			array( 'label_for' => esc_attr( self::OPTION ) . '-poll-interval' )
 		);
 
 		add_settings_field(
@@ -93,7 +95,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 			__( 'Default CSS Styles', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_enable_css_field' ),
 			'wplt2-settings-page',
-			'wplt2_settings_general'
+			'wplt2_settings_general',
+			array( 'label_for' => esc_attr( self::OPTION ) . '-enable-css' )
 		);
 
 		add_settings_field(
@@ -101,7 +104,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 			__( 'Show RSS feed', 'wplt2' ),
 			array( 'WPLiveticker2_Admin', 'settings_show_feed_field' ),
 			'wplt2-settings-page',
-			'wplt2_settings_general'
+			'wplt2_settings_general',
+			array( 'label_for' => esc_attr( self::OPTION ) . '-show-feed' )
 		);
 	}
 
@@ -129,10 +133,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	public static function settings_enable_ajax_field() {
 		$checked = self::$_options['enable_ajax'];
 
-		echo '<label for="' . esc_attr( self::OPTION ) . '[enable_ajax]">';
-		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_ajax]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-ajax" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_ajax]" value="1" ' . checked( $checked, 1, false ) . '> ';
 		esc_html_e( 'Enable', 'wplt2' );
-		echo '</label>';
 		echo '<p class="description">' . esc_html__( 'Disable this option to not use AJAX update. This means all liveticker widgets and shortcodes are only updated once on site load.', 'wplt2' ) . '</p>';
 	}
 
@@ -144,10 +146,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	public static function settings_poll_interval_field() {
 		$poll_interval = self::$_options['poll_interval'];
 
-		echo '<label for="' . esc_attr( self::OPTION ) . '[poll_interval]">';
-		echo '<input type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $poll_interval ) . '"/> ';
+		echo '<input id="' . esc_attr( self::OPTION ) . '-poll-interval" type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $poll_interval ) . '"> ';
 		esc_html_e( 'seconds', 'wplt2' );
-		echo '</label>';
 		echo '<p class="description">' . esc_html__( 'Interval (in seconds) to update ticker if AJAX is enabled.', 'wplt2' ) . '</p>';
 	}
 
@@ -160,10 +160,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	public static function settings_enable_css_field() {
 		$checked = self::$_options['enable_css'];
 
-		echo '<label for="' . esc_attr( self::OPTION ) . '[enable_css]">';
-		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-css" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
 		esc_html_e( 'Enable', 'wplt2' );
-		echo '</label>';
 		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default styling CSS file.', 'wplt2' ) . '</p>';
 	}
 
@@ -175,26 +173,9 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	public static function settings_show_feed_field() {
 		$checked = self::$_options['show_feed'];
 
-		echo '<label for="' . esc_attr( self::OPTION ) . '[show_feed]">';
-		echo '<input type="checkbox" name="' . esc_attr( self::OPTION ) . '[show_feed]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		echo '<input id="' . esc_attr( self::OPTION ) . '-show-feed" type="checkbox" name="' . esc_attr( self::OPTION ) . '[show_feed]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
 		esc_html_e( 'Enable', 'wplt2' );
-		echo '</label>';
 		echo '<p class="description">' . esc_html__( 'Can be overwritten in shortcode.', 'wplt2' ) . '</p>';
-	}
-
-	/**
-	 * Render reset settings field
-	 *
-	 * @return void
-	 */
-	public static function settings_reset_settings_field() {
-		$checked = self::$_options['reset_settings'];
-
-		echo '<label for="simple-downloads[reset_settings]">';
-		echo '<input type="checkbox" name="simple-downloads[reset_settings]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'wplt2' );
-		echo '<p class="description">' . esc_html__( 'Reset plugin settings on re-activation.', 'wplt2' ) . '</p>';
-		echo '</label>';
 	}
 
 	/**
