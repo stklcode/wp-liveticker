@@ -3,25 +3,31 @@
 * Contributors:      Stefan Kalscheuer
 * Tags:              liveticker, feed, rss
 * Requires at least: 4.0
-* Tested up to:      4.9
+* Tested up to:      5.0
 * Requires PHP:      5.2
-* Stable tag:        1.0.0-beta
+* Stable tag:        1.0.0
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-A simple liveticker plugin for WordPress.
+A simple ajaxified liveticker plugin for WordPress.
 
 ## Description
 
 WP-Liveticker 2 is a simple liveticker plugin for WordPress. Easily add multiple livetickers, add them to posts with shortcode or use them as Widget.
 
-## Features
-* Handle multiple Tickers.
-* RSS feed capability.
-* Shortcode to display liveticker.
-* Ability to customise through CSS.
-* Add ticker to sidebar widgets.
-* Localization support.
+This plugin has been inspired by the _wp-liveticker_ Plugin by _DasLlama_ which is no longer available.
+However the code is now completely rewritten from scratch
+
+### Features
+
+* Handle multiple Tickers
+* Automatic update via AJAX
+* RSS feed capability
+* Shortcode to display liveticker
+* Add ticker to sidebar widgets
+* Ability to customise through CSS
+* Localization support
+
 
 ## Installation
 
@@ -29,29 +35,40 @@ WP-Liveticker 2 is a simple liveticker plugin for WordPress. Easily add multiple
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Go to Liveticker menu to start.
 
+### Requirements ###
+
+* PHP 5.2 or above
+* WordPress 4.0 or above
+
 ## Frequently asked questions
 
-#### How do I display a liveticker on my post/page?
+### How do I display a liveticker on my post/page?
 
 Use the shortcode `[liveticker ticker="my-ticker"]`.
 If you want to define a custom tick limit, you might also add a limit with `[liveticker ticker="my-ticker" limit="10"]`.
 
+### Can I use my own styles?
+
+Of course.
+You can deactivate the default stylesheet on the settings page and include your own instead.
+
+### Can I use my own styles?
+
+Of course.
+You can deactivate the default stylesheet on the settings page and include your own instead.
+
+
 ## Screenshots
 
-1. Downloads overview screen.
-2. Add new download screen.
-3. Logs overview screen.
-4. Shortcode generator.
-5. Example shortcodes.
-6. Settings screen.
+1. Example liveticker (frontend)
+2. Tick management
+3. Ticker configuration.
+4. Settings page
+5. Example shortcode
+6. Example widget
 
 ## Changelog
 
-#### 1.0.0
-* Complete rework of PHP code.
+### 1.0.0
 
-#### 0.4
-* CSS only loaded when shortcode is called
-
-#### 0.3
-* Initial plugin release.
+* Initial release
