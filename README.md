@@ -52,10 +52,11 @@ If you want to define a custom tick limit, you might also add a limit with `[liv
 Of course.
 You can deactivate the default stylesheet on the settings page and include your own instead.
 
-### Can I use my own styles?
+### Does the liveticker work with caching?
 
-Of course.
-You can deactivate the default stylesheet on the settings page and include your own instead.
+It strongly depends on the use case.
+If you update your ticker every 5 minutes, a caching time of 12 hours obviously makes no sense.
+However the AJAX update will fetch the latest ticks and update cached tickers  depending on the configured interval.
 
 
 ## Screenshots
