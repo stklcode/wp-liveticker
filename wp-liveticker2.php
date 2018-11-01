@@ -9,11 +9,10 @@
  * @wordpress-plugin
  * Plugin Name: WP Liveticker 2
  * Description: A simple Liveticker for WordPress.
- * Version:     1.0.0-beta
+ * Version:     1.0.0
  * Author:      Stefan Kalscheuer
  * Author URI:  https://www.stklcode.de
  * Text Domain: wplt2
- * Domain Path: /lang
  * License:     GPLv2 or later
  *
  * WP Liveticker 2 is free software: you can redistribute it and/or modify

@@ -1,6 +1,6 @@
 {
   "name": "stklcode/wp-liveticker2",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0",
   "description": "A simple Liveticker for Wordpress.",
   "keywords": [
     "wordpress",
@@ -17,11 +17,11 @@
   ],
   "type": "wordpress-plugin",
   "require": {
-    "php": ">=5.3",
+    "php": ">=5.2",
     "composer/installers": "~1.0"
   },
   "require-dev": {
-    "php": ">=5.3",
+    "php": ">=5.2",
     "consolidation/robo": "^1.0.0",
     "phpunit/phpunit": "*",
     "phpunit/php-code-coverage": "*",

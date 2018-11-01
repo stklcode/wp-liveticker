@@ -230,7 +230,6 @@ class WPLiveticker2 {
 
 			// Show RSS feed link, if configured.
 			if ( $show_feed ) {
-				// TODO: For some reason get_term_feed_link() does not give the desired result...
 				$feed_link = get_post_type_archive_feed_link( 'wplt2_tick' ) . '';
 				if ( false === strpos( $feed_link, '&' ) ) {
 					$feed_link .= '?wplt2_ticker=' . $ticker;
