@@ -44,6 +44,7 @@ define( 'WPLT2_BASENAME', plugin_basename( __FILE__ ) );
 add_action( 'init', array( 'WPLiveticker2', 'register_types' ) );
 add_action( 'plugins_loaded', array( 'WPLiveticker2', 'init' ) );
 register_activation_hook( WPLT2_FILE, array( 'WPLiveticker2_System', 'activate' ) );
+register_uninstall_hook( WPLT2_FILE, array( 'WPLiveticker2_System', 'uninstall' ) );
 
 // Allow shortcodes in widgets.
 add_filter( 'widget_text', 'do_shortcode' );
