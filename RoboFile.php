@@ -20,12 +20,12 @@ use Symfony\Component\Finder\Finder;
  */
 class RoboFile extends Tasks {
 	const PROJECT_NAME = 'wp-liveticker2';
-	const SVN_URL = 'https://plugins.svn.wordpress.org/wp-liveticker2';
+	const SVN_URL      = 'https://plugins.svn.wordpress.org/wp-liveticker2';
 
-	const OPT_TARGET = 'target';
-	const OPT_SKIPTEST = 'skipTests';
+	const OPT_TARGET    = 'target';
+	const OPT_SKIPTEST  = 'skipTests';
 	const OPT_SKIPSTYLE = 'skipStyle';
-	const OPT_MINIFY = 'minify';
+	const OPT_MINIFY    = 'minify';
 
 	/**
 	 * Version tag (read from composer.json).
@@ -128,7 +128,6 @@ class RoboFile extends Tasks {
 			$this->testCS();
 		}
 		$this->bundle();
-//		$this->minify( $opts );
 	}
 
 	/**
@@ -196,11 +195,10 @@ class RoboFile extends Tasks {
 		$this->say( 'Minifying CSS...' );
 
 		$finder = Finder::create()->name( '*.css*' )
-		                ->notName( '*.min.css' )
-		                ->in( $this->target_dir . '/' . $this->final_name . '/styles' );
+								->notName( '*.min.css' )
+								->in( $this->target_dir . '/' . $this->final_name . '/styles' );
 		foreach ( $finder as $file ) {
-			$this->taskMinify( $file )
-			     ->run();
+			$this->taskMinify( $file )->run();
 			// Replace original file for in-place minification.
 			$abspath = $file->getPath() . '/' . $file->getFilename();
 			$this->_rename( str_replace( '.css', '.min.css', $abspath ), $abspath, true );
@@ -232,8 +230,8 @@ class RoboFile extends Tasks {
 
 		// Minify global JavaScripts files except already minified.
 		$finder = Finder::create()->name( '*.js*' )
-		                ->notName( '*.min.js' )
-		                ->in( $this->target_dir . '/' . $this->final_name . '/scripts' );
+						->notName( '*.min.js' )
+						->in( $this->target_dir . '/' . $this->final_name . '/scripts' );
 		foreach ( $finder as $file ) {
 			$this->taskMinify( $file )->run();
 			// Replace original file for in-place minification.
@@ -260,8 +258,8 @@ class RoboFile extends Tasks {
 		$this->build( $opts );
 		$this->say( 'Packaging...' );
 		$this->taskPack( $this->target_dir . '/' . $this->final_name . '.zip' )
-		     ->addDir( '', $this->target_dir . '/' . $this->final_name )
-		     ->run();
+			->addDir( '', $this->target_dir . '/' . $this->final_name )
+			->run();
 	}
 
 	/**
@@ -410,16 +408,16 @@ class RoboFile extends Tasks {
 	private function prepareVCS() {
 		if ( is_dir( $this->target_dir . '/svn' ) ) {
 			$this->taskSvnStack()
-			     ->stopOnFail()
-			     ->dir( $this->target_dir . '/svn/statify-blacklist' )
-			     ->update()
-			     ->run();
+				->stopOnFail()
+				->dir( $this->target_dir . '/svn/wp-liveticker2' )
+				->update()
+				->run();
 		} else {
 			$this->_mkdir( $this->target_dir . '/svn' );
 			$this->taskSvnStack()
-			     ->dir( $this->target_dir . '/svn' )
-			     ->checkout( self::SVN_URL )
-			     ->run();
+				->dir( $this->target_dir . '/svn' )
+				->checkout( self::SVN_URL )
+				->run();
 		}
 	}
 
@@ -434,8 +432,8 @@ class RoboFile extends Tasks {
 	 */
 	private function commitVCS( $to_add, $msg ) {
 		$task = $this->taskSvnStack()
-		             ->stopOnFail()
-		             ->dir( $this->target_dir . '/svn/statify-blacklist' );
+					->stopOnFail()
+					->dir( $this->target_dir . '/svn/wp-liveticker2' );
 
 		if ( is_array( $to_add ) ) {
 			foreach ( $to_add as $ta ) {
@@ -454,7 +452,7 @@ class RoboFile extends Tasks {
 	 * @return void
 	 */
 	private function updateVCSreadme() {
-		$trunk_dir = $this->target_dir . '/svn/statify-blacklist/trunk';
+		$trunk_dir = $this->target_dir . '/svn/wp-liveticker2/trunk';
 		$this->_copy( $this->target_dir . '/' . $this->final_name . 'README.md', $trunk_dir . 'README.md' );
 	}
 
@@ -465,7 +463,7 @@ class RoboFile extends Tasks {
 	 */
 	private function updateVCStrunk() {
 		// Clean trunk directory.
-		$trunk_dir = $this->target_dir . '/svn/statify-blacklist/trunk';
+		$trunk_dir = $this->target_dir . '/svn/wp-liveticker2/trunk';
 		$this->taskCleanDir( $trunk_dir )->run();
 
 		// Copy built bundle to trunk.
@@ -479,9 +477,9 @@ class RoboFile extends Tasks {
 	 */
 	private function updateVCStag() {
 		// Clean tag directory if it exists.
-		$tag_dir = $this->target_dir . '/svn/statify-blacklist/tags/' . $this->version;
+		$tag_dir = $this->target_dir . '/svn/wp-liveticker2/tags/' . $this->version;
 		if ( is_dir( $tag_dir ) ) {
-			$this->taskCleanDir( $this->target_dir . '/svn/statify-blacklist/tags/' . $this->version )->run();
+			$this->taskCleanDir( $this->target_dir . '/svn/wp-liveticker2/tags/' . $this->version )->run();
 		} else {
 			$this->_mkdir( $tag_dir );
 		}
