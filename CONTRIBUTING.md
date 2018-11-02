@@ -111,10 +111,10 @@ We probably find a solution for that.
 
 ## Continuous Integration
 
-Automated tests are run using [Travis CI](https://travis-ci.org/stklcode/wp-liveticker2) for every commit including pull requests.
+Automated tests are run using [Travis CI](https://travis-ci.org/stklcode/wp-liveticker) for every commit including pull requests.
 They ensure compatibility with the supported PHP versions and the WP Coding Standards.
 
-There is also a semi-automated code quality analysis pushing results to [SonarCloud](https://sonarcloud.io/dashboard?id=de.stklcode.web.wordpress.plugins%3Awp-liveticker2).
+There is also a semi-automated code quality analysis pushing results to [SonarCloud](https://sonarcloud.io/dashboard?id=de.stklcode.web.wordpress.plugins%3Awp-liveticker).
 Keep in mind that the ruleset is not yet perfect, so not every minor issue has to be fixed immediately.
 
 ## Still Open Questions?

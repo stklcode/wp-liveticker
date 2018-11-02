@@ -146,6 +146,12 @@ class RoboFile extends Tasks {
 		$this->_copy( 'stklcode-liveticker.php', $this->target_dir . '/' . $this->final_name . '/stklcode-liveticker.php' );
 		$this->_copy( 'README.md', $this->target_dir . '/' . $this->final_name . '/README.md' );
 		$this->_copy( 'LICENSE.md', $this->target_dir . '/' . $this->final_name . '/LICENSE.md' );
+
+		// Remove content before title (e.g. badges) from README file.
+		$this->taskReplaceInFile( $this->target_dir . '/' . $this->final_name . '/README.md' )
+		     ->regex( '/^[^\\#]*/' )
+		     ->to( '' )
+		     ->run();
 	}
 
 	/**
