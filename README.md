@@ -13,7 +13,8 @@ A simple ajaxified liveticker plugin for WordPress.
 
 ## Description
 
-WP-Liveticker 2 is a simple liveticker plugin for WordPress. Easily add multiple livetickers, add them to posts with shortcode or use them as Widget.
+Liveticker is a simple liveticker plugin for WordPress.
+Easily add multiple livetickers, add them to posts with shortcode or use them as Widget.
 
 ### Features
 
@@ -28,7 +29,7 @@ WP-Liveticker 2 is a simple liveticker plugin for WordPress. Easily add multiple
 
 ## Installation
 
-1. Upload `wp-liveticker2` to the `/wp-content/plugins/` directory.
+1. Upload `stklcode-liveticker` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Go to Liveticker menu to start.
 
