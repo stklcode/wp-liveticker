@@ -194,12 +194,11 @@ class SCLiveticker_Admin extends SCLiveticker {
 	 */
 	public static function validate_settings( $input ) {
 		$defaults = self::default_options();
-		$result   = wp_parse_args( $input, $defaults );
-		foreach ( $defaults as $k => $v ) {
-			if ( is_int( $v ) ) {
-				$result[ $k ] = intval( $result[ $k ] );
-			}
-		}
+
+		$result['enable_ajax']   = isset( $input['enable_ajax'] ) ? intval( $input['enable_ajax'] ) : 0;
+		$result['poll_interval'] = isset( $input['poll_interval'] ) ? intval( $input['poll_interval'] ) : $defaults['poll_interval'];
+		$result['enable_css']    = isset( $input['enable_css'] ) ? intval( $input['enable_css'] ) : 0;
+		$result['show_feed']     = isset( $input['show_feed'] ) ? intval( $input['show_feed'] ) : 0;
 
 		return $result;
 	}
