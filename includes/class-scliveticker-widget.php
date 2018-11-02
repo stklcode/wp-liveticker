@@ -73,7 +73,7 @@ class SCLiveticker_Widget extends WP_Widget {
 			echo ' sclt-widget-ajax" '
 				. 'data-sclt-ticker="' . esc_attr( $category ) . '" '
 				. 'data-sclt-limit="' . esc_attr( $count ) . '" '
-				. 'data-sclt-last="' . esc_attr( time() );
+				. 'data-sclt-last="' . esc_attr( current_time( 'timestamp' ) );
 		}
 		echo '">';
 
