@@ -1,10 +1,10 @@
 <?php
 /**
- * WP Liveticker 2: Plugin main class.
+ * Liveticker: Plugin main class.
  *
  * This file contains the plugin's base class.
  *
- * @package WPLiveticker2
+ * @package Liveticker
  */
 
 // Exit if accessed directly.
@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WP Liveticker 2.
+ * Liveticker.
  */
-class WPLiveticker2 {
+class SCLiveticker {
 	/**
 	 * Options tag.
 	 *
@@ -28,7 +28,7 @@ class WPLiveticker2 {
 	 *
 	 * @var string OPTIONS
 	 */
-	const OPTION = 'wplt2';
+	const OPTION = 'stklcode-liveticker';
 
 	/**
 	 * Plugin options.
@@ -72,34 +72,34 @@ class WPLiveticker2 {
 		}
 
 		// Load Textdomain.
-		load_plugin_textdomain( 'wplt2', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+		load_plugin_textdomain( 'stklcode-liveticker', false );
 
 		// Allow shortcodes in widgets.
 		add_filter( 'widget_text', 'do_shortcode' );
 
 		// Add shortcode.
-		add_shortcode( 'liveticker', array( 'WPLiveticker2', 'shortcode_ticker_show' ) );
+		add_shortcode( 'liveticker', array( __CLASS__, 'shortcode_ticker_show' ) );
 
 		// Enqueue styles.
-		add_action( 'wp_footer', array( 'WPLiveticker2', 'enqueue_styles' ) );
+		add_action( 'wp_footer', array( __CLASS__, 'enqueue_styles' ) );
 
 		// Enqueue JavaScript.
-		add_action( 'wp_footer', array( 'WPLiveticker2', 'enqueue_scripts' ) );
+		add_action( 'wp_footer', array( __CLASS__, 'enqueue_scripts' ) );
 
 		// Add AJAX hook if configured.
 		if ( 1 === self::$_options['enable_ajax'] ) {
-			add_action( 'wp_ajax_wplt2_update-ticks', array( 'WPLiveticker2', 'ajax_update' ) );
-			add_action( 'wp_ajax_nopriv_wplt2_update-ticks', array( 'WPLiveticker2', 'ajax_update' ) );
+			add_action( 'wp_ajax_sclt_update-ticks', array( __CLASS__, 'ajax_update' ) );
+			add_action( 'wp_ajax_nopriv_sclt_update-ticks', array( __CLASS__, 'ajax_update' ) );
 		}
 
 		// Admin only actions.
 		if ( is_admin() ) {
 			// Add dashboard "right now" functionality.
-			add_action( 'right_now_content_table_end', array( 'WPLiveticker2_Admin', 'dashboard_right_now' ) );
+			add_action( 'right_now_content_table_end', array( 'SCLiveticker_Admin', 'dashboard_right_now' ) );
 
 			// Settings.
-			add_action( 'admin_init', array( 'WPLiveticker2_Admin', 'register_settings' ) );
-			add_action( 'admin_menu', array( 'WPLiveticker2_Admin', 'register_settings_page' ) );
+			add_action( 'admin_init', array( 'SCLiveticker_Admin', 'register_settings' ) );
+			add_action( 'admin_menu', array( 'SCLiveticker_Admin', 'register_settings_page' ) );
 		}
 	}
 
@@ -113,20 +113,20 @@ class WPLiveticker2 {
 		$labels = array(
 			'name'              => _x( 'Ticker', 'taxonomy general name' ),
 			'singular_name'     => _x( 'Ticker', 'taxonomy singular name' ),
-			'search_items'      => __( 'Search Tickers', 'wplt2' ),
-			'all_items'         => __( 'All Tickers', 'wplt2' ),
-			'parent_item'       => __( 'Parent Ticker', 'wplt2' ),
-			'parent_item_colon' => __( 'Parent Ticker:', 'wplt2' ),
-			'edit_item'         => __( 'Edit Ticker', 'wplt2' ),
-			'update_item'       => __( 'Update Ticker', 'wplt2' ),
-			'add_new_item'      => __( 'Add New Ticker', 'wplt2' ),
-			'new_item_name'     => __( 'New Ticker', 'wplt2' ),
-			'menu_name'         => __( 'Ticker', 'wplt2' ),
+			'search_items'      => __( 'Search Tickers', 'stklcode-liveticker' ),
+			'all_items'         => __( 'All Tickers', 'stklcode-liveticker' ),
+			'parent_item'       => __( 'Parent Ticker', 'stklcode-liveticker' ),
+			'parent_item_colon' => __( 'Parent Ticker:', 'stklcode-liveticker' ),
+			'edit_item'         => __( 'Edit Ticker', 'stklcode-liveticker' ),
+			'update_item'       => __( 'Update Ticker', 'stklcode-liveticker' ),
+			'add_new_item'      => __( 'Add New Ticker', 'stklcode-liveticker' ),
+			'new_item_name'     => __( 'New Ticker', 'stklcode-liveticker' ),
+			'menu_name'         => __( 'Ticker', 'stklcode-liveticker' ),
 		);
 
 		register_taxonomy(
-			'wplt2_ticker',
-			array( 'wplt2_tick' ),
+			'scliveticker_ticker',
+			array( 'scliveticker_tick' ),
 			array(
 				'hierarchical'      => true,
 				'labels'            => $labels,
@@ -139,19 +139,19 @@ class WPLiveticker2 {
 		// Post type arguments.
 		$args = array(
 			'labels'             => array(
-				'name'               => __( 'Ticks', 'wplt2' ),
-				'singular_name'      => __( 'Tick', 'wplt2' ),
-				'add_new'            => __( 'Add New', 'wplt2' ),
-				'add_new_item'       => __( 'Add New Tick', 'wplt2' ),
-				'edit_item'          => __( 'Edit Tick', 'wplt2' ),
-				'new_item'           => __( 'New Tick', 'wplt2' ),
-				'all_items'          => __( 'All Ticks', 'wplt2' ),
-				'view_item'          => __( 'View Tick', 'wplt2' ),
-				'search_items'       => __( 'Search Ticks', 'wplt2' ),
-				'not_found'          => __( 'No Ticks found', 'wplt2' ),
-				'not_found_in_trash' => __( 'No Ticks found in Trash', 'wplt2' ),
+				'name'               => __( 'Ticks', 'stklcode-liveticker' ),
+				'singular_name'      => __( 'Tick', 'stklcode-liveticker' ),
+				'add_new'            => __( 'Add New', 'stklcode-liveticker' ),
+				'add_new_item'       => __( 'Add New Tick', 'stklcode-liveticker' ),
+				'edit_item'          => __( 'Edit Tick', 'stklcode-liveticker' ),
+				'new_item'           => __( 'New Tick', 'stklcode-liveticker' ),
+				'all_items'          => __( 'All Ticks', 'stklcode-liveticker' ),
+				'view_item'          => __( 'View Tick', 'stklcode-liveticker' ),
+				'search_items'       => __( 'Search Ticks', 'stklcode-liveticker' ),
+				'not_found'          => __( 'No Ticks found', 'stklcode-liveticker' ),
+				'not_found_in_trash' => __( 'No Ticks found in Trash', 'stklcode-liveticker' ),
 				'parent_item_colon'  => '',
-				'menu_name'          => __( 'Liveticker', 'wplt2' ),
+				'menu_name'          => __( 'Liveticker', 'stklcode-liveticker' ),
 			),
 			'public'             => false,
 			'publicly_queryable' => true,
@@ -160,11 +160,11 @@ class WPLiveticker2 {
 			'menu_icon'          => 'dashicons-rss',
 			'capability_type'    => 'post',
 			'supports'           => array( 'title', 'editor', 'author' ),
-			'taxonomies'         => array( 'wplt2_ticker' ),
+			'taxonomies'         => array( 'scliveticker_ticker' ),
 			'has_archive'        => true,
 		);
 
-		register_post_type( 'wplt2_tick', $args );
+		register_post_type( 'scliveticker_tick', $args );
 	}
 
 	/**
@@ -198,21 +198,21 @@ class WPLiveticker2 {
 				$show_feed = 1 === self::$_options['show_feed'];
 			}
 
-			$output = '<ul class="wplt2-ticker';
+			$output = '<ul class="sclt-ticker';
 			if ( 1 === self::$_options['enable_ajax'] ) {
-				$output .= ' wplt2-ticker-ajax" '
-							. 'data-wplt2-ticker="' . $ticker . '" '
-							. 'data-wplt2-limit="' . $limit . '" '
-							. 'data-wplt2-last="' . time();
+				$output .= ' sclt-ticker-ajax" '
+							. 'data-sclt-ticker="' . $ticker . '" '
+							. 'data-sclt-limit="' . $limit . '" '
+							. 'data-sclt-last="' . time();
 			}
 			$output .= '">';
 
 			$args = array(
-				'post_type'      => 'wplt2_tick',
+				'post_type'      => 'scliveticker_tick',
 				'posts_per_page' => $limit,
 				'tax_query'      => array(
 					array(
-						'taxonomy' => 'wplt2_ticker',
+						'taxonomy' => 'scliveticker_ticker',
 						'field'    => 'slug',
 						'terms'    => $ticker,
 					),
@@ -230,11 +230,11 @@ class WPLiveticker2 {
 
 			// Show RSS feed link, if configured.
 			if ( $show_feed ) {
-				$feed_link = get_post_type_archive_feed_link( 'wplt2_tick' ) . '';
+				$feed_link = get_post_type_archive_feed_link( 'scliveticker_tick' ) . '';
 				if ( false === strpos( $feed_link, '&' ) ) {
-					$feed_link .= '?wplt2_ticker=' . $ticker;
+					$feed_link .= '?scliveticker_ticker=' . $ticker;
 				} else {
-					$feed_link .= '&wplt2_ticker=' . $ticker;
+					$feed_link .= '&scliveticker_ticker=' . $ticker;
 				}
 				$output .= '<a href="' . esc_attr( $feed_link ) . '">Feed</a>';
 			}
@@ -253,7 +253,7 @@ class WPLiveticker2 {
 		if ( self::$shortcode_present || self::$widget_present ) {
 			wp_enqueue_style(
 				'wplt-css',
-				WPLT2_BASE . 'styles/wp-liveticker2.min.css',
+				SCLIVETICKER_BASE . 'styles/liveticker.min.css',
 				'',
 				self::VERSION, 'all'
 			);
@@ -269,8 +269,8 @@ class WPLiveticker2 {
 		// Only add if shortcode is present.
 		if ( self::$shortcode_present || self::$widget_present ) {
 			wp_enqueue_script(
-				'wplt2-js',
-				WPLT2_BASE . 'scripts/wp-liveticker2.min.js',
+				'scliveticker-js',
+				SCLIVETICKER_BASE . 'scripts/liveticker.min.js',
 				array(),
 				self::VERSION,
 				true
@@ -278,11 +278,11 @@ class WPLiveticker2 {
 
 			// Add endpoint to script.
 			wp_localize_script(
-				'wplt2-js',
-				'wplt2Ajax',
+				'scliveticker-js',
+				'sclivetickerAjax',
 				array(
 					'ajax_url'      => admin_url( 'admin-ajax.php' ),
-					'nonce'         => wp_create_nonce( 'wplt2_update-ticks' ),
+					'nonce'         => wp_create_nonce( 'scliveticker_update-ticks' ),
 					'poll_interval' => self::$_options['poll_interval'] * 1000,
 				)
 			);
@@ -296,7 +296,7 @@ class WPLiveticker2 {
 	 */
 	public static function ajax_update() {
 		// Verify AJAX nonce.
-		check_ajax_referer( 'wplt2_update-ticks' );
+		check_ajax_referer( 'scliveticker_update-ticks' );
 
 		// Extract update requests.
 		if ( isset( $_POST['update'] ) && is_array( $_POST['update'] ) ) {  // Input var okay.
@@ -320,11 +320,11 @@ class WPLiveticker2 {
 
 					// Query new ticks from DB.
 					$query_args = array(
-						'post_type'      => 'wplt2_tick',
+						'post_type'      => 'scliveticker_tick',
 						'posts_per_page' => $limit,
 						'tax_query'      => array(
 							array(
-								'taxonomy' => 'wplt2_ticker',
+								'taxonomy' => 'scliveticker_ticker',
 								'field'    => 'slug',
 								'terms'    => $slug,
 							),
@@ -417,10 +417,10 @@ class WPLiveticker2 {
 	 * @return string HTML code of tick.
 	 */
 	private static function tick_html( $time, $title, $content, $is_widget = false ) {
-		return '<li class="wplt2-tick">'
-			. '<p><span class="wplt2-tick_time">' . esc_html( $time ) . '</span>'
-			. '<span class="wplt2-tick-title">' . esc_html( $title ) . '</span></p>'
-			. '<p class="wplt2-tick-content">' . $content . '</p></li>';
+		return '<li class="sclt-tick">'
+			. '<p><span class="sclt-tick_time">' . esc_html( $time ) . '</span>'
+			. '<span class="sclt-tick-title">' . esc_html( $title ) . '</span></p>'
+			. '<p class="sclt-tick-content">' . $content . '</p></li>';
 	}
 
 	/**
@@ -435,11 +435,11 @@ class WPLiveticker2 {
 	public static function tick_html_widget( $time, $title, $highlight ) {
 		$out = '<li';
 		if ( $highlight ) {
-			$out .= ' class="wplt2-widget-new"';
+			$out .= ' class="sclt-widget-new"';
 		}
 		return $out . '>'
-			. '<span class="wplt2-widget-time">' . esc_html( $time ) . '</span>'
-			. '<span class="wplt2-widget-title">' . $title . '</span>'
+			. '<span class="sclt-widget-time">' . esc_html( $time ) . '</span>'
+			. '<span class="sclt-widget-title">' . $title . '</span>'
 			. '</li>';
 	}
 }

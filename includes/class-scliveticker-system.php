@@ -1,10 +1,10 @@
 <?php
 /**
- * WP Liveticker 2: Plugin system class.
+ * Liveticker: Plugin system class.
  *
  * This file contains the derived class for the plugin's system operations.
  *
- * @package WPLiveticker2
+ * @package Liveticker
  */
 
 // Exit if accessed directly.
@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WP Liveticker 2 system configuration.
+ *  Liveticker system configuration.
  */
-class WPLiveticker2_System extends WPLiveticker2 {
+class SCLiveticker_System extends SCLiveticker {
 
 	/**
 	 * Activation hook.
@@ -47,27 +47,27 @@ class WPLiveticker2_System extends WPLiveticker2 {
 	 */
 	public static function uninstall() {
 		// Delete all ticks.
-		$ticks = new WP_Query( array( 'post_type' => 'wplt2_tick' ) );
+		$ticks = new WP_Query( array( 'post_type' => 'scliveticker_tick' ) );
 		foreach ( $ticks->get_posts() as $tick ) {
 			wp_delete_post( $tick->ID, true );
 		}
 
 		// Temporarily register taxonomy to delete it.
-		register_taxonomy( 'wplt2_ticker', array( 'wplt2_tick' ) );
+		register_taxonomy( 'scliveticker_ticker', array( 'scliveticker_tick' ) );
 
 		// Delete tickers.
 		$tickers = get_terms(
 			array(
-				'taxonomy'   => 'wplt2_ticker',
+				'taxonomy'   => 'scliveticker_ticker',
 				'hide_empty' => false,
 			)
 		);
 		foreach ( $tickers as $ticker ) {
-			wp_delete_term( $ticker->term_id, 'wplt2_ticker' );
+			wp_delete_term( $ticker->term_id, 'scliveticker_ticker' );
 		}
 
 		// Unregister taxonomy again.
-		unregister_taxonomy( 'wplt2_ticker' );
+		unregister_taxonomy( 'scliveticker_ticker' );
 
 		// Delete the option.
 		delete_option( self::OPTION );

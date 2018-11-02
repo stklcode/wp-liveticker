@@ -1,10 +1,10 @@
 <?php
 /**
- * WP Liveticker 2: Widget class.
+ * Liveticker: Widget class.
  *
  * This file contains the liveticker widget.
  *
- * @package WPLiveticker2
+ * @package Liveticker
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,12 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class WPLiveticker2_Widget.
+ * Class SCLiveticker_Widget.
  */
-class WPLiveticker2_Widget extends WP_Widget {
+class SCLiveticker_Widget extends WP_Widget {
 
 	/**
-	 * WPLiveticker2_Widget constructor.
+	 * SCLiveticker_Widget constructor.
 	 */
 	public function __construct() {
 		parent::__construct( false, 'Liveticker' );
@@ -27,7 +27,7 @@ class WPLiveticker2_Widget extends WP_Widget {
 	 * Register the widget.
 	 */
 	public static function register() {
-		register_widget( 'WPLiveticker2_Widget' );
+		register_widget( __CLASS__ );
 	}
 
 	/**
@@ -40,21 +40,21 @@ class WPLiveticker2_Widget extends WP_Widget {
 	 * @return void
 	 */
 	public function widget( $args, $instance ) {
-		// Notify WPLT2 class that widget is present.
-		WPLiveticker2::mark_widget_present();
+		// Notify scLiveticker class that widget is present.
+		SCLiveticker::mark_widget_present();
 
 		$instance       = self::fill_options_with_defaults( $instance );
 		$before_widget  = isset( $args['before_widget'] ) ? $args['before_widget'] : '';
 		$after_widget   = isset( $args['after_widget'] ) ? $args['after_widget'] : '';
 		$before_title   = isset( $args['before_title'] ) ? $args['before_title'] : '';
 		$after_title    = isset( $args['after_title'] ) ? $args['after_title'] : '';
-		$title          = apply_filters( 'wplt2_catlit', $instance['title'] );
-		$category       = apply_filters( 'wplt2_catlit', $instance['category'] );
-		$count          = apply_filters( 'wplt2_catlit', $instance['count'] );
-		$link           = apply_filters( 'wplt2_catlit', $instance['link'] );
-		$highlight      = apply_filters( 'wplt2_catlit', $instance['highlight'] );
-		$highlight_time = apply_filters( 'wplt2_catlit', $instance['highlight_time'] );
-		$ajax           = apply_filters( 'wplt2_catlit', $instance['ajax'] );
+		$title          = apply_filters( 'scliveticker_catlit', $instance['title'] );
+		$category       = apply_filters( 'scliveticker_catlit', $instance['category'] );
+		$count          = apply_filters( 'scliveticker_catlit', $instance['count'] );
+		$link           = apply_filters( 'scliveticker_catlit', $instance['link'] );
+		$highlight      = apply_filters( 'scliveticker_catlit', $instance['highlight'] );
+		$highlight_time = apply_filters( 'scliveticker_catlit', $instance['highlight_time'] );
+		$ajax           = apply_filters( 'scliveticker_catlit', $instance['ajax'] );
 		?>
 
 		<?php
@@ -68,20 +68,20 @@ class WPLiveticker2_Widget extends WP_Widget {
 			echo $before_title . esc_html( $title ) . $after_title;
 		}
 
-		echo '<ul class="wplt2-widget';
+		echo '<ul class="sclt-widget';
 		if ( '1' === $ajax ) {
-			echo ' wplt2-widget-ajax" '
-				. 'data-wplt2-ticker="' . esc_attr( $category ) . '" '
-				. 'data-wplt2-limit="' . esc_attr( $count ) . '" '
-				. 'data-wplt2-last="' . esc_attr( time() );
+			echo ' sclt-widget-ajax" '
+				. 'data-sclt-ticker="' . esc_attr( $category ) . '" '
+				. 'data-sclt-limit="' . esc_attr( $count ) . '" '
+				. 'data-sclt-last="' . esc_attr( time() );
 		}
 		echo '">';
 
 		$args = array(
-			'post_type' => 'wplt2_tick',
+			'post_type' => 'scliveticker_tick',
 			'tax_query' => array(
 				array(
-					'taxonomy' => 'wplt2_ticker',
+					'taxonomy' => 'scliveticker_ticker',
 					'field'    => 'slug',
 					'terms'    => $category,
 				),
@@ -93,7 +93,7 @@ class WPLiveticker2_Widget extends WP_Widget {
 		while ( $wp_query->have_posts() && ( $count <= 0 || ++ $cnt < $count ) ) {
 			$wp_query->the_post();
 			// @codingStandardsIgnoreLine
-			echo WPLiveticker2::tick_html_widget(
+			echo SCLiveticker::tick_html_widget(
 				esc_html( get_the_time( 'd.m.Y - H.i' ) ),
 				get_the_title(),
 				( '1' === $highlight && get_the_time( 'U' ) > ( time() - $highlight_time ) )
@@ -103,8 +103,8 @@ class WPLiveticker2_Widget extends WP_Widget {
 		echo '</ul>';
 
 		if ( $link ) {
-			echo '<p class="wplt2-widget-link">'
-				. '<a href="' . esc_attr( $link ) . '">' . esc_html__( 'show all', 'wplt2' ) . '...</a>'
+			echo '<p class="sclt-widget-link">'
+				. '<a href="' . esc_attr( $link ) . '">' . esc_html__( 'show all', 'stklcode-liveticker' ) . '...</a>'
 				. '</p>';
 		}
 		// @codingStandardsIgnoreLine
@@ -139,9 +139,9 @@ class WPLiveticker2_Widget extends WP_Widget {
 		$highlight      = isset( $instance['highlight'] ) ? esc_attr( $instance['highlight'] ) : '0';
 		$highlight_time = isset( $instance['highlight_time'] ) ? esc_attr( $instance['highlight_time'] ) : '0';
 		$ajax           = isset( $instance['ajax'] ) ? esc_attr( $instance['ajax'] ) : '0';
-		$categories     = get_terms( 'wplt2_ticker', 'orderby=name&order=ASC' );
+		$categories     = get_terms( 'scliveticker_ticker', 'orderby=name&order=ASC' );
 
-		include WPLT2_DIR . 'views/widget-form.php';
+		include SCLIVETICKER_DIR . 'views/widget-form.php';
 	}
 
 	/**

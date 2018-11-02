@@ -1,59 +1,59 @@
-ul.wplt2-ticker {
+ul.sclt-ticker {
 	list-style-type: none;
 }
 
-ul.wplt2-ticker > li.wplt2-tick {
+ul.sclt-ticker > li.sclt-tick {
 	background-color: #f5f5f5;
 	list-style-type: none;
 	margin: 0.1em;
 	padding: 0.1em 0.3em;
 }
 
-li.wplt2-tick p {
+li.sclt-tick p {
 	margin: 0.3em;
 }
 
-span.wplt2-tick-time {
+span.sclt-tick-time {
 	color: #002c58;
 	font-size: 0.7em;
 	font-style: italic;
 }
 
-span.wplt2-tick-title {
+span.sclt-tick-title {
 	color: #002c58;
 	font-weight: 700;
 	margin-left: 0.5em;
 }
 
-p.wplt2-tick-content {
+p.sclt-tick-content {
 	margin-top: -0.7em;
 	text-indent: 0.5em;
 }
 
-ul.wplt2-widget {
+ul.sclt-widget {
 	list-style-type: none;
 	margin-top: -0.5em;
 }
 
-ul.wplt2-widget li {
+ul.sclt-widget li {
 	text-align: left;
 }
 
-span.wplt2-widget-time {
+span.sclt-widget-time {
 	font-size: 0.7em;
 	font-style: italic;
 }
 
-span.wplt2-widget-content {
+span.sclt-widget-content {
 	color: #002c58;
 	text-indent: 0.2em;
 }
 
-span.wplt2-widget-content-new {
+span.sclt-widget-content-new {
 	color: #800000;
 	text-indent: 0.2em;
 }
 
-p.wplt2-widget-link {
+p.sclt-widget-link {
 	text-align: right;
 }

@@ -1,13 +1,15 @@
 <?php
 /**
- * WP Liveticker 2: Widget form.
+ * Liveticker: Widget form.
  *
  * This file contains the view model for the Widget settings form.
  *
- * @package WPLiveticker2
+ * @package Liveticker
  */
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <table>
 	<tr>
@@ -20,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 	</tr>
 	<tr>
 		<td>
-			<label for="<?php echo esc_html( $this->get_field_id( 'category' ) ); ?>"><?php esc_html_e( 'Ticker:', 'wplt2' ); ?></label>
+			<label for="<?php echo esc_html( $this->get_field_id( 'category' ) ); ?>"><?php esc_html_e( 'Ticker:', 'stklcode-liveticker' ); ?></label>
 		</td>
 		<td>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'category' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'category' ) ); ?>">
@@ -38,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
 	</tr>
 	<tr>
 		<td>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>"><?php esc_html_e( 'Number of Ticks:', 'wplt2' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>"><?php esc_html_e( 'Number of Ticks:', 'stklcode-liveticker' ); ?></label>
 		</td>
 		<td>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'count' ) ); ?>">
@@ -49,7 +51,7 @@ defined( 'ABSPATH' ) || exit;
 					}
 					?>
 				>
-					<?php esc_html_e( 'all', 'wplt2' ); ?>
+					<?php esc_html_e( 'all', 'stklcode-liveticker' ); ?>
 				</option>
 				<?php
 				for ( $i = 1; $i <= 10; $i ++ ) {
@@ -66,7 +68,7 @@ defined( 'ABSPATH' ) || exit;
 	</tr>
 	<tr>
 		<td>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'link' ) ); ?>"><?php esc_html_e( 'Link (optional):', 'wplt2' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'link' ) ); ?>"><?php esc_html_e( 'Link (optional):', 'stklcode-liveticker' ); ?></label>
 		</td>
 		<td>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'link' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'link' ) ); ?>" type="text" value="<?php echo esc_attr( $link ); ?>" />
@@ -74,7 +76,7 @@ defined( 'ABSPATH' ) || exit;
 	</tr>
 	<tr>
 		<td>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'highlight' ) ); ?>"><?php esc_html_e( 'Highlight new:', 'wplt2' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'highlight' ) ); ?>"><?php esc_html_e( 'Highlight new:', 'stklcode-liveticker' ); ?></label>
 		</td>
 		<td>
 			<?php
@@ -88,7 +90,7 @@ defined( 'ABSPATH' ) || exit;
 	</tr>
 	<tr>
 		<td>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'highlight_time' ) ); ?>"><?php esc_html_e( 'Highlight time [s]:', 'wplt2' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'highlight_time' ) ); ?>"><?php esc_html_e( 'Highlight time [s]:', 'stklcode-liveticker' ); ?></label>
 		</td>
 		<td>
 			<input type="number" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'highlight_time' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'highlight_time' ) ); ?>" type="text" value="<?php echo esc_html( $highlight_time ); ?>" />
@@ -96,7 +98,7 @@ defined( 'ABSPATH' ) || exit;
 	</tr>
 	<tr>
 		<td>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>"><?php esc_html_e( 'Auto refresh:', 'wplt2' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>"><?php esc_html_e( 'Auto refresh:', 'stklcode-liveticker' ); ?></label>
 		</td>
 		<td>
 			<?php
@@ -108,7 +110,7 @@ defined( 'ABSPATH' ) || exit;
                          ' . ( ( '1' === $ajax ) ? ' checked' : '' ) . '/>';
 
 			?>
-			<small><?php esc_html_e( '(enables ajax)', 'wplt2' ); ?></small>
+			<small><?php esc_html_e( '(enables ajax)', 'stklcode-liveticker' ); ?></small>
 		</td>
 	</tr>
 </table>

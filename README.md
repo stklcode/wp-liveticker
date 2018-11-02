@@ -1,4 +1,4 @@
-# WP-Liveticker 2
+# Liveticker (by stklcode)
 
 * Contributors:      Stefan Kalscheuer
 * Tags:              liveticker, feed, rss
@@ -14,9 +14,6 @@ A simple ajaxified liveticker plugin for WordPress.
 ## Description
 
 WP-Liveticker 2 is a simple liveticker plugin for WordPress. Easily add multiple livetickers, add them to posts with shortcode or use them as Widget.
-
-This plugin has been inspired by the _wp-liveticker_ Plugin by _DasLlama_ which is no longer available.
-However the code is now completely rewritten from scratch
 
 ### Features
 

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="WPLiveticker2">
+<ruleset name="Liveticker">
 	<description>Derived from WordPress Coding Standard</description>
 
 	<!-- Config arguments -->
@@ -7,7 +7,7 @@
 	<arg name="colors"/>
 
 	<!-- Files to sniff -->
-	<file>wp-liveticker2.php</file>
+	<file>stklcode-liveticker.php</file>
 	<file>includes</file>
 	<file>views</file>
 

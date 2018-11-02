@@ -1,5 +1,5 @@
 {
-  "name": "stklcode/wp-liveticker2",
+  "name": "stklcode/wp-liveticker",
   "version": "1.0.0",
   "description": "A simple Liveticker for Wordpress.",
   "keywords": [
@@ -68,8 +68,8 @@
       "phpcbf --standard=phpcs.xml"
     ],
     "minify": [
-      "minifycss styles/wp-liveticker2.css > styles/wp-liveticker2.min.css",
-      "minifyjs scripts/wp-liveticker2.js > scripts/wp-liveticker2.min.js"
+      "minifycss styles/liveticker.css > styles/liveticker.min.css",
+      "minifyjs scripts/liveticker.js > scripts/liveticker.min.js"
     ]
   },
   "repositories": [

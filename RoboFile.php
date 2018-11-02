@@ -1,13 +1,13 @@
 <?php
 /**
- * WP Liveticker 2 Robo build script.
+ * Liveticker Robo build script.
  *
  * This file contains the Robo tasks for building a distributable plugin package.
  * Should not be included in final package.
  *
  * @author    Stefan Kalscheuer <stefan@stklcode.de>
  *
- * @package   WP Liveticker 2
+ * @package   Liveticker
  * @version   1.0.0
  */
 
@@ -19,8 +19,8 @@ use Symfony\Component\Finder\Finder;
  * Class RoboFile
  */
 class RoboFile extends Tasks {
-	const PROJECT_NAME = 'wp-liveticker2';
-	const SVN_URL      = 'https://plugins.svn.wordpress.org/wp-liveticker2';
+	const PROJECT_NAME = 'stklcode-liveticker';
+	const SVN_URL      = 'https://plugins.svn.wordpress.org/stklcode-liveticker';
 
 	const OPT_TARGET    = 'target';
 	const OPT_SKIPTEST  = 'skipTests';
@@ -143,7 +143,7 @@ class RoboFile extends Tasks {
 			'styles'   => $this->target_dir . '/' . $this->final_name . '/styles',
 			'views'    => $this->target_dir . '/' . $this->final_name . '/views',
 		) )->run();
-		$this->_copy( 'wp-liveticker2.php', $this->target_dir . '/' . $this->final_name . '/wp-liveticker2.php' );
+		$this->_copy( 'stklcode-liveticker.php', $this->target_dir . '/' . $this->final_name . '/stklcode-liveticker.php' );
 		$this->_copy( 'README.md', $this->target_dir . '/' . $this->final_name . '/README.md' );
 		$this->_copy( 'LICENSE.md', $this->target_dir . '/' . $this->final_name . '/LICENSE.md' );
 	}
@@ -409,7 +409,7 @@ class RoboFile extends Tasks {
 		if ( is_dir( $this->target_dir . '/svn' ) ) {
 			$this->taskSvnStack()
 				->stopOnFail()
-				->dir( $this->target_dir . '/svn/wp-liveticker2' )
+				->dir( $this->target_dir . '/svn/stklcode-liveticker' )
 				->update()
 				->run();
 		} else {
@@ -433,7 +433,7 @@ class RoboFile extends Tasks {
 	private function commitVCS( $to_add, $msg ) {
 		$task = $this->taskSvnStack()
 					->stopOnFail()
-					->dir( $this->target_dir . '/svn/wp-liveticker2' );
+					->dir( $this->target_dir . '/svn/stklode-liveticker' );
 
 		if ( is_array( $to_add ) ) {
 			foreach ( $to_add as $ta ) {
@@ -452,7 +452,7 @@ class RoboFile extends Tasks {
 	 * @return void
 	 */
 	private function updateVCSreadme() {
-		$trunk_dir = $this->target_dir . '/svn/wp-liveticker2/trunk';
+		$trunk_dir = $this->target_dir . '/svn/stklcode-liveticker/trunk';
 		$this->_copy( $this->target_dir . '/' . $this->final_name . 'README.md', $trunk_dir . 'README.md' );
 	}
 
@@ -463,7 +463,7 @@ class RoboFile extends Tasks {
 	 */
 	private function updateVCStrunk() {
 		// Clean trunk directory.
-		$trunk_dir = $this->target_dir . '/svn/wp-liveticker2/trunk';
+		$trunk_dir = $this->target_dir . '/svn/stklcode-liveticker/trunk';
 		$this->taskCleanDir( $trunk_dir )->run();
 
 		// Copy built bundle to trunk.
@@ -477,9 +477,9 @@ class RoboFile extends Tasks {
 	 */
 	private function updateVCStag() {
 		// Clean tag directory if it exists.
-		$tag_dir = $this->target_dir . '/svn/wp-liveticker2/tags/' . $this->version;
+		$tag_dir = $this->target_dir . '/svn/stklcode-liveticker/tags/' . $this->version;
 		if ( is_dir( $tag_dir ) ) {
-			$this->taskCleanDir( $this->target_dir . '/svn/wp-liveticker2/tags/' . $this->version )->run();
+			$this->taskCleanDir( $this->target_dir . '/svn/stklcode-liveticker/tags/' . $this->version )->run();
 		} else {
 			$this->_mkdir( $tag_dir );
 		}

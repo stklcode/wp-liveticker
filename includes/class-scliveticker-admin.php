@@ -1,10 +1,10 @@
 <?php
 /**
- * WP Liveticker 2: Plugin admin class.
+ * Liveticker: Plugin admin class.
  *
  * This file contains the derived class for the plugin's administration features.
  *
- * @package WPLiveticker2
+ * @package Liveticker
  */
 
 // Exit if accessed directly.
@@ -13,22 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WP Liveticker 2 admin configuration.
- *
- * @since   1.0.0
+ * Liveticker admin configuration.
  */
-class WPLiveticker2_Admin extends WPLiveticker2 {
+class SCLiveticker_Admin extends SCLiveticker {
 	/**
 	 * Add to Right Now Widget
 	 *
 	 * @return void
 	 */
 	public static function dashboard_right_now() {
-		$total_files = wp_count_posts( 'wplt2_tick' );
+		$total_files = wp_count_posts( 'scliveticker_tick' );
 
 		echo '<tr>';
-		echo '<td class="first b b-tags"><a href="edit.php?post_type=wplt2_tick">' . esc_html( $total_files->publish ) . '</a></td>';
-		echo '<td class="t tags"><a href="edit.php?post_type=wplt2_tick">' . esc_html__( 'Ticks', 'wplt2' ) . '</a></td>';
+		echo '<td class="first b b-tags"><a href="edit.php?post_type=scliveticker_tick">' . esc_html( $total_files->publish ) . '</a></td>';
+		echo '<td class="t tags"><a href="edit.php?post_type=scliveticker_tick">' . esc_html__( 'Ticks', 'stklcode-liveticker' ) . '</a></td>';
 		echo '</tr>';
 	}
 
@@ -39,13 +37,13 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 */
 	public static function register_settings_page() {
 		add_submenu_page(
-			'edit.php?post_type=wplt2_tick',
-			'Liveticker2 ' . __( 'Settings', 'wplt2' ),
-			__( 'Settings', 'wplt2' ),
+			'edit.php?post_type=scliveticker_tick',
+			'Liveticker ' . __( 'Settings', 'stklcode-liveticker' ),
+			__( 'Settings', 'stklcode-liveticker' ),
 			'manage_options',
-			'wplt2_settings',
+			'scliveticker_settings',
 			array(
-				'WPLiveticker2_Admin',
+				__CLASS__,
 				'settings_page',
 			)
 		);
@@ -58,53 +56,53 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 */
 	public static function register_settings() {
 		register_setting(
-			'wplt2_settings',
-			'wplt2',
-			array( 'WPLiveticker2_Admin', 'validate_settings' )
+			'scliveticker_settings',
+			self::OPTION,
+			array( __CLASS__, 'validate_settings' )
 		);
 
 		// Form sections.
 		add_settings_section(
-			'wplt2_settings_general',
-			__( 'General', 'wplt2' ),
-			array( 'WPLiveticker2_Admin', 'settings_general_section' ),
-			'wplt2-settings-page'
+			'scliveticker_settings_general',
+			__( 'General', 'stklcode-liveticker' ),
+			array( __CLASS__, 'settings_general_section' ),
+			'scliveticker-settings-page'
 		);
 
 		// Form fields.
 		add_settings_field(
 			'enable_ajax',
-			__( 'Use AJAX', 'wplt2' ),
-			array( 'WPLiveticker2_Admin', 'settings_enable_ajax_field' ),
-			'wplt2-settings-page',
-			'wplt2_settings_general',
+			__( 'Use AJAX', 'stklcode-liveticker' ),
+			array( __CLASS__, 'settings_enable_ajax_field' ),
+			'scliveticker-settings-page',
+			'scliveticker_settings_general',
 			array( 'label_for' => esc_attr( self::OPTION ) . '-enable-ajax' )
 		);
 
 		add_settings_field(
 			'poll_interval',
-			__( 'AJAX poll interval', 'wplt2' ),
-			array( 'WPLiveticker2_Admin', 'settings_poll_interval_field' ),
-			'wplt2-settings-page',
-			'wplt2_settings_general',
+			__( 'AJAX poll interval', 'stklcode-liveticker' ),
+			array( __CLASS__, 'settings_poll_interval_field' ),
+			'scliveticker-settings-page',
+			'scliveticker_settings_general',
 			array( 'label_for' => esc_attr( self::OPTION ) . '-poll-interval' )
 		);
 
 		add_settings_field(
 			'enable_css',
-			__( 'Default CSS Styles', 'wplt2' ),
-			array( 'WPLiveticker2_Admin', 'settings_enable_css_field' ),
-			'wplt2-settings-page',
-			'wplt2_settings_general',
+			__( 'Default CSS Styles', 'stklcode-liveticker' ),
+			array( __CLASS__, 'settings_enable_css_field' ),
+			'scliveticker-settings-page',
+			'scliveticker_settings_general',
 			array( 'label_for' => esc_attr( self::OPTION ) . '-enable-css' )
 		);
 
 		add_settings_field(
 			'show_feed',
-			__( 'Show RSS feed', 'wplt2' ),
-			array( 'WPLiveticker2_Admin', 'settings_show_feed_field' ),
-			'wplt2-settings-page',
-			'wplt2_settings_general',
+			__( 'Show RSS feed', 'stklcode-liveticker' ),
+			array( __CLASS__, 'settings_show_feed_field' ),
+			'scliveticker-settings-page',
+			'scliveticker_settings_general',
 			array( 'label_for' => esc_attr( self::OPTION ) . '-show-feed' )
 		);
 	}
@@ -134,8 +132,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 		$checked = self::$_options['enable_ajax'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-ajax" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_ajax]" value="1" ' . checked( $checked, 1, false ) . '> ';
-		esc_html_e( 'Enable', 'wplt2' );
-		echo '<p class="description">' . esc_html__( 'Disable this option to not use AJAX update. This means all liveticker widgets and shortcodes are only updated once on site load.', 'wplt2' ) . '</p>';
+		esc_html_e( 'Enable', 'stklcode-liveticker' );
+		echo '<p class="description">' . esc_html__( 'Disable this option to not use AJAX update. This means all liveticker widgets and shortcodes are only updated once on site load.', 'stklcode-liveticker' ) . '</p>';
 	}
 
 	/**
@@ -147,8 +145,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 		$poll_interval = self::$_options['poll_interval'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-poll-interval" type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $poll_interval ) . '"> ';
-		esc_html_e( 'seconds', 'wplt2' );
-		echo '<p class="description">' . esc_html__( 'Interval (in seconds) to update ticker if AJAX is enabled.', 'wplt2' ) . '</p>';
+		esc_html_e( 'seconds', 'stklcode-liveticker' );
+		echo '<p class="description">' . esc_html__( 'Interval (in seconds) to update ticker if AJAX is enabled.', 'stklcode-liveticker' ) . '</p>';
 	}
 
 
@@ -161,8 +159,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 		$checked = self::$_options['enable_css'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-css" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'wplt2' );
-		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default styling CSS file.', 'wplt2' ) . '</p>';
+		esc_html_e( 'Enable', 'stklcode-liveticker' );
+		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default styling CSS file.', 'stklcode-liveticker' ) . '</p>';
 	}
 
 	/**
@@ -174,8 +172,8 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 		$checked = self::$_options['show_feed'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-show-feed" type="checkbox" name="' . esc_attr( self::OPTION ) . '[show_feed]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'wplt2' );
-		echo '<p class="description">' . esc_html__( 'Can be overwritten in shortcode.', 'wplt2' ) . '</p>';
+		esc_html_e( 'Enable', 'stklcode-liveticker' );
+		echo '<p class="description">' . esc_html__( 'Can be overwritten in shortcode.', 'stklcode-liveticker' ) . '</p>';
 	}
 
 	/**
@@ -184,7 +182,7 @@ class WPLiveticker2_Admin extends WPLiveticker2 {
 	 * @return void
 	 */
 	public static function settings_page() {
-		include WPLT2_DIR . 'views/settings-page.php';
+		include SCLIVETICKER_DIR . 'views/settings-page.php';
 	}
 
 	/**
