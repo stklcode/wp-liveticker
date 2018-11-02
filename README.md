@@ -67,6 +67,6 @@ However the AJAX update will fetch the latest ticks and update cached tickers  d
 
 ## Changelog
 
-### 1.0.0
+### 1.0.0 - 2018-11-02
 
 * Initial release
