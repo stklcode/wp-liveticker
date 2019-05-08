@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/stklcode/wp-liveticker.svg?branch=master)](https://travis-ci.org/stklcode/wp-liveticker)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=de.stklcode.web.wordpress.plugins%3Awp-liveticker&metric=alert_status)](https://sonarcloud.io/dashboard?id=de.stklcode.web.wordpress.plugins%3Awp-liveticker)
-[![Packagist Version](https://img.shields.io/packagist/v/stklcode/wp-liveticker.svg)](https://packagist.org/packages/stklcode/wp-liveticker)
+[![Packagist Version](https://img.shields.io/packagist/v/stklcode/stklcode-liveticker.svg)](https://packagist.org/packages/stklcode/stklcode-liveticker)
 [![License](https://img.shields.io/badge/license-GPL%20v2-blue.svg)](https://github.com/stklcode/wp-liveticker/blob/master/LICENSE.md)
 
 # Liveticker (by stklcode)
