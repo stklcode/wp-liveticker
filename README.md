@@ -8,7 +8,7 @@
 * Contributors:      Stefan Kalscheuer
 * Tags:              liveticker, feed, rss
 * Requires at least: 4.0
-* Tested up to:      5.1
+* Tested up to:      5.2
 * Requires PHP:      5.2
 * Stable tag:        1.0.0
 * License:           GPLv2 or later
