@@ -27,12 +27,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<td>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'category' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'category' ) ); ?>">
 				<?php
-				foreach ( $categories as $cat ) {
-					echo '<option value="' . esc_attr( $cat->slug ) . '"';
-					if ( $category === $cat->slug ) {
+				foreach ( $categories as $c ) {
+					echo '<option value="' . esc_attr( $c->slug ) . '"';
+					if ( $category === $c->slug ) {
 						echo ' selected="selected"';
 					}
-					echo '>' . esc_html( $cat->name ) . '</option>';
+					echo '>' . esc_html( $c->name ) . '</option>';
 				}
 				?>
 			</select>
