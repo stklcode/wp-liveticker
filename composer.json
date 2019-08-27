@@ -32,8 +32,7 @@
     "wp-coding-standards/wpcs": "^2.1",
     "patchwork/jsqueeze": "^2.0",
     "natxet/cssmin": "^3.0",
-    "matthiasmullie/minify": "^1.3",
-    "npm-asset/eslint-config-wordpress": "^2.0"
+    "matthiasmullie/minify": "^1.3"
   },
   "scripts": {
     "post-install-cmd": [
@@ -54,28 +53,26 @@
       "@minify",
       "robo deploy:all"
     ],
-    "test-all": [
-      "@test",
-      "@test-cs"
-    ],
     "test": [
       "phpunit"
     ],
-    "test-cs": [
+    "lint-all": [
+      "@lint-php",
+      "@lint-css",
+      "@lint-js"
+    ],
+    "lint-php": [
       "phpcs --standard=phpcs.xml -s"
     ],
-    "fix-cs": [
-      "phpcbf --standard=phpcs.xml"
+    "lint-css": [
+      "./node_modules/stylelint/bin/stylelint.js styles/liveticker.css"
+    ],
+    "lint-js": [
+      "./node_modules/eslint/bin/eslint.js scripts/liveticker.js"
     ],
     "minify": [
       "minifycss styles/liveticker.css > styles/liveticker.min.css",
       "minifyjs scripts/liveticker.js > scripts/liveticker.min.js"
     ]
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://asset-packagist.org"
-    }
-  ]
+  }
 }

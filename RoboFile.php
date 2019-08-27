@@ -26,6 +26,7 @@ class RoboFile extends Tasks {
 	const OPT_SKIPTEST  = 'skipTests';
 	const OPT_SKIPSTYLE = 'skipStyle';
 	const OPT_MINIFY    = 'minify';
+	const OPT_NODE      = 'node';
 
 	/**
 	 * Version tag (read from composer.json).
@@ -96,9 +97,25 @@ class RoboFile extends Tasks {
 	 *
 	 * @return void
 	 */
-	public function testCS() {
-		$this->say( 'Executing PHPCS tests...' );
+	public function testCS(
+		$opts = array(
+			self::OPT_TARGET    => 'dist',
+			self::OPT_SKIPTEST  => false,
+			self::OPT_SKIPSTYLE => false,
+			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
+		)
+	) {
+		$this->say( 'Executing PHPCS...' );
 		$this->_exec( __DIR__ . '/vendor/bin/phpcs --standard=phpcs.xml -s' );
+
+		if ( $opts[self::OPT_NODE] ) {
+			$this->say( 'Executing ESLint...' );
+			$this->_exec( __DIR__ . '/node_modules/eslint/bin/eslint.js ' . __DIR__ . '/scripts/liveticker.js' );
+
+			$this->say( 'Executing StyleLint...' );
+			$this->_exec( __DIR__ . '/node_modules/stylelint/bin/stylelint.js ' . __DIR__ . '/styles/liveticker.css' );
+		}
 	}
 
 	/**
@@ -114,6 +131,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		$this->clean( $opts );
@@ -125,7 +143,7 @@ class RoboFile extends Tasks {
 		if ( isset( $opts[ self::OPT_SKIPSTYLE ] ) && true === $opts[ self::OPT_SKIPSTYLE ] ) {
 			$this->say( 'Style checks skipped' );
 		} else {
-			$this->testCS();
+			$this->testCS($opts);
 		}
 		$this->bundle();
 	}

@@ -4,7 +4,10 @@
   "description": "A simple Liveticker for Wordpress.",
   "author": "Stefan Kalscheuer",
   "license": "GPL-2.0+",
-  "dependencies": {
-    "stylelint-config-wordpress": "^13.1.0"
+  "devDependencies": {
+    "eslint": "^6",
+    "eslint-config-wordpress": "^2.0",
+    "stylelint": "^10.1",
+    "stylelint-config-wordpress": "^14.0"
   }
 }

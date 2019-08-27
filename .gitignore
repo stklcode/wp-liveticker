@@ -1,7 +1,9 @@
 composer.lock
+package-lock.json
 /vendor/
 /node_modules/
 /dist/
 .idea
+.phpunit.result.cache
 **/*.min.css
 **/*.min.js
