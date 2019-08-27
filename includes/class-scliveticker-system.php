@@ -31,7 +31,7 @@ class SCLiveticker_System extends SCLiveticker {
 		// Add default settings to database.
 		$defaults = self::default_options();
 
-		if ( self::$_options['reset_settings'] ) {
+		if ( self::$options['reset_settings'] ) {
 			// Reset requested, overwrite existing options with default.
 			update_option( self::OPTION, $defaults );
 		} else {

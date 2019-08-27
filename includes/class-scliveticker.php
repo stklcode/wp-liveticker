@@ -33,9 +33,9 @@ class SCLiveticker {
 	/**
 	 * Plugin options.
 	 *
-	 * @var array $_options
+	 * @var array $options
 	 */
-	protected static $_options;
+	protected static $options;
 
 	/**
 	 * Marker if shortcode is present.
@@ -67,7 +67,7 @@ class SCLiveticker {
 		self::update_options();
 
 		// Skip on AJAX if not enabled disabled.
-		if ( ( ! isset( self::$_options['enable_ajax'] ) || 1 !== self::$_options['enable_ajax'] ) && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+		if ( ( ! isset( self::$options['enable_ajax'] ) || 1 !== self::$options['enable_ajax'] ) && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return;
 		}
 
@@ -87,7 +87,7 @@ class SCLiveticker {
 		add_action( 'wp_footer', array( __CLASS__, 'enqueue_scripts' ) );
 
 		// Add AJAX hook if configured.
-		if ( 1 === self::$_options['enable_ajax'] ) {
+		if ( 1 === self::$options['enable_ajax'] ) {
 			add_action( 'wp_ajax_sclt_update-ticks', array( __CLASS__, 'ajax_update' ) );
 			add_action( 'wp_ajax_nopriv_sclt_update-ticks', array( __CLASS__, 'ajax_update' ) );
 		}
@@ -195,11 +195,11 @@ class SCLiveticker {
 			if ( isset( $atts['feed'] ) ) {
 				$show_feed = 'true' === strtolower( $atts['feed'] ) || '1' === $atts['feed'];
 			} else {
-				$show_feed = 1 === self::$_options['show_feed'];
+				$show_feed = 1 === self::$options['show_feed'];
 			}
 
 			$output = '<ul class="sclt-ticker';
-			if ( 1 === self::$_options['enable_ajax'] ) {
+			if ( 1 === self::$options['enable_ajax'] ) {
 				$output .= ' sclt-ticker-ajax" '
 							. 'data-sclt-ticker="' . $ticker . '" '
 							. 'data-sclt-limit="' . $limit . '" '
@@ -255,7 +255,8 @@ class SCLiveticker {
 				'wplt-css',
 				SCLIVETICKER_BASE . 'styles/liveticker.min.css',
 				'',
-				self::VERSION, 'all'
+				self::VERSION,
+				'all'
 			);
 		}
 	}
@@ -283,7 +284,7 @@ class SCLiveticker {
 				array(
 					'ajax_url'      => admin_url( 'admin-ajax.php' ),
 					'nonce'         => wp_create_nonce( 'scliveticker_update-ticks' ),
-					'poll_interval' => self::$_options['poll_interval'] * 1000,
+					'poll_interval' => self::$options['poll_interval'] * 1000,
 				)
 			);
 		}
@@ -385,7 +386,7 @@ class SCLiveticker {
 	 * @return void
 	 */
 	protected static function update_options( $options = null ) {
-		self::$_options = wp_parse_args(
+		self::$options = wp_parse_args(
 			get_option( self::OPTION ),
 			self::default_options()
 		);

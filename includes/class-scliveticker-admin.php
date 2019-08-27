@@ -129,7 +129,7 @@ class SCLiveticker_Admin extends SCLiveticker {
 	 * @return void
 	 */
 	public static function settings_enable_ajax_field() {
-		$checked = self::$_options['enable_ajax'];
+		$checked = self::$options['enable_ajax'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-ajax" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_ajax]" value="1" ' . checked( $checked, 1, false ) . '> ';
 		esc_html_e( 'Enable', 'stklcode-liveticker' );
@@ -142,7 +142,7 @@ class SCLiveticker_Admin extends SCLiveticker {
 	 * @return void
 	 */
 	public static function settings_poll_interval_field() {
-		$poll_interval = self::$_options['poll_interval'];
+		$poll_interval = self::$options['poll_interval'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-poll-interval" type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $poll_interval ) . '"> ';
 		esc_html_e( 'seconds', 'stklcode-liveticker' );
@@ -156,7 +156,7 @@ class SCLiveticker_Admin extends SCLiveticker {
 	 * @return void
 	 */
 	public static function settings_enable_css_field() {
-		$checked = self::$_options['enable_css'];
+		$checked = self::$options['enable_css'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-css" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
 		esc_html_e( 'Enable', 'stklcode-liveticker' );
@@ -169,7 +169,7 @@ class SCLiveticker_Admin extends SCLiveticker {
 	 * @return void
 	 */
 	public static function settings_show_feed_field() {
-		$checked = self::$_options['show_feed'];
+		$checked = self::$options['show_feed'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-show-feed" type="checkbox" name="' . esc_attr( self::OPTION ) . '[show_feed]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
 		esc_html_e( 'Enable', 'stklcode-liveticker' );
