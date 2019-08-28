@@ -1,3 +1,23 @@
 {
-  "extends": "eslint-config-wordpress"
+  "env": {
+    "es6": false,
+    "browser": true
+  },
+  "globals": {
+    "sclivetickerAjax": "readonly"
+  },
+  "extends": [
+    "plugin:@wordpress/eslint-plugin/recommended",
+    "plugin:@wordpress/eslint-plugin/es5"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*"
+      ],
+      "rules": {
+        "no-var": "off"
+      }
+    }
+  ]
 }

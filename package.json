@@ -6,7 +6,7 @@
   "license": "GPL-2.0+",
   "devDependencies": {
     "eslint": "^6",
-    "eslint-config-wordpress": "^2.0",
+    "@wordpress/eslint-plugin": "^2.4",
     "stylelint": "^10.1",
     "stylelint-config-wordpress": "^14.0"
   }

@@ -12,7 +12,6 @@ function scLiveticker() {
  * @return {void}
  */
 scLiveticker.init = function() {
-
 	// Opt out if AJAX pobject not present.
 	if ( 'undefined' === typeof sclivetickerAjax ) {
 		return;
@@ -31,7 +30,7 @@ scLiveticker.init = function() {
 				s: elem.getAttribute( 'data-sclt-ticker' ),
 				l: elem.getAttribute( 'data-sclt-limit' ),
 				t: elem.getAttribute( 'data-sclt-last' ),
-				e: elem
+				e: elem,
 			};
 		}
 	);
@@ -44,7 +43,7 @@ scLiveticker.init = function() {
 				w: elem.getAttribute( 'data-sclt-ticker' ),
 				l: elem.getAttribute( 'data-sclt-limit' ),
 				t: elem.getAttribute( 'data-sclt-last' ),
-				e: elem
+				e: elem,
 			};
 		}
 	);
@@ -61,7 +60,6 @@ scLiveticker.init = function() {
  * @return {void}
  */
 scLiveticker.update = function() {
-
 	// Extract ticker-slug, limit and timestamp of last poll.
 	var updateReq = 'action=sclt_update-ticks&_ajax_nonce=' + scLiveticker.nonce;
 	var i, j;
@@ -112,6 +110,7 @@ scLiveticker.update = function() {
 				}
 				setTimeout( scLiveticker.update, scLiveticker.pollInterval );		// Re-trigger update.
 			} catch ( e ) {
+				// eslint-disable-next-line no-console
 				console.warn( 'Liveticker AJAX update failed, stopping automatic updates.' );
 			}
 		}
@@ -131,7 +130,6 @@ scLiveticker.update = function() {
  * @return {void}
  */
 scLiveticker.updateHTML = function( t, u ) {
-
 	// Prepend HTML of new ticks.
 	t.e.innerHTML = u.h + t.e.innerHTML;
 	t.e.setAttribute( 'data-sclt-last', u.t );
