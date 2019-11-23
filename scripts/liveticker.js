@@ -12,6 +12,8 @@ function scLiveticker() {
  * @return {void}
  */
 scLiveticker.init = function() {
+	var updateNow = false;
+
 	// Opt out if AJAX pobject not present.
 	if ( 'undefined' === typeof sclivetickerAjax ) {
 		return;
@@ -27,15 +29,21 @@ scLiveticker.init = function() {
 		document.querySelectorAll( 'div.wp-block-scliveticker-ticker.sclt-ajax' ),
 		function( elem ) {
 			var list = elem.querySelector( 'ul' );
+			var last = Number( elem.getAttribute( 'data-sclt-last' ) );
+
 			if ( ! list ) {
 				list = document.createElement( 'ul' );
 				elem.appendChild( list );
 			}
 
+			if ( 0 === last ) {
+				updateNow = true;
+			}
+
 			return {
 				s: elem.getAttribute( 'data-sclt-ticker' ),
 				l: elem.getAttribute( 'data-sclt-limit' ),
-				t: elem.getAttribute( 'data-sclt-last' ),
+				t: last,
 				e: list,
 			};
 		}
@@ -46,15 +54,21 @@ scLiveticker.init = function() {
 		document.querySelectorAll( 'div.wp-widget-scliveticker-ticker.sclt-ajax' ),
 		function( elem ) {
 			var list = elem.querySelector( 'ul' );
+			var last = Number( elem.getAttribute( 'data-sclt-last' ) );
+
 			if ( ! list ) {
 				list = document.createElement( 'ul' );
 				elem.appendChild( list );
 			}
 
+			if ( 0 === last ) {
+				updateNow = true;
+			}
+
 			return {
 				w: elem.getAttribute( 'data-sclt-ticker' ),
 				l: elem.getAttribute( 'data-sclt-limit' ),
-				t: elem.getAttribute( 'data-sclt-last' ),
+				t: last,
 				e: list,
 			};
 		}
@@ -62,7 +76,11 @@ scLiveticker.init = function() {
 
 	// Trigger update, if necessary.
 	if ( ( 0 < scLiveticker.ticker.length || scLiveticker.widgets.length ) && 0 < scLiveticker.pollInterval ) {
-		setTimeout( scLiveticker.update, scLiveticker.pollInterval );
+		if ( updateNow ) {
+			scLiveticker.update();
+		} else {
+			setTimeout( scLiveticker.update, scLiveticker.pollInterval );
+		}
 	}
 };
 
