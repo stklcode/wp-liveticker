@@ -70,7 +70,7 @@ class SCLiveticker_Widget extends WP_Widget {
 
 		echo '<ul class="sclt-widget';
 		if ( '1' === $ajax ) {
-			echo ' sclt-widget-ajax" '
+			echo ' sclt-ajax" '
 				. 'data-sclt-ticker="' . esc_attr( $category ) . '" '
 				. 'data-sclt-limit="' . esc_attr( $count ) . '" '
 				. 'data-sclt-last="' . esc_attr( current_datetime()->getTimestamp() );

@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</tr>
 	<tr>
 		<td>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>"><?php esc_html_e( 'Number of Ticks:', 'stklcode-liveticker' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>"><?php esc_html_e( 'Number of Ticks', 'stklcode-liveticker' ); ?>:</label>
 		</td>
 		<td>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'count' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'count' ) ); ?>">

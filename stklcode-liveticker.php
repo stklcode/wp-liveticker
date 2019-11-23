@@ -55,6 +55,9 @@ add_shortcode( 'liveticker', array( 'SCLiveticker', 'shortcode_ticker_show' ) );
 // Add Widget.
 add_action( 'widgets_init', array( 'SCLiveticker_Widget', 'register' ) );
 
+// Add Gutenberg block.
+add_action( 'enqueue_block_editor_assets', array( 'SCLiveticker_Admin', 'register_block' ) );
+
 // Autoload.
 spl_autoload_register( 'scliveticker_autoload' );
 

@@ -65,13 +65,17 @@
       "phpcs --standard=phpcs.xml -s"
     ],
     "lint-css": [
+      "./node_modules/stylelint/bin/stylelint.js styles/block.css",
       "./node_modules/stylelint/bin/stylelint.js styles/liveticker.css"
     ],
     "lint-js": [
+      "./node_modules/eslint/bin/eslint.js scripts/block.js",
       "./node_modules/eslint/bin/eslint.js scripts/liveticker.js"
     ],
     "minify": [
+      "minifycss styles/block.css > styles/block.min.css",
       "minifycss styles/liveticker.css > styles/liveticker.min.css",
+      "minifyjs scripts/block.js > scripts/block.min.js",
       "minifyjs scripts/liveticker.js > scripts/liveticker.min.js"
     ]
   }

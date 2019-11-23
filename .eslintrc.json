@@ -4,7 +4,8 @@
     "browser": true
   },
   "globals": {
-    "sclivetickerAjax": "readonly"
+    "sclivetickerAjax": "readonly",
+    "wp": "readonly"
   },
   "extends": [
     "plugin:@wordpress/eslint-plugin/recommended",
@@ -16,7 +17,8 @@
         "*"
       ],
       "rules": {
-        "no-var": "off"
+        "no-var": "off",
+        "object-shorthand": "off"
       }
     }
   ]
