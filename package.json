@@ -1,13 +1,13 @@
 {
   "name": "stklcode-liveticker",
-  "version": "1.0.0",
+  "version": "1.1.0-alpha",
   "description": "A simple Liveticker for Wordpress.",
   "author": "Stefan Kalscheuer",
   "license": "GPL-2.0+",
   "devDependencies": {
     "eslint": "^6",
-    "@wordpress/eslint-plugin": "^2.4",
-    "stylelint": "^10.1",
-    "stylelint-config-wordpress": "^14.0"
+    "@wordpress/eslint-plugin": "^3",
+    "stylelint": "^12",
+    "stylelint-config-wordpress": "^15"
   }
 }

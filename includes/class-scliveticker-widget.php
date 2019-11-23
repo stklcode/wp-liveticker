@@ -68,7 +68,7 @@ class SCLiveticker_Widget extends WP_Widget {
 			echo $before_title . esc_html( $title ) . $after_title;
 		}
 
-		echo '<ul class="sclt-widget';
+		echo '<div class="wp-widget-scliveticker-ticker';
 		if ( '1' === $ajax ) {
 			echo ' sclt-ajax" '
 				. 'data-sclt-ticker="' . esc_attr( $category ) . '" '
