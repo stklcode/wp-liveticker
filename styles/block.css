@@ -1,0 +1,7 @@
+div.wp-block-scliveticker-ticker div.components-base-control:first-child label {
+	font-weight: 600;
+}
+
+div.wp-block-scliveticker-ticker div.components-base-control:first-child label > .dashicon {
+	margin-right: 8px;
+}

@@ -202,4 +202,35 @@ class SCLiveticker_Admin extends SCLiveticker {
 
 		return $result;
 	}
+
+	/**
+	 * Register custom Gutenberg block type.
+	 *
+	 * @return void
+	 * @since 1.1
+	 */
+	public static function register_block() {
+		wp_register_script(
+			'scliveticker-editor',
+			SCLIVETICKER_BASE . 'scripts/block.min.js',
+			array( 'wp-blocks', 'wp-element' ),
+			self::VERSION,
+			true
+		);
+
+		wp_register_style(
+			'scliveticker-editor',
+			SCLIVETICKER_BASE . 'styles/block.min.css',
+			array(),
+			self::VERSION
+		);
+
+		register_block_type(
+			'scliveticker-block/liveticker',
+			array(
+				'editor_script' => 'scliveticker-editor',
+				'editor_style'  => 'scliveticker-editor',
+			)
+		);
+	}
 }

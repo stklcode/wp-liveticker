@@ -1,7 +1,7 @@
 /**
  * Contructor of the scLiveticker object.
  *
- * @constructor
+ * @class
  */
 function scLiveticker() {
 }
@@ -24,26 +24,38 @@ scLiveticker.init = function() {
 
 	// Get ticker elements.
 	scLiveticker.ticker = [].map.call(
-		document.querySelectorAll( 'ul.sclt-ticker-ajax' ),
+		document.querySelectorAll( 'div.wp-block-scliveticker-ticker.sclt-ajax' ),
 		function( elem ) {
+			var list = elem.querySelector( 'ul' );
+			if ( ! list ) {
+				list = document.createElement( 'ul' );
+				elem.appendChild( list );
+			}
+
 			return {
 				s: elem.getAttribute( 'data-sclt-ticker' ),
 				l: elem.getAttribute( 'data-sclt-limit' ),
 				t: elem.getAttribute( 'data-sclt-last' ),
-				e: elem,
+				e: list,
 			};
 		}
 	);
 
 	// Get widget elements.
 	scLiveticker.widgets = [].map.call(
-		document.querySelectorAll( 'ul.sclt-widget-ajax' ),
+		document.querySelectorAll( 'div.wp-widget-scliveticker-ticker.sclt-ajax' ),
 		function( elem ) {
+			var list = elem.querySelector( 'ul' );
+			if ( ! list ) {
+				list = document.createElement( 'ul' );
+				elem.appendChild( list );
+			}
+
 			return {
 				w: elem.getAttribute( 'data-sclt-ticker' ),
 				l: elem.getAttribute( 'data-sclt-limit' ),
 				t: elem.getAttribute( 'data-sclt-last' ),
-				e: elem,
+				e: list,
 			};
 		}
 	);
@@ -132,7 +144,7 @@ scLiveticker.update = function() {
 scLiveticker.updateHTML = function( t, u ) {
 	// Prepend HTML of new ticks.
 	t.e.innerHTML = u.h + t.e.innerHTML;
-	t.e.setAttribute( 'data-sclt-last', u.t );
+	t.e.parentNode.setAttribute( 'data-sclt-last', u.t );
 
 	// Remove tail, if limit is set.
 	if ( 0 < t.l ) {

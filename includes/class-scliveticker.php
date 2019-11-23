@@ -198,14 +198,14 @@ class SCLiveticker {
 				$show_feed = 1 === self::$options['show_feed'];
 			}
 
-			$output = '<ul class="sclt-ticker';
+			$output = '<div class="wp-block-scliveticker-ticker';
 			if ( 1 === self::$options['enable_ajax'] ) {
-				$output .= ' sclt-ticker-ajax" '
+				$output .= ' sclt-ajax" '
 							. 'data-sclt-ticker="' . $ticker . '" '
 							. 'data-sclt-limit="' . $limit . '" '
 							. 'data-sclt-last="' . current_datetime()->getTimestamp();
 			}
-			$output .= '">';
+			$output .= '"><ul>';
 
 			$args = array(
 				'post_type'      => 'scliveticker_tick',
@@ -226,7 +226,7 @@ class SCLiveticker {
 				$output .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content() );
 			}
 
-			$output .= '</ul>';
+			$output .= '</ul></div>';
 
 			// Show RSS feed link, if configured.
 			if ( $show_feed ) {

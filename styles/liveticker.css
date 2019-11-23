@@ -1,8 +1,10 @@
-ul.sclt-ticker {
+div.wp-block-scliveticker-ticker ul,
+div.wp-block-scliveticker-ajax-ticker ul {
 	list-style-type: none;
 }
 
-ul.sclt-ticker > li.sclt-tick {
+div.wp-block-scliveticker-ticker ul > li.sclt-tick,
+div.wp-block-scliveticker-ajax-ticker ul > li.sclt-tick {
 	background-color: #f5f5f5;
 	list-style-type: none;
 	margin: 0.1em;
