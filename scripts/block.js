@@ -92,26 +92,41 @@
 				tickers: select( 'scliveticker/ticker' ).receiveTickers(),
 			};
 		} )( function( props ) {
+			var label = [
+				el(
+					wp.components.Dashicon,
+					{ icon: 'rss' }
+				),
+				__( 'Liveticker', 'stklcode-liveticker' ),
+			];
 			var content;
 			if ( null === props.tickers ) {
 				// Tickers not yet loaded.
-				content = el( wp.components.Spinner );
-			} else if ( 0 === props.length ) {
+				content = [
+					el(
+						'span',
+						{ className: 'components-base-control label' },
+						label
+					),
+					el( wp.components.Spinner ),
+				];
+			} else if ( 0 === props.tickers.length ) {
 				// No tickers available.
-				content = el( 'p', null, 'No tickers available' );
+				content = [
+					el(
+						'span',
+						{ className: 'components-base-control label' },
+						label
+					),
+					el( 'span', null, __( 'No tickers available', 'stklcode-liveticker' ) ),
+				];
 			} else {
 				// Tickers loaded and available.
 				content = [
 					el(
 						wp.components.SelectControl,
 						{
-							label: [
-								el(
-									wp.components.Dashicon,
-									{ icon: 'rss' }
-								),
-								__( 'Liveticker', 'stklcode-liveticker' ),
-							],
+							label: label,
 							value: props.attributes.ticker,
 							options: props.tickers.map( function( t ) {
 								return {
