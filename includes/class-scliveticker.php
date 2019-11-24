@@ -133,6 +133,7 @@ class SCLiveticker {
 				'show_ui'           => true,
 				'show_admin_column' => true,
 				'query_var'         => true,
+				'show_in_rest'      => true,
 			)
 		);
 

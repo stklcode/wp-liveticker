@@ -6,7 +6,75 @@
 ( function() {
 	var { __ } = wp.i18n;
 	var { registerBlockType } = wp.blocks;
+	var { registerStore, withSelect } = wp.data;
 	var el = wp.element.createElement;
+
+	/**
+	 * Datastore actions.
+	 */
+	var actions = {
+		setTickers( tickers ) {
+			return {
+				type: 'SET_TICKERS',
+				tickers,
+			};
+		},
+		getTickers( path ) {
+			return {
+				type: 'RECEIVE_TICKERS',
+				path,
+			};
+		},
+		loadTickers( path ) {
+			return {
+				type: 'LOAD_TICKERS',
+				path,
+			};
+		},
+	};
+
+	registerStore( 'scliveticker/ticker', {
+		reducer( state = { tickers: null }, action ) {
+			switch ( action.type ) {
+				case 'SET_TICKERS':
+					return {
+						...state,
+						tickers: action.tickers,
+					};
+				case 'RECEIVE_TICKERS':
+					return action.tickers;
+			}
+
+			return state;
+		},
+
+		actions,
+
+		selectors: {
+			receiveTickers( state ) {
+				const { tickers } = state;
+				return tickers;
+			},
+		},
+
+		controls: {
+			LOAD_TICKERS( action ) {
+				return wp.apiFetch( { path: action.path } );
+			},
+		},
+
+		resolvers: {
+			* receiveTickers() {
+				const tickers = yield actions.loadTickers( '/wp/v2/scliveticker_ticker' );
+				return actions.setTickers( tickers.map( function( t ) {
+					return {
+						name: t.name,
+						slug: t.slug,
+					};
+				} ) );
+			},
+		},
+	} );
 
 	registerBlockType( 'scliveticker/ticker', {
 		title: __( 'Liveticker', 'stklcode-liveticker' ),
@@ -29,21 +97,38 @@
 				default: false,
 			},
 		},
-		edit: function( props ) {
-			return el(
-				'div',
-				{ className: props.className + ' components-placeholder' },
-				[
+		edit: withSelect( ( select ) => {
+			return {
+				tickers: select( 'scliveticker/ticker' ).receiveTickers(),
+			};
+		} )( function( props ) {
+			var content;
+			if ( null === props.tickers ) {
+				// Tickers not yet loaded.
+				content = el( wp.components.Spinner );
+			} else if ( 0 === props.length ) {
+				// No tickers available.
+				content = el( 'p', null, 'No tickers available' );
+			} else {
+				// Tickers loaded and available.
+				content = [
 					el(
-						wp.components.TextControl,
+						wp.components.SelectControl,
 						{
 							label: [
 								el(
 									wp.components.Dashicon,
 									{ icon: 'rss' }
 								),
-								__( 'Liveticker', 'stklcode-liveticker' ) ],
+								__( 'Liveticker', 'stklcode-liveticker' ),
+							],
 							value: props.attributes.ticker,
+							options: props.tickers.map( function( t ) {
+								return {
+									value: t.slug,
+									label: t.name,
+								};
+							} ),
 							onChange: function( val ) {
 								props.setAttributes( { ticker: val } );
 							},
@@ -73,9 +158,15 @@
 							},
 						}
 					),
-				],
+				];
+			}
+
+			return el(
+				'div',
+				{ className: props.className + ' components-placeholder' },
+				content
 			);
-		},
+		} ),
 		save: function( props ) {
 			return el(
 				'div',
