@@ -4,43 +4,39 @@
  * Gutenberg Block to integrate the liveticker widget without shortcode.
  */
 ( function() {
-	var { __ } = wp.i18n;
-	var { registerBlockType } = wp.blocks;
-	var { registerStore, withSelect } = wp.data;
+	var __ = wp.i18n.__;
+	var registerBlockType = wp.blocks.registerBlockType;
+	var registerStore = wp.data.registerStore;
+	var withSelect = wp.data.withSelect;
 	var el = wp.element.createElement;
 
 	/**
 	 * Datastore actions.
 	 */
 	var actions = {
-		setTickers( tickers ) {
+		setTickers: function( tickers ) {
 			return {
 				type: 'SET_TICKERS',
-				tickers,
+				tickers: tickers,
 			};
 		},
-		getTickers( path ) {
+		getTickers: function( path ) {
 			return {
 				type: 'RECEIVE_TICKERS',
-				path,
-			};
-		},
-		loadTickers( path ) {
-			return {
-				type: 'LOAD_TICKERS',
-				path,
+				path: path,
 			};
 		},
 	};
 
 	registerStore( 'scliveticker/ticker', {
-		reducer( state = { tickers: null }, action ) {
+		reducer: function( state, action ) {
+			if ( undefined === state ) {
+				state = { tickers: null };
+			}
 			switch ( action.type ) {
 				case 'SET_TICKERS':
-					return {
-						...state,
-						tickers: action.tickers,
-					};
+					state.tickers = action.tickers;
+					return state;
 				case 'RECEIVE_TICKERS':
 					return action.tickers;
 			}
@@ -48,30 +44,24 @@
 			return state;
 		},
 
-		actions,
+		actions: actions,
 
 		selectors: {
-			receiveTickers( state ) {
-				const { tickers } = state;
-				return tickers;
-			},
-		},
-
-		controls: {
-			LOAD_TICKERS( action ) {
-				return wp.apiFetch( { path: action.path } );
+			receiveTickers: function( state ) {
+				return state.tickers;
 			},
 		},
 
 		resolvers: {
-			* receiveTickers() {
-				const tickers = yield actions.loadTickers( '/wp/v2/scliveticker_ticker' );
-				return actions.setTickers( tickers.map( function( t ) {
-					return {
-						name: t.name,
-						slug: t.slug,
-					};
-				} ) );
+			receiveTickers: function() {
+				return wp.apiFetch( { path: '/wp/v2/scliveticker_ticker' } ).then( function( tickers ) {
+					return actions.setTickers( tickers.map( function( t ) {
+						return {
+							name: t.name,
+							slug: t.slug,
+						};
+					} ) );
+				} );
 			},
 		},
 	} );
@@ -97,7 +87,7 @@
 				default: false,
 			},
 		},
-		edit: withSelect( ( select ) => {
+		edit: withSelect( function( select ) {
 			return {
 				tickers: select( 'scliveticker/ticker' ).receiveTickers(),
 			};
