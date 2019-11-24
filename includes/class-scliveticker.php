@@ -203,7 +203,7 @@ class SCLiveticker {
 				$output .= ' sclt-ticker-ajax" '
 							. 'data-sclt-ticker="' . $ticker . '" '
 							. 'data-sclt-limit="' . $limit . '" '
-							. 'data-sclt-last="' . current_time( 'timestamp' );
+							. 'data-sclt-last="' . current_datetime()->getTimestamp();
 			}
 			$output .= '">';
 
@@ -317,7 +317,13 @@ class SCLiveticker {
 					}
 
 					$limit     = ( isset( $update_req['l'] ) ) ? intval( $update_req['l'] ) : - 1;
-					$last_poll = ( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0;
+					$last_poll = explode(
+						',',
+						gmdate(
+							'Y,m,d,H,i,s',
+							( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0
+						)
+					);
 
 					// Query new ticks from DB.
 					$query_args = array(
@@ -331,7 +337,15 @@ class SCLiveticker {
 							),
 						),
 						'date_query'     => array(
-							'after' => date( 'c', $last_poll ),
+							'column' => 'post_date_gmt',
+							'after'  => array(
+								'year'   => intval( $last_poll[0] ),
+								'month'  => intval( $last_poll[1] ),
+								'day'    => intval( $last_poll[2] ),
+								'hour'   => intval( $last_poll[3] ),
+								'minute' => intval( $last_poll[4] ),
+								'second' => intval( $last_poll[5] ),
+							),
 						),
 					);
 
@@ -351,13 +365,13 @@ class SCLiveticker {
 						$res[] = array(
 							'w' => $slug,
 							'h' => $out,
-							't' => current_time( 'timestamp' ),
+							't' => current_datetime()->getTimestamp(),
 						);
 					} else {
 						$res[] = array(
 							's' => $slug,
 							'h' => $out,
-							't' => current_time( 'timestamp' ),
+							't' => current_datetime()->getTimestamp(),
 						);
 					}
 				}
