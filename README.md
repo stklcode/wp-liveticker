@@ -26,7 +26,7 @@ Easily add multiple livetickers, add them to posts with shortcode or use them as
 * Handle multiple Tickers
 * Automatic update via AJAX
 * RSS feed capability
-* Shortcode to display liveticker
+* Gutenberg block and shortcode to display liveticker
 * Add ticker to sidebar widgets
 * Ability to customise through CSS
 * Localization support
@@ -47,7 +47,9 @@ Easily add multiple livetickers, add them to posts with shortcode or use them as
 
 ### How do I display a liveticker on my post/page?
 
-Use the shortcode `[liveticker ticker="my-ticker"]`.
+On WordPress 5 sites there is a Gutenberg Block available to embed a liveticker in your post.
+
+You can also use the shortcode  `[liveticker ticker="my-ticker"]` on WordPress 4 or classic-mode sites. 
 If you want to define a custom tick limit, you might also add a limit with `[liveticker ticker="my-ticker" limit="10"]`.
 
 ### Can I use my own styles?
@@ -68,14 +70,16 @@ However the AJAX update will fetch the latest ticks and update cached tickers  d
 2. Tick management
 3. Ticker configuration.
 4. Settings page
-5. Example shortcode
-6. Example widget
+5. Gutenberg block
+6. Example shortcode
+7. Example widget
 
 ## Changelog
 
 ### 1.1.0 - unreleased
 
 * Use GMT for automatic updates 
+* Gutenberg Block available
 
 ### 1.0.0 - 2018-11-02
 
