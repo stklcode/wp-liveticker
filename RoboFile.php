@@ -111,9 +111,11 @@ class RoboFile extends Tasks {
 
 		if ( $opts[self::OPT_NODE] ) {
 			$this->say( 'Executing ESLint...' );
+			$this->_exec( __DIR__ . '/node_modules/eslint/bin/eslint.js ' . __DIR__ . '/scripts/block.js' );
 			$this->_exec( __DIR__ . '/node_modules/eslint/bin/eslint.js ' . __DIR__ . '/scripts/liveticker.js' );
 
 			$this->say( 'Executing StyleLint...' );
+			$this->_exec( __DIR__ . '/node_modules/stylelint/bin/stylelint.js ' . __DIR__ . '/styles/block.css' );
 			$this->_exec( __DIR__ . '/node_modules/stylelint/bin/stylelint.js ' . __DIR__ . '/styles/liveticker.css' );
 		}
 	}
@@ -208,6 +210,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		if ( ! isset( $opts[ self::OPT_MINIFY ] ) ) {
@@ -242,6 +245,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		if ( ! isset( $opts[ self::OPT_MINIFY ] ) ) {
@@ -277,6 +281,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		$this->build( $opts );
@@ -300,6 +305,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		// First execute build job.
@@ -333,6 +339,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		// First execute build job.
@@ -366,6 +373,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		// First execute build job.
@@ -398,6 +406,7 @@ class RoboFile extends Tasks {
 			self::OPT_SKIPTEST  => false,
 			self::OPT_SKIPSTYLE => false,
 			self::OPT_MINIFY    => true,
+			self::OPT_NODE      => false,
 		)
 	) {
 		// First execute build job.
