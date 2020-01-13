@@ -176,7 +176,7 @@
 			return el(
 				'div',
 				{
-					className: props.className + ' sclt-ajax',
+					className: 'sclt-ajax',
 					'data-sclt-ticker': props.attributes.ticker,
 					'data-sclt-limit': props.attributes.unlimited ? 0 : props.attributes.limit,
 					'data-sclt-last': 0,
