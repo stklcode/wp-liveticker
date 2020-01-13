@@ -7,7 +7,7 @@
   "devDependencies": {
     "eslint": "^6",
     "@wordpress/eslint-plugin": "^3",
-    "stylelint": "^12",
-    "stylelint-config-wordpress": "^15"
+    "stylelint": "^13",
+    "stylelint-config-wordpress": "^16"
   }
 }
