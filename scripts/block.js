@@ -122,6 +122,9 @@
 				];
 			} else {
 				// Tickers loaded and available.
+				if ( 0 === props.attributes.ticker.length && props.tickers.length > 0 ) {
+					props.attributes.ticker = props.tickers[ 0 ].slug;
+				}
 				content = [
 					el(
 						wp.components.SelectControl,
