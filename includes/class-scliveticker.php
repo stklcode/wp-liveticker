@@ -80,11 +80,8 @@ class SCLiveticker {
 		// Add shortcode.
 		add_shortcode( 'liveticker', array( __CLASS__, 'shortcode_ticker_show' ) );
 
-		// Enqueue styles.
-		add_action( 'wp_footer', array( __CLASS__, 'enqueue_styles' ) );
-
-		// Enqueue JavaScript.
-		add_action( 'wp_footer', array( __CLASS__, 'enqueue_scripts' ) );
+		// Enqueue styles and JavaScript.
+		add_action( 'wp_footer', array( __CLASS__, 'enqueue_resources' ) );
 
 		// Add AJAX hook if configured.
 		if ( 1 === self::$options['enable_ajax'] ) {
@@ -245,31 +242,14 @@ class SCLiveticker {
 	}
 
 	/**
-	 * Register frontend CSS.
-	 *
-	 * @return void
-	 */
-	public static function enqueue_styles() {
-		// Only add if shortcode is present.
-		if ( self::$shortcode_present || self::$widget_present ) {
-			wp_enqueue_style(
-				'wplt-css',
-				SCLIVETICKER_BASE . 'styles/liveticker.min.css',
-				'',
-				self::VERSION,
-				'all'
-			);
-		}
-	}
-
-	/**
 	 * Register frontend JS.
 	 *
 	 * @return void
+	 * @since 1.1 Combined former methods "enqueue_styles" and "enqueue_scripts".
 	 */
-	public static function enqueue_scripts() {
+	public static function enqueue_resources() {
 		// Only add if shortcode is present.
-		if ( self::$shortcode_present || self::$widget_present ) {
+		if ( self::$shortcode_present || self::$widget_present || self::block_present() ) {
 			wp_enqueue_script(
 				'scliveticker-js',
 				SCLIVETICKER_BASE . 'scripts/liveticker.min.js',
@@ -287,6 +267,14 @@ class SCLiveticker {
 					'nonce'         => wp_create_nonce( 'scliveticker_update-ticks' ),
 					'poll_interval' => self::$options['poll_interval'] * 1000,
 				)
+			);
+
+			wp_enqueue_style(
+				'sclt-css',
+				SCLIVETICKER_BASE . 'styles/liveticker.min.css',
+				'',
+				self::VERSION,
+				'all'
 			);
 		}
 	}
@@ -457,5 +445,28 @@ class SCLiveticker {
 			. '<span class="sclt-widget-time">' . esc_html( $time ) . '</span>'
 			. '<span class="sclt-widget-title">' . $title . '</span>'
 			. '</li>';
+	}
+
+	/**
+	 * Check if the Gutenberg block is present in current post.
+	 *
+	 * @return boolean True, if Gutenberg block is present.
+	 * @since 1.1
+	 */
+	private static function block_present() {
+		// We are in WP 5.x environment and blocks are generally present.
+		if ( function_exists( 'has_blocks' ) && has_blocks() ) {
+			/*
+			 * The slightly faster call to ‌has_block( 'scliveticker/ticker' ) produces an "undefined function" error for
+			 * no good reason. Iteration over pased blocks however works fine.
+			 */
+			foreach ( parse_blocks( get_post()->post_content ) as $b ) {
+				if ( 'scliveticker/ticker' === $b['blockName'] ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }
