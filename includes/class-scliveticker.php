@@ -269,13 +269,16 @@ class SCLiveticker {
 				)
 			);
 
-			wp_enqueue_style(
-				'sclt-css',
-				SCLIVETICKER_BASE . 'styles/liveticker.min.css',
-				'',
-				self::VERSION,
-				'all'
-			);
+			// Enqueue CSS if enabled.
+			if ( 1 === self::$options['enable_css'] ) {
+				wp_enqueue_style(
+					'sclt-css',
+					SCLIVETICKER_BASE . 'styles/liveticker.min.css',
+					'',
+					self::VERSION,
+					'all'
+				);
+			}
 		}
 	}
 
