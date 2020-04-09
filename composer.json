@@ -22,10 +22,10 @@
   },
   "require-dev": {
     "php": ">=5.2",
-    "consolidation/robo": "^1.4",
+    "consolidation/robo": "^2",
     "phpunit/phpunit": "*",
     "phpunit/php-code-coverage": "*",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.5",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.6",
     "slowprog/composer-copy-file": "~0.3",
     "squizlabs/php_codesniffer": "^3.5",
     "phpcompatibility/php-compatibility": "^9.3",
