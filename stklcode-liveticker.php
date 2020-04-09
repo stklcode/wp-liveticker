@@ -41,22 +41,22 @@ define( 'SCLIVETICKER_BASE', plugin_dir_url( __FILE__ ) );
 define( 'SCLIVETICKER_BASENAME', plugin_basename( __FILE__ ) );
 
 // System Hooks.
-add_action( 'init', array( 'SCLiveticker', 'register_types' ) );
-add_action( 'plugins_loaded', array( 'SCLiveticker', 'init' ) );
-register_activation_hook( SCLIVETICKER_FILE, array( 'SCLiveticker_System', 'activate' ) );
-register_uninstall_hook( SCLIVETICKER_FILE, array( 'SCLiveticker_System', 'uninstall' ) );
+add_action( 'init', array( 'SCLiveticker\\SCLiveticker', 'register_types' ) );
+add_action( 'plugins_loaded', array( 'SCLiveticker\\SCLiveticker', 'init' ) );
+register_activation_hook( SCLIVETICKER_FILE, array( 'SCLiveticker\\System', 'activate' ) );
+register_uninstall_hook( SCLIVETICKER_FILE, array( 'SCLiveticker\\System', 'uninstall' ) );
 
 // Allow shortcodes in widgets.
 add_filter( 'widget_text', 'do_shortcode' );
 
 // Add shortcode.
-add_shortcode( 'liveticker', array( 'SCLiveticker', 'shortcode_ticker_show' ) );
+add_shortcode( 'liveticker', array( 'SCLiveticker\\SCLiveticker', 'shortcode_ticker_show' ) );
 
 // Add Widget.
-add_action( 'widgets_init', array( 'SCLiveticker_Widget', 'register' ) );
+add_action( 'widgets_init', array( 'SCLiveticker\\Widget', 'register' ) );
 
 // Add Gutenberg block.
-add_action( 'enqueue_block_editor_assets', array( 'SCLiveticker_Admin', 'register_block' ) );
+add_action( 'enqueue_block_editor_assets', array( 'SCLiveticker\\Admin', 'register_block' ) );
 
 // Autoload.
 spl_autoload_register( 'scliveticker_autoload' );
@@ -70,16 +70,16 @@ spl_autoload_register( 'scliveticker_autoload' );
  */
 function scliveticker_autoload( $class ) {
 	$plugin_classes = array(
-		'SCLiveticker',
-		'SCLiveticker_Admin',
-		'SCLiveticker_System',
-		'SCLiveticker_Widget',
+		'SCLiveticker\\SCLiveticker',
+		'SCLiveticker\\Admin',
+		'SCLiveticker\\System',
+		'SCLiveticker\\Widget',
 	);
 	if ( in_array( $class, $plugin_classes, true ) ) {
 		require_once sprintf(
 			'%s/includes/class-%s.php',
 			SCLIVETICKER_DIR,
-			strtolower( str_replace( '_', '-', $class ) )
+			strtolower( str_replace( '_', '-', substr( $class, 13 ) ) )
 		);
 	}
 }

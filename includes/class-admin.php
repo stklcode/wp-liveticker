@@ -4,8 +4,10 @@
  *
  * This file contains the derived class for the plugin's administration features.
  *
- * @package Liveticker
+ * @package SCLiveticker
  */
+
+namespace SCLiveticker;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Liveticker admin configuration.
  */
-class SCLiveticker_Admin extends SCLiveticker {
+class Admin extends SCLiveticker {
 	/**
 	 * Add to Right Now Widget
 	 *
