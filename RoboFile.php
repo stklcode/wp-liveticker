@@ -95,6 +95,8 @@ class RoboFile extends Tasks {
 	/**
 	 * Run code style tests
 	 *
+	 * @param array $opts Options.
+	 *
 	 * @return void
 	 */
 	public function testCS(
@@ -109,7 +111,7 @@ class RoboFile extends Tasks {
 		$this->say( 'Executing PHPCS...' );
 		$this->_exec( __DIR__ . '/vendor/bin/phpcs --standard=phpcs.xml -s' );
 
-		if ( $opts[self::OPT_NODE] ) {
+		if ( $opts[ self::OPT_NODE ] ) {
 			$this->say( 'Executing ESLint...' );
 			$this->_exec( __DIR__ . '/node_modules/eslint/bin/eslint.js ' . __DIR__ . '/scripts/block.js' );
 			$this->_exec( __DIR__ . '/node_modules/eslint/bin/eslint.js ' . __DIR__ . '/scripts/liveticker.js' );
@@ -145,7 +147,7 @@ class RoboFile extends Tasks {
 		if ( isset( $opts[ self::OPT_SKIPSTYLE ] ) && true === $opts[ self::OPT_SKIPSTYLE ] ) {
 			$this->say( 'Style checks skipped' );
 		} else {
-			$this->testCS($opts);
+			$this->testCS( $opts );
 		}
 		$this->bundle();
 	}
@@ -157,21 +159,23 @@ class RoboFile extends Tasks {
 	 */
 	private function bundle() {
 		$this->say( 'Bundling resources...' );
-		$this->taskCopyDir( array(
-			'includes' => $this->target_dir . '/' . $this->final_name . '/includes',
-			'scripts'  => $this->target_dir . '/' . $this->final_name . '/scripts',
-			'styles'   => $this->target_dir . '/' . $this->final_name . '/styles',
-			'views'    => $this->target_dir . '/' . $this->final_name . '/views',
-		) )->run();
+		$this->taskCopyDir(
+			array(
+				'includes' => $this->target_dir . '/' . $this->final_name . '/includes',
+				'scripts'  => $this->target_dir . '/' . $this->final_name . '/scripts',
+				'styles'   => $this->target_dir . '/' . $this->final_name . '/styles',
+				'views'    => $this->target_dir . '/' . $this->final_name . '/views',
+			)
+		)->run();
 		$this->_copy( 'stklcode-liveticker.php', $this->target_dir . '/' . $this->final_name . '/stklcode-liveticker.php' );
 		$this->_copy( 'README.md', $this->target_dir . '/' . $this->final_name . '/README.md' );
 		$this->_copy( 'LICENSE.md', $this->target_dir . '/' . $this->final_name . '/LICENSE.md' );
 
 		// Remove content before title (e.g. badges) from README file.
 		$this->taskReplaceInFile( $this->target_dir . '/' . $this->final_name . '/README.md' )
-		     ->regex( '/^[^\\#]*/' )
-		     ->to( '' )
-		     ->run();
+			->regex( '/^[^\\#]*/' )
+			->to( '' )
+			->run();
 	}
 
 	/**

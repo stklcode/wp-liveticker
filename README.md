@@ -9,8 +9,8 @@
 * Contributors:      Stefan Kalscheuer
 * Tags:              liveticker, feed, rss
 * Requires at least: 4.0
-* Tested up to:      5.3
-* Requires PHP:      5.2
+* Tested up to:      5.4
+* Requires PHP:      5.6
 * Stable tag:        1.0.0
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
@@ -81,6 +81,7 @@ caching time of 12 hours obviously makes no sense.
 
 ### 1.1.0 - unreleased
 
+* Requires PHP 5.6 or above
 * Use GMT for automatic updates 
 * Gutenberg Block available
 

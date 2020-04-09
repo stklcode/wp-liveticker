@@ -4,17 +4,22 @@
  *
  * This file contains the liveticker widget.
  *
- * @package Liveticker
+ * @package SCLiveticker
  */
+
+namespace SCLiveticker;
+
+use WP_Query;
+use WP_Widget;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Class SCLiveticker_Widget.
+ * Class Widget.
  */
-class SCLiveticker_Widget extends WP_Widget {
+class Widget extends WP_Widget {
 
 	/**
 	 * SCLiveticker_Widget constructor.

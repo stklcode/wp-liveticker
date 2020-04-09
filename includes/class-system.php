@@ -4,8 +4,12 @@
  *
  * This file contains the derived class for the plugin's system operations.
  *
- * @package Liveticker
+ * @package SCLiveticker
  */
+
+namespace SCLiveticker;
+
+use WP_Query;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  *  Liveticker system configuration.
  */
-class SCLiveticker_System extends SCLiveticker {
+class System extends SCLiveticker {
 
 	/**
 	 * Activation hook.

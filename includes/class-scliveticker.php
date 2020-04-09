@@ -4,13 +4,18 @@
  *
  * This file contains the plugin's base class.
  *
- * @package Liveticker
+ * @package SCLiveticker
  */
+
+namespace SCLiveticker;
+
+use WP_Query;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 
 /**
  * Liveticker.
@@ -92,11 +97,11 @@ class SCLiveticker {
 		// Admin only actions.
 		if ( is_admin() ) {
 			// Add dashboard "right now" functionality.
-			add_action( 'right_now_content_table_end', array( 'SCLiveticker_Admin', 'dashboard_right_now' ) );
+			add_action( 'right_now_content_table_end', array( 'SCLiveticker\\Admin', 'dashboard_right_now' ) );
 
 			// Settings.
-			add_action( 'admin_init', array( 'SCLiveticker_Admin', 'register_settings' ) );
-			add_action( 'admin_menu', array( 'SCLiveticker_Admin', 'register_settings_page' ) );
+			add_action( 'admin_init', array( 'SCLiveticker\\Admin', 'register_settings' ) );
+			add_action( 'admin_menu', array( 'SCLiveticker\\Admin', 'register_settings_page' ) );
 		}
 	}
 
@@ -457,19 +462,7 @@ class SCLiveticker {
 	 * @since 1.1
 	 */
 	private static function block_present() {
-		// We are in WP 5.x environment and blocks are generally present.
-		if ( function_exists( 'has_blocks' ) && has_blocks() ) {
-			/*
-			 * The slightly faster call to ‌has_block( 'scliveticker/ticker' ) produces an "undefined function" error for
-			 * no good reason. Iteration over pased blocks however works fine.
-			 */
-			foreach ( parse_blocks( get_post()->post_content ) as $b ) {
-				if ( 'scliveticker/ticker' === $b['blockName'] ) {
-					return true;
-				}
-			}
-		}
-
-		return false;
+		return function_exists( 'has_block' ) && // We are in WP 5.x environment.
+			has_block( 'scliveticker/ticker' ); // Specific block is present.
 	}
 }
