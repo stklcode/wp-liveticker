@@ -4,13 +4,18 @@
  *
  * This file contains the plugin's base class.
  *
- * @package Liveticker
+ * @package SCLiveticker
  */
+
+namespace SCLiveticker;
+
+use WP_Query;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 
 /**
  * Liveticker.
@@ -21,7 +26,7 @@ class SCLiveticker {
 	 *
 	 * @var string OPTIONS
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.1.0-alpha';
 
 	/**
 	 * Options tag.
@@ -80,11 +85,8 @@ class SCLiveticker {
 		// Add shortcode.
 		add_shortcode( 'liveticker', array( __CLASS__, 'shortcode_ticker_show' ) );
 
-		// Enqueue styles.
-		add_action( 'wp_footer', array( __CLASS__, 'enqueue_styles' ) );
-
-		// Enqueue JavaScript.
-		add_action( 'wp_footer', array( __CLASS__, 'enqueue_scripts' ) );
+		// Enqueue styles and JavaScript.
+		add_action( 'wp_footer', array( __CLASS__, 'enqueue_resources' ) );
 
 		// Add AJAX hook if configured.
 		if ( 1 === self::$options['enable_ajax'] ) {
@@ -95,11 +97,11 @@ class SCLiveticker {
 		// Admin only actions.
 		if ( is_admin() ) {
 			// Add dashboard "right now" functionality.
-			add_action( 'right_now_content_table_end', array( 'SCLiveticker_Admin', 'dashboard_right_now' ) );
+			add_action( 'right_now_content_table_end', array( 'SCLiveticker\\Admin', 'dashboard_right_now' ) );
 
 			// Settings.
-			add_action( 'admin_init', array( 'SCLiveticker_Admin', 'register_settings' ) );
-			add_action( 'admin_menu', array( 'SCLiveticker_Admin', 'register_settings_page' ) );
+			add_action( 'admin_init', array( 'SCLiveticker\\Admin', 'register_settings' ) );
+			add_action( 'admin_menu', array( 'SCLiveticker\\Admin', 'register_settings_page' ) );
 		}
 	}
 
@@ -133,6 +135,7 @@ class SCLiveticker {
 				'show_ui'           => true,
 				'show_admin_column' => true,
 				'query_var'         => true,
+				'show_in_rest'      => true,
 			)
 		);
 
@@ -198,14 +201,14 @@ class SCLiveticker {
 				$show_feed = 1 === self::$options['show_feed'];
 			}
 
-			$output = '<ul class="sclt-ticker';
+			$output = '<div class="wp-block-scliveticker-ticker';
 			if ( 1 === self::$options['enable_ajax'] ) {
-				$output .= ' sclt-ticker-ajax" '
+				$output .= ' sclt-ajax" '
 							. 'data-sclt-ticker="' . $ticker . '" '
 							. 'data-sclt-limit="' . $limit . '" '
-							. 'data-sclt-last="' . current_time( 'timestamp' );
+							. 'data-sclt-last="' . current_datetime()->getTimestamp();
 			}
-			$output .= '">';
+			$output .= '"><ul>';
 
 			$args = array(
 				'post_type'      => 'scliveticker_tick',
@@ -226,7 +229,7 @@ class SCLiveticker {
 				$output .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content() );
 			}
 
-			$output .= '</ul>';
+			$output .= '</ul></div>';
 
 			// Show RSS feed link, if configured.
 			if ( $show_feed ) {
@@ -244,31 +247,14 @@ class SCLiveticker {
 	}
 
 	/**
-	 * Register frontend CSS.
-	 *
-	 * @return void
-	 */
-	public static function enqueue_styles() {
-		// Only add if shortcode is present.
-		if ( self::$shortcode_present || self::$widget_present ) {
-			wp_enqueue_style(
-				'wplt-css',
-				SCLIVETICKER_BASE . 'styles/liveticker.min.css',
-				'',
-				self::VERSION,
-				'all'
-			);
-		}
-	}
-
-	/**
 	 * Register frontend JS.
 	 *
 	 * @return void
+	 * @since 1.1 Combined former methods "enqueue_styles" and "enqueue_scripts".
 	 */
-	public static function enqueue_scripts() {
+	public static function enqueue_resources() {
 		// Only add if shortcode is present.
-		if ( self::$shortcode_present || self::$widget_present ) {
+		if ( self::$shortcode_present || self::$widget_present || self::block_present() ) {
 			wp_enqueue_script(
 				'scliveticker-js',
 				SCLIVETICKER_BASE . 'scripts/liveticker.min.js',
@@ -287,6 +273,17 @@ class SCLiveticker {
 					'poll_interval' => self::$options['poll_interval'] * 1000,
 				)
 			);
+
+			// Enqueue CSS if enabled.
+			if ( 1 === self::$options['enable_css'] ) {
+				wp_enqueue_style(
+					'sclt-css',
+					SCLIVETICKER_BASE . 'styles/liveticker.min.css',
+					'',
+					self::VERSION,
+					'all'
+				);
+			}
 		}
 	}
 
@@ -317,7 +314,13 @@ class SCLiveticker {
 					}
 
 					$limit     = ( isset( $update_req['l'] ) ) ? intval( $update_req['l'] ) : - 1;
-					$last_poll = ( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0;
+					$last_poll = explode(
+						',',
+						gmdate(
+							'Y,m,d,H,i,s',
+							( isset( $update_req['t'] ) ) ? intval( $update_req['t'] ) : 0
+						)
+					);
 
 					// Query new ticks from DB.
 					$query_args = array(
@@ -331,7 +334,15 @@ class SCLiveticker {
 							),
 						),
 						'date_query'     => array(
-							'after' => date( 'c', $last_poll ),
+							'column' => 'post_date_gmt',
+							'after'  => array(
+								'year'   => intval( $last_poll[0] ),
+								'month'  => intval( $last_poll[1] ),
+								'day'    => intval( $last_poll[2] ),
+								'hour'   => intval( $last_poll[3] ),
+								'minute' => intval( $last_poll[4] ),
+								'second' => intval( $last_poll[5] ),
+							),
 						),
 					);
 
@@ -351,13 +362,13 @@ class SCLiveticker {
 						$res[] = array(
 							'w' => $slug,
 							'h' => $out,
-							't' => current_time( 'timestamp' ),
+							't' => current_datetime()->getTimestamp(),
 						);
 					} else {
 						$res[] = array(
 							's' => $slug,
 							'h' => $out,
-							't' => current_time( 'timestamp' ),
+							't' => current_datetime()->getTimestamp(),
 						);
 					}
 				}
@@ -442,5 +453,16 @@ class SCLiveticker {
 			. '<span class="sclt-widget-time">' . esc_html( $time ) . '</span>'
 			. '<span class="sclt-widget-title">' . $title . '</span>'
 			. '</li>';
+	}
+
+	/**
+	 * Check if the Gutenberg block is present in current post.
+	 *
+	 * @return boolean True, if Gutenberg block is present.
+	 * @since 1.1
+	 */
+	private static function block_present() {
+		return function_exists( 'has_block' ) && // We are in WP 5.x environment.
+			has_block( 'scliveticker/ticker' ); // Specific block is present.
 	}
 }

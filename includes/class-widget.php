@@ -4,17 +4,22 @@
  *
  * This file contains the liveticker widget.
  *
- * @package Liveticker
+ * @package SCLiveticker
  */
+
+namespace SCLiveticker;
+
+use WP_Query;
+use WP_Widget;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Class SCLiveticker_Widget.
+ * Class Widget.
  */
-class SCLiveticker_Widget extends WP_Widget {
+class Widget extends WP_Widget {
 
 	/**
 	 * SCLiveticker_Widget constructor.
@@ -68,12 +73,12 @@ class SCLiveticker_Widget extends WP_Widget {
 			echo $before_title . esc_html( $title ) . $after_title;
 		}
 
-		echo '<ul class="sclt-widget';
+		echo '<div class="wp-widget-scliveticker-ticker';
 		if ( '1' === $ajax ) {
-			echo ' sclt-widget-ajax" '
+			echo ' sclt-ajax" '
 				. 'data-sclt-ticker="' . esc_attr( $category ) . '" '
 				. 'data-sclt-limit="' . esc_attr( $count ) . '" '
-				. 'data-sclt-last="' . esc_attr( current_time( 'timestamp' ) );
+				. 'data-sclt-last="' . esc_attr( current_datetime()->getTimestamp() );
 		}
 		echo '">';
 

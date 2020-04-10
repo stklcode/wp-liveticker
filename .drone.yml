@@ -1,24 +1,17 @@
 kind: pipeline
 name: default
-
-clone:
-  disable: true
+type: docker
 
 steps:
-- name: clone
-  image: plugins/git
-  settings:
-    depth: 10
-    skip_verify: true
-- name: pre-build
-  image: composer
-  commands:
-  - composer install
-- name: test
-  image: composer
-  commands:
-  - ./vendor/bin/robo test
-- name: test-style
-  image: composer
-  commands:
-  - ./vendor/bin/robo test:cs
+  - name: pre-build
+    image: composer
+    commands:
+      - composer install
+  - name: test
+    image: composer
+    commands:
+      - composer test
+  - name: lint
+    image: composer
+    commands:
+      - composer lint-php
