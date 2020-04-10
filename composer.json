@@ -23,8 +23,8 @@
   "require-dev": {
     "php": ">=7",
     "consolidation/robo": "^2",
-    "phpunit/phpunit": "*",
-    "phpunit/php-code-coverage": "*",
+    "phpunit/phpunit": "^8",
+    "phpunit/php-code-coverage": "^7",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.6",
     "slowprog/composer-copy-file": "~0.3",
     "squizlabs/php_codesniffer": "^3.5",
