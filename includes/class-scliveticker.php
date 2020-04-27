@@ -206,7 +206,7 @@ class SCLiveticker {
 				$output .= ' sclt-ajax" '
 							. 'data-sclt-ticker="' . $ticker . '" '
 							. 'data-sclt-limit="' . $limit . '" '
-							. 'data-sclt-last="' . current_datetime()->getTimestamp();
+							. 'data-sclt-last="' . time();
 			}
 			$output .= '"><ul>';
 
@@ -362,13 +362,13 @@ class SCLiveticker {
 						$res[] = array(
 							'w' => $slug,
 							'h' => $out,
-							't' => current_datetime()->getTimestamp(),
+							't' => time(),
 						);
 					} else {
 						$res[] = array(
 							's' => $slug,
 							'h' => $out,
-							't' => current_datetime()->getTimestamp(),
+							't' => time(),
 						);
 					}
 				}
