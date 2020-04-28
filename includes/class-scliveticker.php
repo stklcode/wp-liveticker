@@ -165,6 +165,7 @@ class SCLiveticker {
 			'supports'           => array( 'title', 'editor', 'author' ),
 			'taxonomies'         => array( 'scliveticker_ticker' ),
 			'has_archive'        => true,
+			'show_in_rest'       => true,
 		);
 
 		register_post_type( 'scliveticker_tick', $args );
