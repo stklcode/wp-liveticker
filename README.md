@@ -84,6 +84,7 @@ caching time of 12 hours obviously makes no sense.
 * Requires PHP 5.6 or above
 * Use GMT for automatic updates 
 * Gutenberg Block available
+* Ticks exposed through REST API
 
 ### 1.0.0 - 2018-11-02
 
