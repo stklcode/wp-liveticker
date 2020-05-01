@@ -227,7 +227,7 @@ class SCLiveticker {
 
 			while ( $wp_query->have_posts() ) {
 				$wp_query->the_post();
-				$output .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content() );
+				$output .= self::tick_html( get_the_time( 'd.m.Y H:i' ), get_the_title(), get_the_content() );
 			}
 
 			$output .= '</ul></div>';
@@ -353,9 +353,9 @@ class SCLiveticker {
 					while ( $query->have_posts() ) {
 						$query->the_post();
 						if ( $is_widget ) {
-							$out .= self::tick_html_widget( get_the_time( 'd.m.Y H.i' ), get_the_title(), false );
+							$out .= self::tick_html_widget( get_the_time( 'd.m.Y H:i' ), get_the_title(), false );
 						} else {
-							$out .= self::tick_html( get_the_time( 'd.m.Y H.i' ), get_the_title(), get_the_content(), $is_widget );
+							$out .= self::tick_html( get_the_time( 'd.m.Y H:i' ), get_the_title(), get_the_content(), $is_widget );
 						}
 					}
 
