@@ -164,8 +164,15 @@
 	 * @return {void}
 	 */
 	var updateHTML = function( t, u ) {
-		// Prepend HTML of new ticks.
-		t.e.innerHTML = u.h + t.e.innerHTML;
+		// Parse new DOM-part.
+		var n = document.createElement( 'ul' );
+		n.innerHTML = u.h;
+
+		// Prepend new ticks to container.
+		while ( n.hasChildNodes() ) {
+			t.e.prepend( n.lastChild );
+		}
+
 		t.e.parentNode.setAttribute( 'data-sclt-last', u.t );
 
 		// Remove tail, if limit is set.

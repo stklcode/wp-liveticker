@@ -85,6 +85,7 @@ caching time of 12 hours obviously makes no sense.
 * Use GMT for automatic updates 
 * Gutenberg Block available
 * Ticks exposed through REST API
+* Changed AJAX update logic for embedded media compatibility
 
 ### 1.0.0 - 2018-11-02
 
