@@ -26,7 +26,7 @@ class SCLiveticker {
 	 *
 	 * @var string OPTIONS
 	 */
-	const VERSION = '1.1.0-alpha';
+	const VERSION = '1.1.0';
 
 	/**
 	 * Options tag.
