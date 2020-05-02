@@ -80,7 +80,7 @@ class Widget extends WP_Widget {
 				. 'data-sclt-limit="' . esc_attr( $count ) . '" '
 				. 'data-sclt-last="' . esc_attr( current_datetime()->getTimestamp() );
 		}
-		echo '">';
+		echo '"><ul class="sclt-widget">';
 
 		$args = array(
 			'post_type' => 'scliveticker_tick',
