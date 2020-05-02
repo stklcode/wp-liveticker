@@ -35,13 +35,14 @@ Easily add multiple livetickers, add them to posts with shortcode or use them as
 
 ## Installation
 
-1. Upload `stklcode-liveticker` to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Go to Liveticker menu to start.
+If you don’t know how to install a plugin for WordPress, [here’s how](https://wordpress.org/support/article/managing-plugins/).
+
+You can obtain the plugin through fhe official WordPress plugin repository.
+Alternatively you can also use _Copmposer_.
 
 ### Requirements ###
 
-* PHP 5.2 or above
+* PHP 5.6 or above
 * WordPress 4.0 or above
 
 ## Frequently asked questions
