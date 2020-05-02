@@ -11,7 +11,7 @@
 * Requires at least: 4.0
 * Tested up to:      5.4
 * Requires PHP:      5.6
-* Stable tag:        1.0.0
+* Stable tag:        1.1.0
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,7 +79,7 @@ caching time of 12 hours obviously makes no sense.
 
 ## Changelog
 
-### 1.1.0 - unreleased
+### 1.1.0 - 2020-05-02
 
 * Requires PHP 5.6 or above
 * Use GMT for automatic updates 
