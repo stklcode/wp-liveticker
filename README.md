@@ -80,6 +80,10 @@ caching time of 12 hours obviously makes no sense.
 
 ## Changelog
 
+### unreleased
+
+* "Ticker"  taxonomy name is now translatable
+
 ### 1.1.0 - 2020-05-02
 
 * Requires PHP 5.6 or above

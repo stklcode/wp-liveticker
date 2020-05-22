@@ -17,6 +17,13 @@
 		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_tax_query"/>
 	</rule>
 
+	<!-- Verify usage of the correct textdomain for WP translation -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="stklcode-liveticker"/>
+		</properties>
+	</rule>
+
 	<!-- PHP compatibility level -->
 	<config name="testVersion" value="5.6-"/>
 	<rule ref="PHPCompatibility"/>

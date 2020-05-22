@@ -113,8 +113,8 @@ class SCLiveticker {
 	public static function register_types() {
 		// Add new taxonomy, make it hierarchical (like categories).
 		$labels = array(
-			'name'              => _x( 'Ticker', 'taxonomy general name' ),
-			'singular_name'     => _x( 'Ticker', 'taxonomy singular name' ),
+			'name'              => _x( 'Ticker', 'taxonomy general name', 'stklcode-liveticker' ),
+			'singular_name'     => _x( 'Ticker', 'taxonomy singular name', 'stklcode-liveticker' ),
 			'search_items'      => __( 'Search Tickers', 'stklcode-liveticker' ),
 			'all_items'         => __( 'All Tickers', 'stklcode-liveticker' ),
 			'parent_item'       => __( 'Parent Ticker', 'stklcode-liveticker' ),
