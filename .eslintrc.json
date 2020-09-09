@@ -8,9 +8,18 @@
     "wp": "readonly"
   },
   "extends": [
-    "plugin:@wordpress/eslint-plugin/recommended",
-    "plugin:@wordpress/eslint-plugin/es5"
+    "plugin:@wordpress/eslint-plugin/custom",
+    "plugin:@wordpress/eslint-plugin/es5",
+    "plugin:@wordpress/eslint-plugin/i18n"
   ],
+  "rules": {
+    "@wordpress/i18n-text-domain": [
+      "error",
+      {
+        "allowedTextDomain": [ "stklcode-liveticker" ]
+      }
+    ]
+  },
   "overrides": [
     {
       "files": [
