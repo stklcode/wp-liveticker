@@ -8,7 +8,7 @@
 
 * Contributors:      Stefan Kalscheuer
 * Tags:              liveticker, feed, rss
-* Requires at least: 4.0
+* Requires at least: 4.7
 * Tested up to:      5.7
 * Requires PHP:      5.6
 * Stable tag:        1.1.1
@@ -79,6 +79,11 @@ caching time of 12 hours obviously makes no sense.
 7. Example widget
 
 ## Changelog
+
+### 1.2.0 - unreleased
+
+* Requires WordPress 4.7 or above
+* Migrated AJAX to REST API
 
 ### 1.1.1 - 2021-03-20
 
