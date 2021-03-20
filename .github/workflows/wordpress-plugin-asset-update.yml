@@ -1,0 +1,21 @@
+name: Plugin asset/readme update
+on:
+  push:
+    branches:
+      - master
+jobs:
+  master:
+    name: Push to master
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5
+      - name: Clean README.md
+        run: tail -n +7 README.md > README.md.tmp && mv README.md.tmp README.md
+      - name: WordPress.org plugin asset/readme update
+        uses: 10up/action-wordpress-plugin-asset-update@stable
+        env:
+          ASSETS_DIR: assets
+          README_NAME: README.md
+          SVN_PASSWORD: ${{ secrets.WP_SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.WP_SVN_USERNAME }}
