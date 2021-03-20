@@ -5,8 +5,10 @@
 /vendor
 /.distignore
 /.drone.yml
+/.eslintrc.json
 /.gitattributes
 /.gitignore
+/.stylelintrc.json
 /.travis.yml
 /composer.json
 /composer.lock

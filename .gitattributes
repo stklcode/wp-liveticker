@@ -1,4 +1,5 @@
 /assets export-ignore
+.distignore export-ignore
 .drone.yml export-ignore
 .eslintrc.json export-ignore
 .gitattributes export-ignore
