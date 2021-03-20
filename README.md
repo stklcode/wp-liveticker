@@ -11,7 +11,7 @@
 * Requires at least: 4.0
 * Tested up to:      5.7
 * Requires PHP:      5.6
-* Stable tag:        1.1.0
+* Stable tag:        1.1.1
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,7 +80,7 @@ caching time of 12 hours obviously makes no sense.
 
 ## Changelog
 
-### unreleased
+### 1.1.1 - 2021-03-20
 
 * "Ticker"  taxonomy name is now translatable
 

@@ -18,8 +18,9 @@ before_script:
 - npm install
 
 script:
-- composer test
-- composer lint-all
+- composer lint-php
+- composer lint-js
+- composer lint-css
 
 notifications:
   slack:

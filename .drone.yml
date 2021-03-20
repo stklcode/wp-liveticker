@@ -3,15 +3,26 @@ name: default
 type: docker
 
 steps:
-  - name: pre-build
-    image: composer
+  - name: composer-install
+    image: composer:2
     commands:
       - composer install
-  - name: test
-    image: composer
-    commands:
-      - composer test
-  - name: lint
-    image: composer
+  - name: lint-php
+    image: composer:2
     commands:
       - composer lint-php
+    depends_on:
+      - composer-install
+  - name: node-install
+    image: node:14
+    commands:
+      - npm ci
+  - name: lint-assets
+    image: node:14
+    commands:
+      - npx eslint scripts/block.js
+      - npx eslint scripts/liveticker.js
+      - npx stylelint styles/block.css
+      - npx stylelint styles/liveticker.css
+    depends_on:
+      - node-install
