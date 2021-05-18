@@ -1,0 +1,44 @@
+name: CI
+on: push
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: composer
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install
+        run: |
+          composer install --no-interaction
+          npm ci
+      - name: Code style checks for PHP, JS and CSS
+        run: |
+          composer lint-php
+          composer lint-js
+          composer lint-css
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Analyze with SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=stklcode-github
+            -Dsonar.projectKey=stklcode:wp-liveticker
+            -Dsonar.sources=includes,scripts,views,stklcode-liveticker.php
+            -Dsonar.exclusions=scripts/*.min.js,styles/*.min.css

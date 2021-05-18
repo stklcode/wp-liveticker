@@ -9,8 +9,15 @@ jobs:
     name: New tag
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: php-actions/composer@v5
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: composer
+      - name: Install
+        run: composer install --no-interaction
       - name: Clean README.md
         run: tail -n +7 README.md > README.md.tmp && mv README.md.tmp README.md
       - name: WordPress Plugin Deploy
