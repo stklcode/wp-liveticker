@@ -44,7 +44,7 @@
 				document.querySelectorAll( 'div.wp-widget-scliveticker-ticker.sclt-ajax' ),
 				function( elem ) {
 					var o = parseElement( elem, true, ++c );
-					if ( 0 === o.lastPoll ) {
+					if ( '0' === o.lastPoll ) {
 						updateNow = true;
 					}
 					return o;
@@ -68,7 +68,7 @@
 	 * @param {HTMLElement} elem   The element.
 	 * @param {boolean}     widget Is the element a widget?
 	 * @param {number}      n      Number of the container.
-	 * @return {{ticker: string, lastPoll: number, ticks: any, limit: string, isWidget: *}} Ticker descriptor object.
+	 * @return {{ticker: string, lastPoll: string, ticks: any, limit: string, isWidget: *}} Ticker descriptor object.
 	 */
 	var parseElement = function( elem, widget, n ) {
 		var list = elem.querySelector( 'ul' );
