@@ -1,6 +1,32 @@
 name: CI
 on: push
 jobs:
+  integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - php: '7.4'
+            wordpress: '5.7'
+          - php: '5.6'
+            wordpress: '4.7'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
+      - name: Setup DB
+        run: sudo /etc/init.d/mysql start
+      - name: Setup WP
+        run: bash bin/install-wp-tests.sh wordpress root root localhost "${{ matrix.wordpress }}"
+      - name: Install
+        run: composer install
+      - name: Test
+        run: composer test
+
   quality:
     runs-on: ubuntu-latest
     steps:
@@ -9,7 +35,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '7.4'
           tools: composer
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -24,6 +50,7 @@ jobs:
           composer lint-php
           composer lint-js
           composer lint-css
+
   analysis:
     runs-on: ubuntu-latest
     steps:

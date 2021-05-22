@@ -6,11 +6,11 @@ steps:
   - name: composer-install
     image: composer:2
     commands:
-      - composer install
+      - composer install --ignore-platform-reqs
   - name: lint-php
-    image: composer:2
+    image: php:7.4
     commands:
-      - composer lint-php
+      - ./vendor/bin/phpcs
     depends_on:
       - composer-install
   - name: node-install
@@ -26,3 +26,4 @@ steps:
       - npx stylelint styles/liveticker.css
     depends_on:
       - node-install
+

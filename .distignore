@@ -1,13 +1,16 @@
 /.git
 /.github
 /assets
+/bin
 /node_modules
+/tests
 /vendor
 /.distignore
 /.drone.yml
 /.eslintrc.json
 /.gitattributes
 /.gitignore
+/.phpunit.result.cache
 /.stylelintrc.json
 /.travis.yml
 /composer.json

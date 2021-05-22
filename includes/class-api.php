@@ -67,7 +67,7 @@ class Api {
 		if ( ! empty( $limit ) && $limit > 0 ) {
 			$args['posts_per_page'] = $limit;
 		} else {
-			$args['paged'] = false;
+			$args['nopaging'] = true;
 		}
 
 		if ( $last_poll > 0 ) {

@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="./vendor/autoload.php">
+<phpunit bootstrap="tests/bootstrap.php"
+		 backupGlobals="false"
+		 colors="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="true"
+		 convertWarningsToExceptions="true">
 	<testsuites>
 		<testsuite name="WP Liveticker 2 TestSuite">
-			<directory suffix="-test.php">./test/</directory>
+			<directory prefix="test-" suffix=".php">./tests/</directory>
 		</testsuite>
 	</testsuites>
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">includes</directory>
+		</whitelist>
+	</filter>
 </phpunit>
