@@ -64,13 +64,15 @@ class Api {
 			);
 		}
 
-		if ( ! empty( $limit ) && $limit > 0 ) {
+		if ( $limit > 0 ) {
 			$args['posts_per_page'] = $limit;
-		} else {
+			$args['paged']          = 1;
+		} elseif ( $limit < 0 ) {
 			$args['nopaging'] = true;
+			$args['paged']    = 0;
 		}
 
-		if ( $last_poll > 0 ) {
+		if ( ! empty( $last_poll ) ) {
 			$last_poll = explode(
 				',',
 				gmdate(

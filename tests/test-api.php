@@ -104,7 +104,8 @@ class Test_API extends WP_UnitTestCase {
 		self::assertEquals( 200, $response->get_status(), 'Unexpected status code' );
 		self::assertEquals( 2, count( $response->get_data() ), 'Unexpected number of tickers' );
 
-		// Query all entries.
+		// Query all entries. The "limit" parameter should overrule "per_page".
+		$request->set_param( 'limit', - 1 );
 		$response = $wp_rest_server->dispatch( $request );
 		self::assertEquals( 200, $response->get_status(), 'Unexpected status code' );
 		self::assertEquals( 20, count( $response->get_data() ), 'Unexpected number of ticks without filter' );
@@ -115,12 +116,27 @@ class Test_API extends WP_UnitTestCase {
 		self::assertEquals( 200, $response->get_status(), 'Unexpected status code with limit' );
 		self::assertEquals( 12, count( $response->get_data() ), 'Unexpected number of ticks with limit' );
 
+		// Use built-in pagination.
+		$request->set_param( 'limit', null );
+		$request->set_param( 'per_page', 13 );
+		$response = $wp_rest_server->dispatch( $request );
+		self::assertEquals( 200, $response->get_status(), 'Unexpected status code for first page' );
+		self::assertEquals( 13, count( $response->get_data() ), 'Unexpected number of ticks for first page' );
+		self::assertEquals( 20, $response->get_headers()['X-WP-Total'], 'Unexpected total header' );
+		self::assertEquals( 2, $response->get_headers()['X-WP-TotalPages'], 'Unexpected pages header' );
+		$request->set_param( 'page', 2 );
+		$response = $wp_rest_server->dispatch( $request );
+		self::assertEquals( 200, $response->get_status(), 'Unexpected status code for second page' );
+		self::assertEquals( 7, count( $response->get_data() ), 'Unexpected number of ticks for second page' );
+
 		// Filter by time.
 		$request->set_param( 'limit', null );
-		$request->set_param( 'last', $response->get_data()[5]['date_gmt'] );
+		$request->set_param( 'per_page', 10 );
+		$request->set_param( 'page', 1 );
+		$request->set_param( 'last', $dt->sub( new DateInterval( 'PT4M' ) )->format( 'Y-m-d H:i:s' ) );
 		$response = $wp_rest_server->dispatch( $request );
 		self::assertEquals( 200, $response->get_status(), 'Unexpected status code with time filter' );
-		self::assertEquals( 5, count( $response->get_data() ), 'Unexpected number of ticks with time filter' );
+		self::assertEquals( 3, count( $response->get_data() ), 'Unexpected number of ticks with time filter' );
 
 		// Filter by ticker.
 		$request->set_param( 'last', null );
