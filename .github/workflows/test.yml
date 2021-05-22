@@ -44,7 +44,7 @@ jobs:
       - name: Install
         run: |
           composer install --no-interaction
-          npm ci
+          npm install
       - name: Code style checks for PHP, JS and CSS
         run: |
           composer lint-php

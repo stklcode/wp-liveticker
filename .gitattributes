@@ -15,6 +15,5 @@
 /package-lock.json  export-ignore
 /phpcs.xml          export-ignore
 /phpunit.xml        export-ignore
-/RoboFile.php       export-ignore
 /tests              export-ignore
 

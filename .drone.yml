@@ -6,9 +6,9 @@ steps:
   - name: composer-install
     image: composer:2
     commands:
-      - composer install --ignore-platform-reqs
+      - composer install --ignore-platform-req=php
   - name: lint-php
-    image: php:7.4
+    image: composer:2
     commands:
       - ./vendor/bin/phpcs
     depends_on:
@@ -16,7 +16,7 @@ steps:
   - name: node-install
     image: node:14
     commands:
-      - npm ci
+      - npm install
   - name: lint-assets
     image: node:14
     commands:
