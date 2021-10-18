@@ -23,7 +23,7 @@ jobs:
       - name: Setup WP
         run: bash bin/install-wp-tests.sh wordpress root root localhost "${{ matrix.wordpress }}"
       - name: Install
-        run: composer install
+        run: composer install --no-interaction
       - name: Test
         run: composer test
 
