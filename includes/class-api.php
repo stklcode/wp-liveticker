@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use DateTime;
+
 /**
  * Liveticker.
  *
@@ -32,7 +34,7 @@ class Api {
 			'modified_rendered',
 			array(
 				'get_callback' => function ( $post ) {
-					return get_the_modified_date( 'd.m.Y H:i', $post );
+					return ( new DateTime( $post['modified'] ) )->format( 'd.m.Y H:i' );
 				},
 				'schema'       => array(
 					'description' => __( 'Rendered modification date and time.', 'stklcode-liveticker' ),
