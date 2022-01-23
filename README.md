@@ -85,6 +85,7 @@ caching time of 12 hours obviously makes no sense.
 * Requires WordPress 4.7 or above
 * Migrated AJAX to REST API
 * Resolved Javascript compatibility issues with IE11
+* Added optional shortcode support for tick content
 
 ### 1.1.1 - 2021-03-20
 
