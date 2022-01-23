@@ -169,15 +169,37 @@
 		var content = document.createElement( 'div' );
 		var cls = t.isWidget ? 'sclt-widget' : 'sclt-tick';
 		var old;
+		var scripts = [];
 
-		li.id = 'sclt-' + t.id + '-' + u.id;
-		li.classList.add( cls );
 		time.classList.add( cls + '-time' );
 		time.innerText = u.modified_rendered;
 		title.classList.add( cls + '-title' );
 		title.innerText = u.title.rendered;
 		content.classList.add( cls + '-content' );
 		content.innerHTML = u.content.rendered;
+
+		// Process embedded scripts, if any.
+		Array.prototype.forEach.call(
+			content.getElementsByTagName( 'script' ),
+			function( script ) {
+				var script2;
+				if ( script.src ) {
+					// Move referenced scripts to page head.
+					script.parentNode.removeChild( script );
+					script2 = document.createElement( 'script' );
+					Array.prototype.forEach.call( script.attributes, function( a ) {
+						script2.setAttribute( a.nodeName, a.nodeValue );
+					} );
+					document.head.appendChild( script2 );
+				} else {
+					scripts.push( script );
+				}
+			}
+		);
+
+		// Create the actual tick element.
+		li.id = 'sclt-' + t.id + '-' + u.id;
+		li.classList.add( cls );
 		li.appendChild( time );
 		li.appendChild( title );
 		li.appendChild( content );
@@ -203,6 +225,19 @@
 				}
 			);
 		}
+
+		// Evaluate embedded inline scripts.
+
+		// Directly evaluate script otherwise.
+		scripts.forEach( function( script ) {
+			try {
+				// eslint-disable-next-line no-eval
+				eval( script.innerHTML );
+			} catch ( e ) {
+				// eslint-disable-next-line no-console
+				console.warn( 'Failed to evaluate embedded script.' );
+			}
+		} );
 	};
 
 	document.addEventListener(

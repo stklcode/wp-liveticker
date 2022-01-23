@@ -86,6 +86,7 @@ caching time of 12 hours obviously makes no sense.
 * Migrated AJAX to REST API
 * Resolved Javascript compatibility issues with IE11
 * Added optional shortcode support for tick content
+* Support embedded JavaScript execution in tick content (e.g. for social media integrations)
 
 ### 1.1.1 - 2021-03-20
 
