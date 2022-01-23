@@ -8,17 +8,17 @@ steps:
     commands:
       - composer install --ignore-platform-req=php
   - name: lint-php
-    image: composer:2
+    image: php:7.4
     commands:
       - ./vendor/bin/phpcs
     depends_on:
       - composer-install
   - name: node-install
-    image: node:14
+    image: node:16
     commands:
       - npm install
   - name: lint-assets
-    image: node:14
+    image: node:16
     commands:
       - npx eslint scripts/block.js
       - npx eslint scripts/liveticker.js
