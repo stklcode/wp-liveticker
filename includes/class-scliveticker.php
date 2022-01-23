@@ -418,11 +418,12 @@ class SCLiveticker {
 	 */
 	protected static function default_options() {
 		return array(
-			'enable_ajax'    => 1,
-			'poll_interval'  => 60,
-			'enable_css'     => 1,
-			'show_feed'      => 0,
-			'reset_settings' => 0,
+			'enable_ajax'      => 1,
+			'poll_interval'    => 60,
+			'enable_css'       => 1,
+			'show_feed'        => 0,
+			'enable_shortcode' => 0,
+			'reset_settings'   => 0,
 		);
 	}
 
@@ -437,6 +438,10 @@ class SCLiveticker {
 	 * @return string HTML code of tick.
 	 */
 	private static function tick_html( $time, $title, $content, $id ) {
+		if ( self::$options['enable_shortcode'] ) {
+			$content = do_shortcode( $content );
+		}
+
 		return '<li class="sclt-tick" data-sclt-tick-id="' . esc_attr( $id ) . '">'
 			. '<span class="sclt-tick-time">' . esc_html( $time ) . '</span>'
 			. '<span class="sclt-tick-title">' . esc_html( $title ) . '</span>'

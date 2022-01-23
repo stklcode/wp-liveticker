@@ -107,6 +107,15 @@ class Admin extends SCLiveticker {
 			'scliveticker_settings_general',
 			array( 'label_for' => esc_attr( self::OPTION ) . '-show-feed' )
 		);
+
+		add_settings_field(
+			'enable_shortcode',
+			__( 'Shortcode support', 'stklcode-liveticker' ),
+			array( __CLASS__, 'settings_enable_shortcode_field' ),
+			'scliveticker-settings-page',
+			'scliveticker_settings_general',
+			array( 'label_for' => esc_attr( self::OPTION ) . '-enable-shortcode' )
+		);
 	}
 
 	/**
@@ -179,6 +188,21 @@ class Admin extends SCLiveticker {
 	}
 
 	/**
+	 * Render enable css field.
+	 *
+	 * @return void
+	 *
+	 * @since 1.2
+	 */
+	public static function settings_enable_shortcode_field() {
+		$checked = self::$options['enable_shortcode'];
+
+		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-shortcode" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_shortcode]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		esc_html_e( 'Enable', 'stklcode-liveticker' );
+		echo '<p class="description">' . esc_html__( 'Enable shortcode processing in tick content.', 'stklcode-liveticker' ) . '</p>';
+	}
+
+	/**
 	 * Render the settings page.
 	 *
 	 * @return void
@@ -197,10 +221,11 @@ class Admin extends SCLiveticker {
 	public static function validate_settings( $input ) {
 		$defaults = self::default_options();
 
-		$result['enable_ajax']   = isset( $input['enable_ajax'] ) ? intval( $input['enable_ajax'] ) : 0;
-		$result['poll_interval'] = isset( $input['poll_interval'] ) ? intval( $input['poll_interval'] ) : $defaults['poll_interval'];
-		$result['enable_css']    = isset( $input['enable_css'] ) ? intval( $input['enable_css'] ) : 0;
-		$result['show_feed']     = isset( $input['show_feed'] ) ? intval( $input['show_feed'] ) : 0;
+		$result['enable_ajax']      = isset( $input['enable_ajax'] ) ? intval( $input['enable_ajax'] ) : 0;
+		$result['poll_interval']    = isset( $input['poll_interval'] ) ? intval( $input['poll_interval'] ) : $defaults['poll_interval'];
+		$result['enable_css']       = isset( $input['enable_css'] ) ? intval( $input['enable_css'] ) : 0;
+		$result['show_feed']        = isset( $input['show_feed'] ) ? intval( $input['show_feed'] ) : 0;
+		$result['enable_shortcode'] = isset( $input['enable_shortcode'] ) ? intval( $input['enable_shortcode'] ) : 0;
 
 		return $result;
 	}
