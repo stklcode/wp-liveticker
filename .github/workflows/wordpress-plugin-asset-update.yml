@@ -22,6 +22,7 @@ jobs:
       - name: WordPress.org plugin asset/readme update
         uses: 10up/action-wordpress-plugin-asset-update@stable
         env:
+          SLUG: stklcode-liveticker
           ASSETS_DIR: assets
           README_NAME: README.md
           SVN_PASSWORD: ${{ secrets.WP_SVN_PASSWORD }}

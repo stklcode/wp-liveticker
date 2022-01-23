@@ -23,6 +23,7 @@ jobs:
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
+          SLUG: stklcode-liveticker
           ASSETS_DIR: assets
           SVN_PASSWORD: ${{ secrets.WP_SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.WP_SVN_USERNAME }}
