@@ -275,10 +275,11 @@ class SCLiveticker {
 				'scliveticker-js',
 				'scliveticker',
 				array(
-					'ajax_url'      => admin_url( 'admin-ajax.php' ),
-					'nonce'         => wp_create_nonce( 'scliveticker_update-ticks' ),
-					'api'           => rest_url(),
-					'poll_interval' => self::$options['poll_interval'] * 1000,
+					'ajax_url'        => admin_url( 'admin-ajax.php' ),
+					'nonce'           => wp_create_nonce( 'scliveticker_update-ticks' ),
+					'api'             => rest_url(),
+					'embedded_script' => boolval( self::$options['embedded_script'] ),
+					'poll_interval'   => self::$options['poll_interval'] * 1000,
 				)
 			);
 
@@ -423,6 +424,7 @@ class SCLiveticker {
 			'enable_css'       => 1,
 			'show_feed'        => 0,
 			'enable_shortcode' => 0,
+			'embedded_script'  => 0,
 			'reset_settings'   => 0,
 		);
 	}

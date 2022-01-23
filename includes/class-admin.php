@@ -116,6 +116,15 @@ class Admin extends SCLiveticker {
 			'scliveticker_settings_general',
 			array( 'label_for' => esc_attr( self::OPTION ) . '-enable-shortcode' )
 		);
+
+		add_settings_field(
+			'embedded_script',
+			__( 'Embedded JavaScript', 'stklcode-liveticker' ),
+			array( __CLASS__, 'settings_embedded_script_field' ),
+			'scliveticker-settings-page',
+			'scliveticker_settings_general',
+			array( 'label_for' => esc_attr( self::OPTION ) . '-embedded-script' )
+		);
 	}
 
 	/**
@@ -188,7 +197,7 @@ class Admin extends SCLiveticker {
 	}
 
 	/**
-	 * Render enable css field.
+	 * Render enable shortcode field.
 	 *
 	 * @return void
 	 *
@@ -200,6 +209,21 @@ class Admin extends SCLiveticker {
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-shortcode" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_shortcode]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
 		esc_html_e( 'Enable', 'stklcode-liveticker' );
 		echo '<p class="description">' . esc_html__( 'Enable shortcode processing in tick content.', 'stklcode-liveticker' ) . '</p>';
+	}
+
+	/**
+	 * Render embedded script field.
+	 *
+	 * @return void
+	 *
+	 * @since 1.2
+	 */
+	public static function settings_embedded_script_field() {
+		$checked = self::$options['embedded_script'];
+
+		echo '<input id="' . esc_attr( self::OPTION ) . '-embedded-script" type="checkbox" name="' . esc_attr( self::OPTION ) . '[embedded_script]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
+		esc_html_e( 'Enable', 'stklcode-liveticker' );
+		echo '<p class="description">' . esc_html__( 'Allow embedded script evaluation in tick contents. This might be useful for embedded content, e.g. social media integrations.', 'stklcode-liveticker' ) . '</p>';
 	}
 
 	/**
@@ -226,6 +250,7 @@ class Admin extends SCLiveticker {
 		$result['enable_css']       = isset( $input['enable_css'] ) ? intval( $input['enable_css'] ) : 0;
 		$result['show_feed']        = isset( $input['show_feed'] ) ? intval( $input['show_feed'] ) : 0;
 		$result['enable_shortcode'] = isset( $input['enable_shortcode'] ) ? intval( $input['enable_shortcode'] ) : 0;
+		$result['embedded_script']  = isset( $input['embedded_script'] ) ? intval( $input['embedded_script'] ) : 0;
 
 		return $result;
 	}

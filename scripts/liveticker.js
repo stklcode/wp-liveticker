@@ -179,23 +179,25 @@
 		content.innerHTML = u.content.rendered;
 
 		// Process embedded scripts, if any.
-		Array.prototype.forEach.call(
-			content.getElementsByTagName( 'script' ),
-			function( script ) {
-				var script2;
-				if ( script.src ) {
-					// Move referenced scripts to page head.
-					script.parentNode.removeChild( script );
-					script2 = document.createElement( 'script' );
-					Array.prototype.forEach.call( script.attributes, function( a ) {
-						script2.setAttribute( a.nodeName, a.nodeValue );
-					} );
-					document.head.appendChild( script2 );
-				} else {
-					scripts.push( script );
+		if ( scliveticker.embedded_script ) {
+			Array.prototype.forEach.call(
+				content.getElementsByTagName( 'script' ),
+				function( script ) {
+					var script2;
+					if ( script.src ) {
+						// Move referenced scripts to page head.
+						script.parentNode.removeChild( script );
+						script2 = document.createElement( 'script' );
+						Array.prototype.forEach.call( script.attributes, function( a ) {
+							script2.setAttribute( a.nodeName, a.nodeValue );
+						} );
+						document.head.appendChild( script2 );
+					} else {
+						scripts.push( script );
+					}
 				}
-			}
-		);
+			);
+		}
 
 		// Create the actual tick element.
 		li.id = 'sclt-' + t.id + '-' + u.id;
