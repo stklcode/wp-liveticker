@@ -80,7 +80,7 @@ caching time of 12 hours obviously makes no sense.
 
 ## Changelog
 
-### 1.2.0 - 2022-02-01
+### 1.2.1 - 2022-02-01
 
 * Fix issue with limit in Gutenberg block.
 
