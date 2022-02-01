@@ -80,6 +80,10 @@ caching time of 12 hours obviously makes no sense.
 
 ## Changelog
 
+### 1.2.0 - 2022-02-01
+
+* Fix issue with limit in Gutenberg block.
+
 ### 1.2.0 - 2022-01-23
 
 * Requires WordPress 4.7 or above
