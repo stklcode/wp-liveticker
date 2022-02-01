@@ -152,7 +152,7 @@
 							disabled: props.attributes.unlimited,
 							value: props.attributes.limit,
 							onChange: function( val ) {
-								props.setAttributes( { limit: val } );
+								props.setAttributes( { limit: Number( val ) } );
 							},
 						}
 					),
