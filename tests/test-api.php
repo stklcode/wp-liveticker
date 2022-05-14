@@ -24,7 +24,7 @@ class Test_API extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		global $wp_rest_server;
 		$wp_rest_server = new WP_REST_Server();

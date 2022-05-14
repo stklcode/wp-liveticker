@@ -5,9 +5,9 @@
   "author": "Stefan Kalscheuer",
   "license": "GPL-2.0+",
   "devDependencies": {
-    "@wordpress/eslint-plugin": "^9",
-    "@wordpress/stylelint-config": "^19",
-    "eslint": "^7",
-    "stylelint": "^13"
+    "@wordpress/eslint-plugin": "^12",
+    "@wordpress/stylelint-config": "^20",
+    "eslint": "^8",
+    "stylelint": "^14"
   }
 }
