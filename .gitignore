@@ -4,5 +4,7 @@
 /.phpunit.result.cache
 /composer.lock
 /package-lock.json
+/phpunit.coverage.xml
+/phpunit.report.xml
 **/*.min.css
 **/*.min.js

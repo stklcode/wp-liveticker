@@ -8,6 +8,7 @@ jobs:
         include:
           - php: '8.1'
             wordpress: '6.1'
+            analysis: true
           - php: '8.0'
             wordpress: '5.9'
           - php: '5.6'
@@ -15,11 +16,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           tools: composer
+          coverage: xdebug
       - name: Setup DB
         run: sudo /etc/init.d/mysql start
       - name: Setup WP
@@ -27,40 +31,9 @@ jobs:
       - name: Install
         run: composer install --no-interaction
       - name: Test
-        run: composer test
-
-  quality:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          tools: composer
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - name: Install
-        run: |
-          composer install --no-interaction
-          npm install
-      - name: Code style checks for PHP, JS and CSS
-        run: |
-          composer lint-php
-          composer lint-js
-          composer lint-css
-
-  analysis:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        run: vendor/bin/phpunit --coverage-clover phpunit.coverage.xml --log-junit  phpunit.report.xml
       - name: Analyze with SonarCloud
+        if: matrix.analysis
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,4 +43,5 @@ jobs:
             -Dsonar.organization=stklcode-github
             -Dsonar.projectKey=stklcode:wp-liveticker
             -Dsonar.sources=includes,scripts,views,stklcode-liveticker.php
+            -Dsonar.tests=tests
             -Dsonar.exclusions=scripts/*.min.js,styles/*.min.css
