@@ -18,7 +18,7 @@ steps:
     commands:
       - npm install
   - name: lint-assets
-    image: node:16
+    image: node:18
     commands:
       - npx eslint scripts/block.js
       - npx eslint scripts/liveticker.js
