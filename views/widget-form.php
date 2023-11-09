@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php esc_html_e( 'all', 'stklcode-liveticker' ); ?>
 				</option>
 				<?php
-				for ( $i = 1; $i <= 10; $i ++ ) {
+				for ( $i = 1; $i <= 10; $i++ ) {
 					printf(
 						'<option value="%d"%s>%d</option>',
 						$i,

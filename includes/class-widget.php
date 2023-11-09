@@ -95,15 +95,16 @@ class Widget extends WP_Widget {
 
 		$wp_query = new WP_Query( $args );
 		$cnt      = 0;
-		while ( $wp_query->have_posts() && ( $count <= 0 || ++ $cnt < $count ) ) {
+		while ( $wp_query->have_posts() && ( $count <= 0 || ++$cnt < $count ) ) {
 			$wp_query->the_post();
-			// @codingStandardsIgnoreLine
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo SCLiveticker::tick_html_widget(
 				esc_html( get_the_time( 'd.m.Y - H:i' ) ),
 				get_the_title(),
 				( '1' === $highlight && get_the_time( 'U' ) > ( time() - $highlight_time ) ),
 				get_the_ID()
 			);
+			// phpcs:enable
 		}
 
 		echo '</ul>';

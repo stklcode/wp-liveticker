@@ -64,11 +64,11 @@ spl_autoload_register( 'scliveticker_autoload' );
 /**
  * Autoloader for Liveticker classes.
  *
- * @param string $class  Name of the class to load.
+ * @param string $class_name  Name of the class to load.
  *
  * @return void
  */
-function scliveticker_autoload( $class ) {
+function scliveticker_autoload( $class_name ) {
 	$plugin_classes = array(
 		'SCLiveticker\\SCLiveticker',
 		'SCLiveticker\\Admin',
@@ -76,11 +76,11 @@ function scliveticker_autoload( $class ) {
 		'SCLiveticker\\System',
 		'SCLiveticker\\Widget',
 	);
-	if ( in_array( $class, $plugin_classes, true ) ) {
+	if ( in_array( $class_name, $plugin_classes, true ) ) {
 		require_once sprintf(
 			'%s/includes/class-%s.php',
 			SCLIVETICKER_DIR,
-			strtolower( str_replace( '_', '-', substr( $class, 13 ) ) )
+			strtolower( str_replace( '_', '-', substr( $class_name, 13 ) ) )
 		);
 	}
 }
