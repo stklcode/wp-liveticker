@@ -57,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				for ( $i = 1; $i <= 10; $i++ ) {
 					printf(
 						'<option value="%d"%s>%d</option>',
-						$i,
+						intval( $i ),
 						( $i === $count ) ? ' selected' : '',
 						intval( $i )
 					);
