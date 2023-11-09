@@ -8,13 +8,13 @@ steps:
     commands:
       - composer install --ignore-platform-req=php
   - name: lint-php
-    image: php:8.0
+    image: php:8.2
     commands:
       - ./vendor/bin/phpcs
     depends_on:
       - composer-install
   - name: node-install
-    image: node:16
+    image: node:18
     commands:
       - npm install
   - name: lint-assets
