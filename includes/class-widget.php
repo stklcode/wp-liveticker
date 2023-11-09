@@ -146,7 +146,13 @@ class Widget extends WP_Widget {
 		$highlight      = isset( $instance['highlight'] ) ? esc_attr( $instance['highlight'] ) : '0';
 		$highlight_time = isset( $instance['highlight_time'] ) ? esc_attr( $instance['highlight_time'] ) : '0';
 		$ajax           = isset( $instance['ajax'] ) ? esc_attr( $instance['ajax'] ) : '0';
-		$categories     = get_terms( 'scliveticker_ticker', 'orderby=name&order=ASC' );
+		$categories     = get_terms(
+			array(
+				'taxonomy' => 'scliveticker_ticker',
+				'orderby'  => 'name',
+				'order'    => 'ASC',
+			)
+		);
 
 		include SCLIVETICKER_DIR . 'views/widget-form.php';
 	}
