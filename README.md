@@ -9,9 +9,9 @@
 * Contributors:      Stefan Kalscheuer
 * Tags:              liveticker, feed, rss
 * Requires at least: 4.7
-* Tested up to:      6.2
+* Tested up to:      6.4
 * Requires PHP:      5.6
-* Stable tag:        1.2.1
+* Stable tag:        1.2.2
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,12 @@ caching time of 12 hours obviously makes no sense.
 7. Example widget
 
 ## Changelog
+
+### 1.2.2 - 2023-03-02
+
+* Update use of deprecated WP core functions
+* Extend output sanitization
+* Tested with WP 6.4
 
 ### 1.2.1 - 2022-02-01
 
