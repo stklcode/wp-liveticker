@@ -81,7 +81,7 @@ class SCLiveticker {
 		}
 
 		// Load Textdomain.
-		load_plugin_textdomain( 'stklcode-liveticker', false );
+		load_plugin_textdomain( 'stklcode-liveticker' );
 
 		// Allow shortcodes in widgets.
 		add_filter( 'widget_text', 'do_shortcode' );
@@ -289,8 +289,7 @@ class SCLiveticker {
 					'sclt-css',
 					SCLIVETICKER_BASE . 'styles/liveticker.min.css',
 					'',
-					self::VERSION,
-					'all'
+					self::VERSION
 				);
 			}
 		}
