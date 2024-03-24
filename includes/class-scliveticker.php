@@ -261,7 +261,7 @@ class SCLiveticker {
 	 */
 	public static function enqueue_resources(): void {
 		// Only add if shortcode is present.
-		if ( self::$shortcode_present || self::$widget_present || self::block_present() ) {
+		if ( self::$shortcode_present || self::$widget_present || has_block( 'scliveticker/ticker' ) ) {
 			wp_enqueue_script(
 				'scliveticker-js',
 				SCLIVETICKER_BASE . 'scripts/liveticker.min.js',
@@ -472,16 +472,5 @@ class SCLiveticker {
 			. '<span class="sclt-widget-time">' . esc_html( $time ) . '</span>'
 			. '<span class="sclt-widget-title">' . $title . '</span>'
 			. '</li>';
-	}
-
-	/**
-	 * Check if the Gutenberg block is present in current post.
-	 *
-	 * @return boolean True, if Gutenberg block is present.
-	 * @since 1.1
-	 */
-	private static function block_present(): bool {
-		return function_exists( 'has_block' ) && // We are in WP 5.x environment.
-			has_block( 'scliveticker/ticker' ); // Specific block is present.
 	}
 }
