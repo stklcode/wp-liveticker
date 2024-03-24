@@ -150,11 +150,13 @@ class Settings extends SCLiveticker {
 	 * @since 1.3.0 moved from Admin to Settings class
 	 */
 	public static function settings_enable_ajax_field(): void {
-		$checked = self::$options['enable_ajax'];
-
-		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-ajax" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_ajax]" value="1" ' . checked( $checked, 1, false ) . '> ';
-		esc_html_e( 'Enable', 'stklcode-liveticker' );
-		echo '<p class="description">' . esc_html__( 'Disable this option to not use AJAX update. This means all liveticker widgets and shortcodes are only updated once on site load.', 'stklcode-liveticker' ) . '</p>';
+		self::render_checkbox(
+			'enable-ajax',
+			'[enable_ajax]',
+			self::$options['enable_ajax'],
+			__( 'Disable this option to not use AJAX update. This means all liveticker widgets and shortcodes are only updated once on site load.', 'stklcode-liveticker' ),
+			__( 'Enable AJAX updates', 'stklcode-liveticker' )
+		);
 	}
 
 	/**
@@ -183,11 +185,13 @@ class Settings extends SCLiveticker {
 	 * @since 1.3.0 moved from Admin to Settings class
 	 */
 	public static function settings_enable_css_field(): void {
-		$checked = self::$options['enable_css'];
-
-		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-css" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'stklcode-liveticker' );
-		echo '<p class="description">' . esc_html__( 'Disable this option to remove the default styling CSS file.', 'stklcode-liveticker' ) . '</p>';
+		self::render_checkbox(
+			'enable-css',
+			'[enable_css]',
+			self::$options['enable_css'],
+			__( 'Disable this option to remove the default styling CSS file.', 'stklcode-liveticker' ),
+			__( 'Enable default stylesheet', 'stklcode-liveticker' )
+		);
 	}
 
 	/**
@@ -199,11 +203,13 @@ class Settings extends SCLiveticker {
 	 * @since 1.3.0 moved from Admin to Settings class
 	 */
 	public static function settings_show_feed_field(): void {
-		$checked = self::$options['show_feed'];
-
-		echo '<input id="' . esc_attr( self::OPTION ) . '-show-feed" type="checkbox" name="' . esc_attr( self::OPTION ) . '[show_feed]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'stklcode-liveticker' );
-		echo '<p class="description">' . esc_html__( 'Can be overwritten in shortcode.', 'stklcode-liveticker' ) . '</p>';
+		self::render_checkbox(
+			'show-feed',
+			'[show_feed]',
+			self::$options['show_feed'],
+			__( 'Can be overwritten in shortcode.', 'stklcode-liveticker' ),
+			__( 'Show RSS feed in shortcode', 'stklcode-liveticker' )
+		);
 	}
 
 	/**
@@ -215,11 +221,13 @@ class Settings extends SCLiveticker {
 	 * @since 1.3.0 moved from Admin to Settings class
 	 */
 	public static function settings_enable_shortcode_field(): void {
-		$checked = self::$options['enable_shortcode'];
-
-		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-shortcode" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_shortcode]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'stklcode-liveticker' );
-		echo '<p class="description">' . esc_html__( 'Enable shortcode processing in tick content.', 'stklcode-liveticker' ) . '</p>';
+		self::render_checkbox(
+			'enable-shortcode',
+			'[enable_shortcode]',
+			self::$options['enable_shortcode'],
+			__( 'Enable shortcode processing in tick content.', 'stklcode-liveticker' ),
+			__( 'Allow shortcodes in tick content', 'stklcode-liveticker' )
+		);
 	}
 
 	/**
@@ -231,11 +239,13 @@ class Settings extends SCLiveticker {
 	 * @since 1.3.0 moved from Admin to Settings class
 	 */
 	public static function settings_embedded_script_field(): void {
-		$checked = self::$options['embedded_script'];
-
-		echo '<input id="' . esc_attr( self::OPTION ) . '-embedded-script" type="checkbox" name="' . esc_attr( self::OPTION ) . '[embedded_script]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
-		esc_html_e( 'Enable', 'stklcode-liveticker' );
-		echo '<p class="description">' . esc_html__( 'Allow embedded script evaluation in tick contents. This might be useful for embedded content, e.g. social media integrations.', 'stklcode-liveticker' ) . '</p>';
+		self::render_checkbox(
+			'embedded-script',
+			'[embedded_script]',
+			self::$options['embedded_script'],
+			__( 'Allow embedded script evaluation in tick contents. This might be useful for embedded content, e.g. social media integrations.', 'stklcode-liveticker' ),
+			__( 'Allow JavaScript in tick content', 'stklcode-liveticker' )
+		);
 	}
 
 	/**
@@ -259,5 +269,35 @@ class Settings extends SCLiveticker {
 		$result['embedded_script']  = isset( $input['embedded_script'] ) ? intval( $input['embedded_script'] ) : 0;
 
 		return $result;
+	}
+
+	/**
+	 * Render a checkbox field.
+	 *
+	 * @param string $id                 Field ID.
+	 * @param string $name               Option name.
+	 * @param mixed  $value              Current value.
+	 * @param string $description        Description text.
+	 * @param string $screen_reader_text Screen reader text.
+	 *
+	 * @return void
+	 */
+	private static function render_checkbox(
+		string $id,
+		string $name,
+		$value,
+		string $description,
+		string $screen_reader_text
+	) {
+		?>
+		<fieldset>
+			<legend class="screen-reader-text"><?php echo esc_html( $screen_reader_text ); ?></legend>
+			<label for="<?php echo esc_attr( self::OPTION . '-' . $id ); ?>">
+				<input id="<?php echo esc_attr( self::OPTION . '-' . $id ); ?>" name="<?php echo esc_attr( self::OPTION . $name ); ?>" type="checkbox" value="1" <?php checked( $value, 1 ); ?>>
+				<?php esc_html_e( 'Enable', 'stklcode-liveticker' ); ?>
+			</label>
+			<p class="description"><?php echo esc_html( $description ); ?></p>
+		</fieldset>
+		<?php
 	}
 }
