@@ -28,7 +28,7 @@ class System extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function activate() {
+	public static function activate(): void {
 		// Load current options.
 		self::update_options();
 
@@ -49,7 +49,7 @@ class System extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function uninstall() {
+	public static function uninstall(): void {
 		// Delete all ticks.
 		$ticks = new WP_Query( array( 'post_type' => 'scliveticker_tick' ) );
 		foreach ( $ticks->get_posts() as $tick ) {

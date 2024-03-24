@@ -68,7 +68,7 @@ spl_autoload_register( 'scliveticker_autoload' );
  *
  * @return void
  */
-function scliveticker_autoload( $class_name ) {
+function scliveticker_autoload( string $class_name ): void {
 	$plugin_classes = array(
 		'SCLiveticker\\SCLiveticker',
 		'SCLiveticker\\Admin',

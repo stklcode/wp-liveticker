@@ -62,7 +62,7 @@ class SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function init(): void {
 		// Skip on autosave.
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
@@ -114,7 +114,7 @@ class SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function register_types() {
+	public static function register_types(): void {
 		// Add new taxonomy, make it hierarchical (like categories).
 		$labels = array(
 			'name'              => _x( 'Ticker', 'taxonomy general name', 'stklcode-liveticker' ),
@@ -182,7 +182,7 @@ class SCLiveticker {
 	 *
 	 * @return string
 	 */
-	public static function shortcode_ticker_show( $atts ) {
+	public static function shortcode_ticker_show( array $atts ): string {
 		// Indicate presence of shortcode (to enqueue styles/scripts later).
 		self::$shortcode_present = true;
 
@@ -259,7 +259,7 @@ class SCLiveticker {
 	 * @return void
 	 * @since 1.1 Combined former methods "enqueue_styles" and "enqueue_scripts".
 	 */
-	public static function enqueue_resources() {
+	public static function enqueue_resources(): void {
 		// Only add if shortcode is present.
 		if ( self::$shortcode_present || self::$widget_present || self::block_present() ) {
 			wp_enqueue_script(
@@ -301,7 +301,7 @@ class SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function ajax_update() {
+	public static function ajax_update(): void {
 		// Verify AJAX nonce.
 		check_ajax_referer( 'scliveticker_update-ticks' );
 
@@ -394,7 +394,7 @@ class SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function mark_widget_present() {
+	public static function mark_widget_present(): void {
 		self::$widget_present = true;
 	}
 
@@ -405,7 +405,7 @@ class SCLiveticker {
 	 *
 	 * @return void
 	 */
-	protected static function update_options( $options = null ) {
+	protected static function update_options( ?array $options = null ): void {
 		self::$options = wp_parse_args(
 			get_option( self::OPTION ),
 			self::default_options()
@@ -417,7 +417,7 @@ class SCLiveticker {
 	 *
 	 * @return array The options array.
 	 */
-	protected static function default_options() {
+	protected static function default_options(): array {
 		return array(
 			'enable_ajax'      => 1,
 			'poll_interval'    => 60,
@@ -439,7 +439,7 @@ class SCLiveticker {
 	 *
 	 * @return string HTML code of tick.
 	 */
-	private static function tick_html( $time, $title, $content, $id ) {
+	private static function tick_html( string $time, string $title, string $content, int $id ): string {
 		if ( self::$options['enable_shortcode'] ) {
 			$content = do_shortcode( $content );
 		}
@@ -460,7 +460,7 @@ class SCLiveticker {
 	 *
 	 * @return string HTML code of widget tick.
 	 */
-	public static function tick_html_widget( $time, $title, $highlight, $id = 0 ) {
+	public static function tick_html_widget( string $time, string $title, bool $highlight, int $id = 0 ): string {
 		$out = '<li';
 		if ( $highlight ) {
 			$out .= ' class="sclt-widget-new"';
@@ -480,7 +480,7 @@ class SCLiveticker {
 	 * @return boolean True, if Gutenberg block is present.
 	 * @since 1.1
 	 */
-	private static function block_present() {
+	private static function block_present(): bool {
 		return function_exists( 'has_block' ) && // We are in WP 5.x environment.
 			has_block( 'scliveticker/ticker' ); // Specific block is present.
 	}

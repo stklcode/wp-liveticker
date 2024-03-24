@@ -24,7 +24,7 @@ class Test_API extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function set_up() {
+	public function set_up(): void {
 		parent::set_up();
 		global $wp_rest_server;
 		$wp_rest_server = new WP_REST_Server();
@@ -36,7 +36,7 @@ class Test_API extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_register_route() {
+	public function test_register_route(): void {
 		global $wp_rest_server;
 
 		$routes = $wp_rest_server->get_routes();
@@ -52,7 +52,7 @@ class Test_API extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_get_ticks() {
+	public function test_get_ticks(): void {
 		global $wp_rest_server;
 
 		$request  = new WP_REST_Request( 'GET', '/wp/v2/scliveticker_tick' );

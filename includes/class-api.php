@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use DateTime;
+use WP_REST_Request;
 
 /**
  * Liveticker.
@@ -27,7 +28,7 @@ class Api {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function init(): void {
 		// Add rendered modification date to WP_Post object.
 		register_rest_field(
 			'scliveticker_tick',
@@ -47,12 +48,12 @@ class Api {
 	/**
 	 * Filter tick queries by ticker slug and date.
 	 *
-	 * @param array            $args    Query vars.
-	 * @param \WP_REST_Request $request The REST request.
+	 * @param array           $args    Query vars.
+	 * @param WP_REST_Request $request The REST request.
 	 *
 	 * @return array Filtered query values.
 	 */
-	public static function tick_query_filter( $args, $request ) {
+	public static function tick_query_filter( array $args, WP_REST_Request $request ): array {
 		// Extract arguments.
 		$ticker_slug = $request->get_param( 'ticker' );
 		$limit       = intval( $request->get_param( 'limit' ) );

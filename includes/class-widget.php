@@ -31,7 +31,7 @@ class Widget extends WP_Widget {
 	/**
 	 * Register the widget.
 	 */
-	public static function register() {
+	public static function register(): void {
 		register_widget( __CLASS__ );
 	}
 
@@ -164,7 +164,7 @@ class Widget extends WP_Widget {
 	 *
 	 * @return array Complete instance configuration.
 	 */
-	private static function fill_options_with_defaults( $instance ) {
+	private static function fill_options_with_defaults( array $instance ): array {
 		$default = array(
 			'title'          => '',
 			'category'       => '',

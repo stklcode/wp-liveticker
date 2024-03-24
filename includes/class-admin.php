@@ -23,7 +23,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function dashboard_right_now() {
+	public static function dashboard_right_now(): void {
 		$total_files = wp_count_posts( 'scliveticker_tick' );
 
 		echo '<tr>';
@@ -37,7 +37,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function register_settings_page() {
+	public static function register_settings_page(): void {
 		add_submenu_page(
 			'edit.php?post_type=scliveticker_tick',
 			'Liveticker ' . __( 'Settings', 'stklcode-liveticker' ),
@@ -56,7 +56,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function register_settings() {
+	public static function register_settings(): void {
 		register_setting(
 			'scliveticker_settings',
 			self::OPTION,
@@ -132,7 +132,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function settings_general_section() {
+	public static function settings_general_section(): void {
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function settings_uninstall_section() {
+	public static function settings_uninstall_section(): void {
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function settings_enable_ajax_field() {
+	public static function settings_enable_ajax_field(): void {
 		$checked = self::$options['enable_ajax'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-ajax" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_ajax]" value="1" ' . checked( $checked, 1, false ) . '> ';
@@ -161,7 +161,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function settings_poll_interval_field() {
+	public static function settings_poll_interval_field(): void {
 		$poll_interval = self::$options['poll_interval'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-poll-interval" type="number" name="' . esc_attr( self::OPTION ) . '[poll_interval]" value="' . esc_attr( $poll_interval ) . '"> ';
@@ -175,7 +175,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function settings_enable_css_field() {
+	public static function settings_enable_css_field(): void {
 		$checked = self::$options['enable_css'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-css" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_css]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
@@ -188,7 +188,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function settings_show_feed_field() {
+	public static function settings_show_feed_field(): void {
 		$checked = self::$options['show_feed'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-show-feed" type="checkbox" name="' . esc_attr( self::OPTION ) . '[show_feed]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
@@ -203,7 +203,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @since 1.2
 	 */
-	public static function settings_enable_shortcode_field() {
+	public static function settings_enable_shortcode_field(): void {
 		$checked = self::$options['enable_shortcode'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-enable-shortcode" type="checkbox" name="' . esc_attr( self::OPTION ) . '[enable_shortcode]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
@@ -218,7 +218,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @since 1.2
 	 */
-	public static function settings_embedded_script_field() {
+	public static function settings_embedded_script_field(): void {
 		$checked = self::$options['embedded_script'];
 
 		echo '<input id="' . esc_attr( self::OPTION ) . '-embedded-script" type="checkbox" name="' . esc_attr( self::OPTION ) . '[embedded_script]" value="1" ' . checked( $checked, 1, false ) . ' /> ';
@@ -231,7 +231,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return void
 	 */
-	public static function settings_page() {
+	public static function settings_page(): void {
 		include SCLIVETICKER_DIR . 'views/settings-page.php';
 	}
 
@@ -242,7 +242,7 @@ class Admin extends SCLiveticker {
 	 *
 	 * @return array Parsed arguments.
 	 */
-	public static function validate_settings( $input ) {
+	public static function validate_settings( array $input ): array {
 		$defaults = self::default_options();
 
 		$result['enable_ajax']      = isset( $input['enable_ajax'] ) ? intval( $input['enable_ajax'] ) : 0;
@@ -261,7 +261,7 @@ class Admin extends SCLiveticker {
 	 * @return void
 	 * @since 1.1
 	 */
-	public static function register_block() {
+	public static function register_block(): void {
 		wp_register_script(
 			'scliveticker-editor',
 			SCLIVETICKER_BASE . 'scripts/block.min.js',
