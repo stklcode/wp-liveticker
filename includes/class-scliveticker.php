@@ -400,11 +400,12 @@ class SCLiveticker {
 	/**
 	 * Update options.
 	 *
-	 * @param array $options Optional. New options to save.
-	 *
 	 * @return void
+	 *
+	 * @since 1.0.0
+	 * @since 1.3.0 removed unused parameter
 	 */
-	protected static function update_options( ?array $options = null ): void {
+	protected static function update_options(): void {
 		self::$options = wp_parse_args(
 			get_option( self::OPTION ),
 			self::default_options()
