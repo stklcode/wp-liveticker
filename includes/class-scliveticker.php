@@ -104,7 +104,7 @@ class SCLiveticker {
 			add_action( 'right_now_content_table_end', array( 'SCLiveticker\\Admin', 'dashboard_right_now' ) );
 
 			// Settings.
-			add_action( 'admin_init', array( 'SCLiveticker\\Admin', 'register_settings' ) );
+			add_action( 'admin_init', array( 'SCLiveticker\\Settings', 'register_settings' ) );
 			add_action( 'admin_menu', array( 'SCLiveticker\\Admin', 'register_settings_page' ) );
 		}
 	}

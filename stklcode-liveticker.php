@@ -73,6 +73,7 @@ function scliveticker_autoload( string $class_name ): void {
 		'SCLiveticker\\SCLiveticker',
 		'SCLiveticker\\Admin',
 		'SCLiveticker\\Api',
+		'SCLiveticker\\Settings',
 		'SCLiveticker\\System',
 		'SCLiveticker\\Widget',
 	);
