@@ -14,7 +14,7 @@ steps:
     depends_on:
       - composer-install
   - name: node-install
-    image: node:18
+    image: node:20
     commands:
       - npm install
   - name: lint-assets
