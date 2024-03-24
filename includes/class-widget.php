@@ -49,10 +49,10 @@ class Widget extends WP_Widget {
 		SCLiveticker::mark_widget_present();
 
 		$instance       = self::fill_options_with_defaults( $instance );
-		$before_widget  = isset( $args['before_widget'] ) ? $args['before_widget'] : '';
-		$after_widget   = isset( $args['after_widget'] ) ? $args['after_widget'] : '';
-		$before_title   = isset( $args['before_title'] ) ? $args['before_title'] : '';
-		$after_title    = isset( $args['after_title'] ) ? $args['after_title'] : '';
+		$before_widget  = $args['before_widget'] ?? '';
+		$after_widget   = $args['after_widget'] ?? '';
+		$before_title   = $args['before_title'] ?? '';
+		$after_title    = $args['after_title'] ?? '';
 		$title          = apply_filters( 'scliveticker_catlit', $instance['title'] );
 		$category       = apply_filters( 'scliveticker_catlit', $instance['category'] );
 		$count          = apply_filters( 'scliveticker_catlit', $instance['count'] );
