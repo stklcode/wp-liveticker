@@ -13,12 +13,12 @@ use DateInterval;
 use DateTime;
 use WP_REST_Request;
 use WP_REST_Server;
-use WP_UnitTestCase;
+use Yoast\WPTestUtils\WPIntegration\TestCase;
 
 /**
  * Class Test_API.
  */
-class Test_API extends WP_UnitTestCase {
+class Test_API extends TestCase {
 	/**
 	 * Initialize WP REST API for tests.
 	 *
