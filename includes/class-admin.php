@@ -136,14 +136,6 @@ class Admin extends SCLiveticker {
 	}
 
 	/**
-	 * Render uninstall section.
-	 *
-	 * @return void
-	 */
-	public static function settings_uninstall_section(): void {
-	}
-
-	/**
 	 * Render enable AJAX field.
 	 *
 	 * @return void
