@@ -1,5 +1,5 @@
 /**
- * Contructor of the scLiveticker object.
+ * Constructor of the scLiveticker object.
  *
  * @class
  */
@@ -73,6 +73,7 @@
 	var parseElement = function( elem, widget, n ) {
 		var list = elem.querySelector( 'ul' );
 		var last = elem.getAttribute( 'data-sclt-last' );
+		var sort = elem.getAttribute( 'data-sclt-sort' );
 
 		elem.id = 'sclt-' + n;
 
@@ -92,11 +93,16 @@
 			);
 		}
 
+		if ( 'asc' !== sort && 'desc' !== 'sort' ) {
+			sort = 'desc';
+		}
+
 		return {
 			id: n,
 			ticker: elem.getAttribute( 'data-sclt-ticker' ),
 			limit: elem.getAttribute( 'data-sclt-limit' ),
 			lastPoll: last,
+			sort: sort,
 			ticks: list,
 			isWidget: widget,
 			updating: false,
@@ -210,8 +216,11 @@
 		if ( old ) {
 			// Replace entry, if it already exists (i.e. has been updated).
 			t.ticks.replaceChild( li, old );
+		} else if ( 'asc' === t.sort ) {
+			// Append new tick as last element to container.
+			t.ticks.appendChild( li );
 		} else {
-			// Prepend new tick to container.
+			// Prepend new tick as fist element to container.
 			t.ticks.insertBefore( li, t.ticks.firstChild );
 		}
 
@@ -220,8 +229,13 @@
 		t.ticks.parentNode.setAttribute( 'data-sclt-last', u.date_gmt );
 
 		// Remove tail, if limit is set.
-		if ( 0 < t.limit ) {
-			[].slice.call( t.ticks.getElementsByTagName( 'li' ), t.limit ).forEach(
+		if ( 0 < t.limit && t.limit < t.ticks.children.length ) {
+			if ( 'asc' === t.sort ) {
+				old = [].slice.call( t.ticks.children, 0, -t.limit );
+			} else {
+				old = [].slice.call( t.ticks.children, t.limit );
+			}
+			old.forEach(
 				function( l ) {
 					l.remove();
 				}

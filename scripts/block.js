@@ -86,6 +86,10 @@
 				type: 'boolean',
 				default: false,
 			},
+			sort: {
+				type: 'string',
+				// implicit default: 'desc', left empty here for backwards compatibility of the block
+			},
 		},
 		edit: withSelect( function( select ) {
 			return {
@@ -166,6 +170,26 @@
 							},
 						}
 					),
+					el(
+						wp.components.SelectControl,
+						{
+							label: __( 'Output direction', 'stklcode-liveticker' ),
+							value: props.attributes.sort,
+							options: [
+								{
+									value: 'desc',
+									label: __( 'newest first', 'stklcode-liveticker' ),
+								},
+								{
+									value: 'asc',
+									label: __( 'oldest first', 'stklcode-liveticker' ),
+								},
+							],
+							onChange: function( val ) {
+								props.setAttributes( { sort: val } );
+							},
+						}
+					),
 				];
 			}
 
@@ -183,6 +207,7 @@
 					'data-sclt-ticker': props.attributes.ticker,
 					'data-sclt-limit': props.attributes.unlimited ? 0 : props.attributes.limit,
 					'data-sclt-last': 0,
+					'data-sclt-sort': props.attributes.sort,
 				}
 			);
 		},
