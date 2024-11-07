@@ -18,7 +18,7 @@
   "type": "wordpress-plugin",
   "require": {
     "php": ">=7.2",
-    "composer/installers": "~v2.2.0"
+    "composer/installers": "~v2.3.0"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^v1.0",
