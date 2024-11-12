@@ -2,6 +2,7 @@
 /.github
 /assets
 /bin
+/dist
 /node_modules
 /tests
 /vendor
