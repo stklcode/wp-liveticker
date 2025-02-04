@@ -11,7 +11,7 @@
 * Requires at least: 5.0
 * Tested up to:      6.6
 * Requires PHP:      7.2
-* Stable tag:        1.2.2
+* Stable tag:        1.2.3
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,7 +80,12 @@ caching time of 12 hours obviously makes no sense.
 
 ## Changelog
 
-### 1.2.2 - 2023-03-02
+### 1.2.3 - 2025-02-04
+
+* Escape ticker ID in shortcode output
+* Tested with WP 6.7
+
+### 1.2.2 - 2024-03-02
 
 * Update use of deprecated WP core functions
 * Extend output sanitization

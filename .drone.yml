@@ -14,7 +14,7 @@ steps:
     depends_on:
       - composer-install
   - name: node-install
-    image: node:20
+    image: node:22
     commands:
       - npm install
   - name: lint-assets
@@ -26,4 +26,3 @@ steps:
       - npx stylelint styles/liveticker.css
     depends_on:
       - node-install
-
