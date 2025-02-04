@@ -232,7 +232,7 @@ class SCLiveticker {
 			$output = '<div class="wp-block-scliveticker-ticker';
 			if ( 1 === self::$options['enable_ajax'] ) {
 				$output .= ' sclt-ajax" '
-							. 'data-sclt-ticker="' . $ticker . '" '
+							. 'data-sclt-ticker="' . esc_attr( $ticker ) . '" '
 							. 'data-sclt-limit="' . $limit . '" '
 							. 'data-sclt-last="' . $last;
 			}
@@ -242,9 +242,9 @@ class SCLiveticker {
 			if ( $show_feed ) {
 				$feed_link = get_post_type_archive_feed_link( 'scliveticker_tick' ) . '';
 				if ( false === strpos( $feed_link, '&' ) ) {
-					$feed_link .= '?scliveticker_ticker=' . $ticker;
+					$feed_link .= '?scliveticker_ticker=' . rawurlencode( $ticker );
 				} else {
-					$feed_link .= '&scliveticker_ticker=' . $ticker;
+					$feed_link .= '&scliveticker_ticker=' . rawurlencode( $ticker );
 				}
 				$output .= '<a href="' . esc_attr( $feed_link ) . '">Feed</a>';
 			}
