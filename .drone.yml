@@ -14,11 +14,11 @@ steps:
     depends_on:
       - composer-install
   - name: node-install
-    image: node:18
+    image: node:22
     commands:
       - npm install
   - name: lint-assets
-    image: node:20
+    image: node:22
     commands:
       - npx eslint scripts/block.js
       - npx eslint scripts/liveticker.js
@@ -26,4 +26,3 @@ steps:
       - npx stylelint styles/liveticker.css
     depends_on:
       - node-install
-

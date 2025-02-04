@@ -1,0 +1,23 @@
+name: Plugin check
+on:
+  push:
+    branches: [ 'stable', 'release/*' ]
+  pull_request:
+    branches: [ 'stable' ]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Package plugin
+        run: |
+          mkdir -p ./dist
+          tail -n +7 README.md > README.md.tmp && mv README.md.tmp README.md
+          rsync -rc --exclude-from=.distignore ./ ./dist/stklcode-liveticker --delete --delete-excluded
+
+      - name: Check WP plugin
+        uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: ./dist/stklcode-liveticker
