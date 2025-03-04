@@ -243,7 +243,9 @@ class Settings extends SCLiveticker {
 			'embedded-script',
 			'[embedded_script]',
 			self::$options['embedded_script'],
-			__( 'Allow embedded script evaluation in tick contents. This might be useful for embedded content, e.g. social media integrations.', 'stklcode-liveticker' ),
+			__( 'Allow embedded script evaluation in tick contents. This might be useful for embedded content, e.g. social media integrations.', 'stklcode-liveticker' ) .
+			' ' .
+			__( 'Be aware that this feature potentially enables cross-site scripting, so make sure content is created by trusted people and only enable this if required.', 'stklcode-liveticker' ),
 			__( 'Allow JavaScript in tick content', 'stklcode-liveticker' )
 		);
 	}
