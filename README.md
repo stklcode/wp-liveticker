@@ -6,14 +6,14 @@
 
 # Liveticker (by stklcode)
 
-* Contributors:      Stefan Kalscheuer
+* Contributors:      stklcode
 * Tags:              liveticker, feed, rss
 * Requires at least: 5.0
-* Tested up to:      6.6
+* Tested up to:      6.7
 * Requires PHP:      7.2
-* Stable tag:        1.2.3
+* Stable tag:        1.3.0
 * License:           GPLv2 or later
-* License URI:       http://www.gnu.org/licenses/gpl-2.0.html
+* License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
 A simple ajaxified liveticker plugin for WordPress.
 
@@ -79,6 +79,11 @@ caching time of 12 hours obviously makes no sense.
 7. Example widget
 
 ## Changelog
+
+### 1.3.0 - 2025-03-10
+
+* Requires at least PHP 7.2 and WordPress 5.0
+* Sorting direction can now be changed for liveticker blocks
 
 ### 1.2.3 - 2025-02-04
 
