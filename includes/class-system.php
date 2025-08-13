@@ -9,6 +9,7 @@
 
 namespace SCLiveticker;
 
+use WP_Post;
 use WP_Query;
 
 // Exit if accessed directly.
@@ -53,7 +54,11 @@ class System extends SCLiveticker {
 		// Delete all ticks.
 		$ticks = new WP_Query( array( 'post_type' => 'scliveticker_tick' ) );
 		foreach ( $ticks->get_posts() as $tick ) {
-			wp_delete_post( $tick->ID, true );
+			if ( $tick instanceof WP_Post ) {
+				wp_delete_post( $tick->ID, true );
+			} else {
+				wp_delete_post( $tick, true );
+			}
 		}
 
 		// Temporarily register taxonomy to delete it.
@@ -66,8 +71,10 @@ class System extends SCLiveticker {
 				'hide_empty' => false,
 			)
 		);
-		foreach ( $tickers as $ticker ) {
-			wp_delete_term( $ticker->term_id, 'scliveticker_ticker' );
+		if ( ! is_wp_error( $tickers ) ) {
+			foreach ( $tickers as $ticker ) {
+				wp_delete_term( $ticker->term_id, 'scliveticker_ticker' );
+			}
 		}
 
 		// Unregister taxonomy again.
