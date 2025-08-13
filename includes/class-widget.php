@@ -25,7 +25,7 @@ class Widget extends WP_Widget {
 	 * SCLiveticker_Widget constructor.
 	 */
 	public function __construct() {
-		parent::__construct( false, 'Liveticker' );
+		parent::__construct( 'scliveticker', 'Liveticker' );
 	}
 
 	/**
