@@ -288,7 +288,7 @@ class SCLiveticker {
 				wp_enqueue_style(
 					'sclt-css',
 					SCLIVETICKER_BASE . 'styles/liveticker.min.css',
-					'',
+					array(),
 					self::VERSION
 				);
 			}
