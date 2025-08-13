@@ -53,7 +53,7 @@ class SCLiveticker {
 	/**
 	 * Marker if widget is present.
 	 *
-	 * @var boolean $shortcode_present
+	 * @var boolean $widget_present
 	 */
 	protected static $widget_present = false;
 
