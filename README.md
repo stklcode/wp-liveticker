@@ -9,9 +9,9 @@
 * Contributors:      stklcode
 * Tags:              liveticker, feed, rss
 * Requires at least: 5.0
-* Tested up to:      6.7
+* Tested up to:      6.8
 * Requires PHP:      7.2
-* Stable tag:        1.3.0
+* Stable tag:        1.3.1
 * License:           GPLv2 or later
 * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,13 @@ caching time of 12 hours obviously makes no sense.
 7. Example widget
 
 ## Changelog
+
+### 1.3.1 - 2025-08-16
+
+* Textdomain is no longer loaded explicitly
+* Internal filter and action hooks consolidated
+* Minor internal code fixes
+* Tested with WP 6.8
 
 ### 1.3.0 - 2025-03-10
 
