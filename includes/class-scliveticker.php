@@ -80,9 +80,6 @@ class SCLiveticker {
 			return;
 		}
 
-		// Load Textdomain.
-		load_plugin_textdomain( 'stklcode-liveticker' );
-
 		// Allow shortcodes in widgets.
 		add_filter( 'widget_text', 'do_shortcode' );
 
