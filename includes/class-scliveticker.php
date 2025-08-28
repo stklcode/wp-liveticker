@@ -76,7 +76,7 @@ class SCLiveticker {
 		add_filter( 'rest_scliveticker_tick_query', array( 'SCLiveticker\\Api', 'tick_query_filter' ), 10, 2 );
 
 		// Skip on AJAX if not enabled.
-		if ( ( ! isset( self::$options['enable_ajax'] ) || 1 !== self::$options['enable_ajax'] ) && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+		if ( ( ! isset( self::$options['enable_ajax'] ) || 1 !== self::$options['enable_ajax'] ) && wp_doing_ajax() ) {
 			return;
 		}
 
