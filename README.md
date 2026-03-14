@@ -11,7 +11,7 @@
 * Requires at least: 5.0
 * Tested up to:      6.9
 * Requires PHP:      7.2
-* Stable tag:        1.3.1
+* Stable tag:        1.3.2
 * License:           GPLv2 or later
 * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,11 @@ caching time of 12 hours obviously makes no sense.
 7. Example widget
 
 ## Changelog
+
+### 1.3.2 - 2026-03-14
+
+* Use wp_doing_ajax() instead of checking for global constants
+* Tested with WP 6.9
 
 ### 1.3.1 - 2025-08-16
 
