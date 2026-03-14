@@ -78,7 +78,7 @@ class Widget extends WP_Widget {
 			echo ' sclt-ajax" '
 				. 'data-sclt-ticker="' . esc_attr( $category ) . '" '
 				. 'data-sclt-limit="' . esc_attr( $count ) . '" '
-				. 'data-sclt-last="' . esc_attr( current_datetime()->getTimestamp() );
+				. 'data-sclt-last="' . esc_attr( (string) current_datetime()->getTimestamp() );
 		}
 		echo '"><ul class="sclt-widget">';
 

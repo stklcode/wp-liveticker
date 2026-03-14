@@ -441,7 +441,7 @@ class SCLiveticker {
 			$content = do_shortcode( $content );
 		}
 
-		return '<li class="sclt-tick" data-sclt-tick-id="' . esc_attr( $id ) . '">'
+		return '<li class="sclt-tick" data-sclt-tick-id="' . esc_attr( (string) $id ) . '">'
 			. '<span class="sclt-tick-time">' . esc_html( $time ) . '</span>'
 			. '<span class="sclt-tick-title">' . esc_html( $title ) . '</span>'
 			. '<div class="sclt-tick-content">' . $content . '</div></li>';
@@ -463,7 +463,7 @@ class SCLiveticker {
 			$out .= ' class="sclt-widget-new"';
 		}
 		if ( $id > 0 ) {
-			$out .= ' data-sclt-tick-id="' . esc_attr( $id ) . '"';
+			$out .= ' data-sclt-tick-id="' . esc_attr( (string) $id ) . '"';
 		}
 		return $out . '>'
 			. '<span class="sclt-widget-time">' . esc_html( $time ) . '</span>'
