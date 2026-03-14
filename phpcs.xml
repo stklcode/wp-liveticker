@@ -20,7 +20,9 @@
 	<!-- Verify usage of the correct textdomain for WP translation -->
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="stklcode-liveticker"/>
+			<property name="text_domain" type="array">
+				<element value="stklcode-liveticker"/>
+			</property>
 		</properties>
 	</rule>
 
