@@ -7,7 +7,7 @@
 /tests
 /vendor
 /.distignore
-/.drone.yml
+/.editorconfig
 /.eslintrc.json
 /.gitattributes
 /.gitignore
