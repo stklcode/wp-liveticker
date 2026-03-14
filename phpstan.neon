@@ -1,0 +1,10 @@
+parameters:
+  level: 4
+  paths:
+    - includes/
+    - stklcode-liveticker.php
+  ignoreErrors:
+    - message: '/^Constant SCLIVETICKER_(BASE|DIR) not found\.$/'
+      path: includes/
+includes:
+- vendor/szepeviktor/phpstan-wordpress/extension.neon

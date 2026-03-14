@@ -20,4 +20,5 @@
 /package.json
 /package-lock.json
 /phpcs.xml
+/phpstan.neon
 /phpunit.xml
