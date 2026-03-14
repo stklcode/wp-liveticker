@@ -40,14 +40,14 @@ class SCLiveticker {
 	 *
 	 * @var array $options
 	 */
-	protected static $options;
+	protected static array $options;
 
 	/**
 	 * Marker if shortcode is present.
 	 *
 	 * @var boolean $shortcode_present
 	 */
-	protected static $shortcode_present = false;
+	protected static bool $shortcode_present = false;
 
 
 	/**
@@ -55,7 +55,7 @@ class SCLiveticker {
 	 *
 	 * @var boolean $widget_present
 	 */
-	protected static $widget_present = false;
+	protected static bool $widget_present = false;
 
 	/**
 	 * Plugin initialization.
