@@ -10,7 +10,7 @@
 * Tags:              liveticker, feed, rss
 * Requires at least: 5.0
 * Tested up to:      6.9
-* Requires PHP:      7.2
+* Requires PHP:      7.4
 * Stable tag:        1.3.2
 * License:           GPLv2 or later
 * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -42,7 +42,7 @@ Alternatively you can also use _Copmposer_.
 
 ### Requirements ###
 
-* PHP 7.2 or above
+* PHP 7.4 or above
 * WordPress 5.0 or above
 
 ## Frequently asked questions
@@ -51,7 +51,7 @@ Alternatively you can also use _Copmposer_.
 
 On WordPress 5 sites there is a Gutenberg Block available to embed a liveticker in your post.
 
-You can also use the shortcode  `[liveticker ticker="my-ticker"]` on WordPress 4 or classic-mode sites. 
+You can also use the shortcode  `[liveticker ticker="my-ticker"]` on WordPress 4 or classic-mode sites.
 If you want to define a custom tick limit, you might also add a limit with `[liveticker ticker="my-ticker" limit="10"]`.
 
 ### Can I use my own styles?
@@ -61,10 +61,10 @@ You can deactivate the default stylesheet on the settings page and include your 
 
 ### Does the liveticker work with caching?
 
-If you activate AJAX updates (enabled by default), the JavaScript will automatically update the content, even when the 
+If you activate AJAX updates (enabled by default), the JavaScript will automatically update the content, even when the
 page is loaded from cached.
 
-If AJAX is disabled, it depends on your update and caching intervals. If you update your ticker every 5 minutes, a 
+If AJAX is disabled, it depends on your update and caching intervals. If you update your ticker every 5 minutes, a
 caching time of 12 hours obviously makes no sense.
 
 
@@ -127,7 +127,7 @@ caching time of 12 hours obviously makes no sense.
 ### 1.1.0 - 2020-05-02
 
 * Requires PHP 5.6 or above
-* Use GMT for automatic updates 
+* Use GMT for automatic updates
 * Gutenberg Block available
 * Ticks exposed through REST API
 * Changed AJAX update logic for embedded media compatibility
