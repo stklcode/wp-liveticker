@@ -8,15 +8,14 @@
 /vendor
 /.distignore
 /.editorconfig
-/.eslintrc.json
 /.gitattributes
 /.gitignore
 /.phpunit.result.cache
 /.stylelintrc.json
-/.travis.yml
 /composer.json
 /composer.lock
 /CONTRIBUTING.md
+/eslint.config.mjs
 /package.json
 /package-lock.json
 /phpcs.xml

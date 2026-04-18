@@ -99,7 +99,7 @@
 			var label = [
 				el(
 					wp.components.Dashicon,
-					{ icon: 'rss' }
+					{ icon: 'rss' },
 				),
 				__( 'Liveticker', 'stklcode-liveticker' ),
 			];
@@ -110,7 +110,7 @@
 					el(
 						'span',
 						{ className: 'components-base-control label' },
-						label
+						label,
 					),
 					el( wp.components.Spinner ),
 				];
@@ -120,7 +120,7 @@
 					el(
 						'span',
 						{ className: 'components-base-control label' },
-						label
+						label,
 					),
 					el( 'span', null, __( 'No tickers available', 'stklcode-liveticker' ) ),
 				];
@@ -144,7 +144,7 @@
 							onChange: function( val ) {
 								props.setAttributes( { ticker: val } );
 							},
-						}
+						},
 					),
 					el(
 						wp.components.TextControl,
@@ -158,7 +158,7 @@
 							onChange: function( val ) {
 								props.setAttributes( { limit: Number( val ) } );
 							},
-						}
+						},
 					),
 					el(
 						wp.components.CheckboxControl,
@@ -168,7 +168,7 @@
 							onChange: function( val ) {
 								props.setAttributes( { unlimited: val } );
 							},
-						}
+						},
 					),
 					el(
 						wp.components.SelectControl,
@@ -188,7 +188,7 @@
 							onChange: function( val ) {
 								props.setAttributes( { sort: val } );
 							},
-						}
+						},
 					),
 				];
 			}
@@ -196,7 +196,7 @@
 			return el(
 				'div',
 				{ className: props.className + ' components-placeholder' },
-				content
+				content,
 			);
 		} ),
 		save: function( props ) {
@@ -208,7 +208,7 @@
 					'data-sclt-limit': props.attributes.unlimited ? 0 : props.attributes.limit,
 					'data-sclt-last': 0,
 					'data-sclt-sort': props.attributes.sort,
-				}
+				},
 			);
 		},
 	} );

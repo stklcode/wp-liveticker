@@ -35,7 +35,7 @@
 					updateNow = true;
 				}
 				return o;
-			}
+			},
 		);
 
 		// Get widget elements.
@@ -48,8 +48,8 @@
 						updateNow = true;
 					}
 					return o;
-				}
-			)
+				},
+			),
 		);
 
 		// Trigger update, if necessary.
@@ -89,7 +89,7 @@
 						li.id = 'sclt-' + n + '-' + id;
 						li.removeAttribute( 'data-sclt-tick-id' );
 					}
-				}
+				},
 			);
 		}
 
@@ -142,7 +142,7 @@
 								updateResp.forEach(
 									function( u ) {
 										addTick( t, u );
-									}
+									},
 								);
 							}
 							t.updating = false;
@@ -150,10 +150,10 @@
 							// eslint-disable-next-line no-console
 							console.warn( 'Liveticker AJAX update failed, stopping automatic updates.' );
 						}
-					}
+					},
 				);
 				xhr.send();
-			}
+			},
 		);
 
 		// Re-trigger update.
@@ -201,7 +201,7 @@
 					} else {
 						scripts.push( script );
 					}
-				}
+				},
 			);
 		}
 
@@ -238,7 +238,7 @@
 			old.forEach(
 				function( l ) {
 					l.remove();
-				}
+				},
 			);
 		}
 
@@ -260,6 +260,6 @@
 		'DOMContentLoaded',
 		function() {
 			init();	// Trigger periodic update of livetickers.
-		}
+		},
 	);
 }() );
