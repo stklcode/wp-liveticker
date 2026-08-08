@@ -146,7 +146,7 @@
 								);
 							}
 							t.updating = false;
-						} catch ( e ) {
+						} catch {
 							// eslint-disable-next-line no-console
 							console.warn( 'Liveticker AJAX update failed, stopping automatic updates.' );
 						}
@@ -249,7 +249,7 @@
 			try {
 				// eslint-disable-next-line no-eval
 				eval( script.innerHTML );
-			} catch ( e ) {
+			} catch {
 				// eslint-disable-next-line no-console
 				console.warn( 'Failed to evaluate embedded script.' );
 			}
